@@ -1,0 +1,31 @@
+package com.crepes.butter.peanut;
+
+public enum BuildingBlockType {
+
+	CROSS,
+	ULELBOW,
+	URELBOW,
+	DLELBOW,
+	DRELBOW,
+	HSTRAIGHT,
+	VSTRAIGHT,
+	HSQUIGGLY,
+	VSQUIGGLY,
+	
+	L_BATHTUB,
+	R_BATHTUB,
+	
+	DARK_ULELBOW,
+	DARK_URELBOW,
+	DARK_DLELBOW,
+	DARK_DRELBOW,
+	U_VSTRAIGHT,
+	D_VSTRAIGHT,
+	
+	TELEPORT_CROSS,
+	
+	DLELBOW_50,
+	DRELBOW_50,
+	
+	SINK
+}
