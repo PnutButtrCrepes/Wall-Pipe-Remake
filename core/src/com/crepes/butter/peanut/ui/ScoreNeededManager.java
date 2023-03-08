@@ -1,24 +1,27 @@
-package com.crepes.butter.peanut;
+package com.crepes.butter.peanut.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.crepes.butter.peanut.Entity;
+import com.crepes.butter.peanut.FontHelper;
+import com.crepes.butter.peanut.GameScene;
 
-public class ScoreManager extends Entity {
+public class ScoreNeededManager extends Entity {
 
-	public float score;
+	public float scoreNeeded;
 	
 	public GameScene gameScene;
 	
-	public ScoreManager(GameScene gameScene) {
+	public ScoreNeededManager(GameScene gameScene) {
 		
-		this.x = 11f;
+		this.x = 2f;
 		this.y = 1.25f;
 		
-		this.sizeX = 5f;
+		this.sizeX = 4.5f;
 		this.sizeY = 0.5f;
 		
-		score = 0;
+		scoreNeeded = 0;
 		
 		this.sprite = new Sprite();
 		this.texture = new Texture("Black.png");
@@ -29,17 +32,12 @@ public class ScoreManager extends Entity {
 	
 	public void reset() {
 		
-		score = (int) score;
+		scoreNeeded = (int) (gameScene.scoreManager.score) + 200 + (gameScene.levelCount * 10);
 	}
 	
 	@Override
 	public void act(float delta) {
 		
-		if(!gameScene.isPaused() && gameScene.isLevelStarted()) {
-		
-		if(gameScene.water.running)
-			score += delta * 8;
-		}
 	}
 	
 	@Override
@@ -51,17 +49,9 @@ public class ScoreManager extends Entity {
 		batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		
 		FontHelper.font.getData().setScale(0.6f, 0.6f);
-		FontHelper.font.draw(batch, "SCORE:", this.getX() + 4, this.getY() + 14);
-		
-		if((int)(score)%2 == 0) {
+		FontHelper.font.draw(batch, "SCORE NEEDED:", this.getX() + 4, this.getY() + 14);
 		
 		FontHelper.font.getData().setScale(0.6f, 0.6f);
-		FontHelper.font.draw(batch, String.valueOf((int) score), this.getX() + 48, this.getY() + 14);
-		
-		} else {
-			
-			FontHelper.font.getData().setScale(0.6f, 0.6f);
-			FontHelper.font.draw(batch, String.valueOf((int) (score - 1)), this.getX() + 48, this.getY() + 14);
-		}
+		FontHelper.font.draw(batch, String.valueOf((int) scoreNeeded), this.getX() + 95, this.getY() + 14);
 	}
 }

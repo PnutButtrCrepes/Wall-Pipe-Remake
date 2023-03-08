@@ -1,8 +1,11 @@
-package com.crepes.butter.peanut;
+package com.crepes.butter.peanut.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.crepes.butter.peanut.Entity;
+import com.crepes.butter.peanut.FontHelper;
+import com.crepes.butter.peanut.GameScene;
 
 public class TitleInformationManager extends Entity {
 

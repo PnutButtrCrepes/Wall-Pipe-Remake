@@ -7,14 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class Entity extends Actor {
 	
-	float x;
-	float y;
+	public float x;
+	public float y;
 	
-	float sizeX;
-	float sizeY;
+	public float sizeX;
+	public float sizeY;
 	
-	Sprite sprite;
-	Texture texture;
+	public Sprite sprite;
+	public Texture texture;
 	
 	public Entity() {
 		

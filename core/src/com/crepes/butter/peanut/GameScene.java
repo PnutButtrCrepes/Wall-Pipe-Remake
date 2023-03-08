@@ -4,6 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.crepes.butter.peanut.ui.ClockManager;
+import com.crepes.butter.peanut.ui.HotKeysManager;
+import com.crepes.butter.peanut.ui.LeaderboardManager;
+import com.crepes.butter.peanut.ui.LevelCountManager;
+import com.crepes.butter.peanut.ui.LoopsManager;
+import com.crepes.butter.peanut.ui.NextBlocksManager;
+import com.crepes.butter.peanut.ui.ScoreManager;
+import com.crepes.butter.peanut.ui.ScoreNeededManager;
+import com.crepes.butter.peanut.ui.TitleInformationManager;
 
 public class GameScene extends Scene implements InputProcessor {
 		
