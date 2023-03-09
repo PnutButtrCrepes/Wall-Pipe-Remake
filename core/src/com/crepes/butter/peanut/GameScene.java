@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.ui.ClockManager;
+import com.crepes.butter.peanut.ui.GameUI;
 import com.crepes.butter.peanut.ui.HotKeysManager;
 import com.crepes.butter.peanut.ui.LeaderboardManager;
 import com.crepes.butter.peanut.ui.LevelCountManager;
@@ -41,11 +42,9 @@ public class GameScene extends Scene implements InputProcessor {
 	public BlockFieldManager bfManager;
 	public NextBlocksManager nbManager;
 	public ClockManager clockManager;
-	public LoopsManager loopsManager;
-	public ScoreNeededManager scoreNeededManager;
 	public LevelCountManager lcManager;
 	public ScoreManager scoreManager;
-	public HotKeysManager hotKeysManager;
+	public GameUI gameUI;
 	
 	public LevelTransitionManager levelManager;
 	
@@ -73,11 +72,9 @@ public class GameScene extends Scene implements InputProcessor {
 		
 		emitter = new WaterEmitter(this);
 		
-		loopsManager = new LoopsManager(this);
-		scoreNeededManager = new ScoreNeededManager(this);
+		gameUI = new GameUI(this);
 		lcManager = new LevelCountManager(this);
 		scoreManager = new ScoreManager(this);
-		hotKeysManager = new HotKeysManager(this);
 		water = new Water(this);
 		
 		levelManager = new LevelTransitionManager(this);
@@ -95,7 +92,7 @@ public class GameScene extends Scene implements InputProcessor {
 		mouseGrabbed = false;
 		
 		levelCount++;
-		scoreNeededManager.reset();
+		gameUI.reset();
 	}
 	
 	@Override
@@ -110,11 +107,9 @@ public class GameScene extends Scene implements InputProcessor {
 		this.addActor(clockManager);
 		clockManager.running = true;
 		
-		this.addActor(loopsManager);
-		this.addActor(scoreNeededManager);
+		this.addActor(gameUI);
 		this.addActor(lcManager);
 		this.addActor(scoreManager);
-		this.addActor(hotKeysManager);
 		
 		this.addActor(water);
 		
@@ -142,9 +137,8 @@ public class GameScene extends Scene implements InputProcessor {
 		emitter.reset();
 		
 		clockManager.reset();
-		loopsManager.reset();
+		gameUI.reset();
 		
-		scoreNeededManager.reset();
 		lcManager.reset();
 		scoreManager.reset();
 		
@@ -171,9 +165,8 @@ public class GameScene extends Scene implements InputProcessor {
 		emitter.reset();
 		
 		clockManager.reset();
-		loopsManager.reset();
+		gameUI.reset();
 		
-		scoreNeededManager.reset();
 		lcManager.reset();
 		scoreManager.reset();
 		

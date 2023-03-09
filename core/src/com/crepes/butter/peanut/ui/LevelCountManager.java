@@ -13,13 +13,9 @@ public class LevelCountManager extends Entity {
 	
 	public LevelCountManager(GameScene gameScene) {
 		
+	    super(7f, 1.25f, 3f, 0.5f);
+	    
 		this.gameScene = gameScene;
-		
-		this.x = 7f;
-		this.y = 1.25f;
-		
-		this.sizeX = 3f;
-		this.sizeY = 0.5f;
 		
 		this.sprite = new Sprite();
 		this.texture = new Texture("Black.png");

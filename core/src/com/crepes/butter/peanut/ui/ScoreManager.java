@@ -15,11 +15,7 @@ public class ScoreManager extends Entity {
 	
 	public ScoreManager(GameScene gameScene) {
 		
-		this.x = 11f;
-		this.y = 1.25f;
-		
-		this.sizeX = 5f;
-		this.sizeY = 0.5f;
+	    super(11f, 1.25f, 5f, 0.5f);
 		
 		score = 0;
 		

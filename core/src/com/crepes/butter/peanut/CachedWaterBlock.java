@@ -10,11 +10,7 @@ public class CachedWaterBlock extends Entity {
 	
 	public CachedWaterBlock(float x, float y, float sizeX, float sizeY) {
 		
-		this.x = x;
-		this.y = y;
-		
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
+	    super(x, y, sizeX, sizeY);
 		
 		this.sprite = new Sprite();
 		this.texture = new Texture("Water.png");
