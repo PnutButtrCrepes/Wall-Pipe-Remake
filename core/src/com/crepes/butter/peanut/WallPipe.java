@@ -80,8 +80,6 @@ public class WallPipe extends ApplicationAdapter {
 		backgroundRenderer.setView((OrthographicCamera) camera);
 		backgroundRenderer.render();
 		
-		currentScene.scaleEntities(DISPLAY_SCALE);
-		
 		currentScene.act();
 		currentScene.draw();
 	}

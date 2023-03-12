@@ -25,13 +25,4 @@ public abstract class Scene extends Stage implements InputProcessor {
 	}
 	
 	public abstract void addActors();
-	
-	public void scaleEntities(float scale) {
-		
-		for(Actor a : this.getActors()) {
-					
-				placeHolder = (Entity) a;
-				placeHolder.scale(scale);
-		}
-	}
 }
