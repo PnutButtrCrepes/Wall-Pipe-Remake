@@ -3,6 +3,7 @@ package com.crepes.butter.peanut.ui;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import com.crepes.butter.peanut.*;
+import com.crepes.butter.peanut.blocks.BuildingBlock;
 
 public class NextBlocks extends Entity
 {
@@ -25,6 +26,41 @@ public class NextBlocks extends Entity
 	resetBlocks();
     }
 
+    private BuildingBlock generateRandomBlock()
+    {
+
+	int index = (int) (Math.random() * 100 + 1);
+
+	if (index <= 14)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.ULELBOW);
+
+	if (index <= 28)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.URELBOW);
+
+	if (index <= 42)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.DLELBOW);
+
+	if (index <= 56)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.DRELBOW);
+
+	if (index <= 70)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.HSTRAIGHT);
+
+	if (index <= 84)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.VSTRAIGHT);
+
+	if (index <= 92)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.CROSS);
+
+	if (index <= 96)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.HSQUIGGLY);
+
+	if (index <= 100)
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.VSQUIGGLY);
+
+	return null;
+    }
+
     public void reset()
     {
 
@@ -39,10 +75,10 @@ public class NextBlocks extends Entity
     public void resetBlocks()
     {
 
-	blockQueue[0] = BlockGenerator.generateRandomBlock();
-	blockQueue[1] = BlockGenerator.generateRandomBlock();
-	blockQueue[2] = BlockGenerator.generateRandomBlock();
-	blockQueue[3] = BlockGenerator.generateRandomBlock();
+	blockQueue[0] = generateRandomBlock();
+	blockQueue[1] = generateRandomBlock();
+	blockQueue[2] = generateRandomBlock();
+	blockQueue[3] = generateRandomBlock();
 
 	blockQueue[0].setX(0.5f);
 	blockQueue[0].setY(6.25f);
@@ -68,7 +104,7 @@ public class NextBlocks extends Entity
 	blockQueue[0] = blockQueue[1];
 	blockQueue[1] = blockQueue[2];
 	blockQueue[2] = blockQueue[3];
-	blockQueue[3] = BlockGenerator.generateRandomBlock();
+	blockQueue[3] = generateRandomBlock();
 
 	blockQueue[0].setX(0.5f);
 	blockQueue[0].setY(6.25f);

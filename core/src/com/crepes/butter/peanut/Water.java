@@ -3,6 +3,7 @@ package com.crepes.butter.peanut;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.crepes.butter.peanut.blocks.BuildingBlock;
 
 public class Water extends Entity
 {
@@ -229,8 +230,7 @@ public class Water extends Entity
 
 		currentBlock = gameScene.bfManager.blockField[(int) (posX - 2)][(int) (posY - 2)];
 
-	    }
-	    else
+	    } else
 	    {
 
 		currentBlock = null;
@@ -717,5 +717,27 @@ public class Water extends Entity
 	    batch.draw(wb.getSprite("water"), wb.getX(), wb.getY(), wb.getWidth(), wb.getHeight());
 
 	batch.draw(getSprite("water"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    }
+
+    private enum WaterDirection
+    {
+
+	UP, DOWN, LEFT, RIGHT
+    }
+
+    private class CachedWaterBlock extends Entity
+    {
+
+	public boolean looped;
+
+	public CachedWaterBlock(float x, float y, float sizeX, float sizeY)
+	{
+
+	    super(x, y, sizeX, sizeY);
+
+	    addSprite("Water.png", "water");
+
+	    looped = false;
+	}
     }
 }

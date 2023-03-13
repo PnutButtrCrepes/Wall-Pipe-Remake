@@ -1,11 +1,12 @@
-package com.crepes.butter.peanut;
+package com.crepes.butter.peanut.blocks;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.crepes.butter.peanut.Entity;
 
 public class BuildingBlock extends Entity
 {
 
-    BuildingBlockType type;
+    public BuildingBlockType type;
 
     public boolean hasUpEntrance;
     public boolean hasDownEntrance;
@@ -20,7 +21,7 @@ public class BuildingBlock extends Entity
     public boolean watered;
     public boolean beingReplaced;
 
-    boolean visible;
+    public boolean visible;
 
     public BuildingBlock(BuildingBlockType type)
     {
@@ -204,5 +205,21 @@ public class BuildingBlock extends Entity
 
 	if (visible)
 	    batch.draw(getSprite("block"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    }
+
+    public enum BuildingBlockType
+    {
+
+	CROSS, ULELBOW, URELBOW, DLELBOW, DRELBOW, HSTRAIGHT, VSTRAIGHT, HSQUIGGLY, VSQUIGGLY,
+
+	L_BATHTUB, R_BATHTUB,
+
+	DARK_ULELBOW, DARK_URELBOW, DARK_DLELBOW, DARK_DRELBOW, U_VSTRAIGHT, D_VSTRAIGHT,
+
+	TELEPORT_CROSS,
+
+	DLELBOW_50, DRELBOW_50,
+
+	SINK
     }
 }
