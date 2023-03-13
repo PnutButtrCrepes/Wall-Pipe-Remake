@@ -26,9 +26,7 @@ public class LeaderboardManager extends Entity
 
 	super(2f, 2f, 14f, 11f);
 
-	this.sprite = new Sprite();
-	this.texture = new Texture("Water.png");
-	sprite.setTexture(texture);
+	addSprite("Water.png", "water");
 
 	leaderboardEntries = new LeaderboardEntry[10];
 
@@ -199,7 +197,7 @@ public class LeaderboardManager extends Entity
 	batch.end();
 	batch.begin();
 
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("water"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 	FontHelper.font.getData().setScale(1.5f, 1.5f);
 	FontHelper.font.setColor(1f, 1f, 0f, 1);

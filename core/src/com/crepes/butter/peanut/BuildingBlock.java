@@ -34,15 +34,13 @@ public class BuildingBlock extends Entity
 
 	this.type = type;
 
-	this.sprite = new Sprite();
-
 	if (type != null)
 	    switch (this.type)
 	    {
 
 	    case CROSS:
 
-		this.texture = new Texture("Cross.png");
+		addSprite("Cross.png", "block");
 
 		hasUpEntrance = true;
 		hasDownEntrance = true;
@@ -58,7 +56,7 @@ public class BuildingBlock extends Entity
 
 	    case DLELBOW:
 
-		this.texture = new Texture("DLElbow.png");
+		addSprite("DLElbow.png", "block");
 
 		hasUpEntrance = false;
 		hasDownEntrance = true;
@@ -74,7 +72,7 @@ public class BuildingBlock extends Entity
 
 	    case DRELBOW:
 
-		this.texture = new Texture("DRElbow.png");
+		addSprite("DRElbow.png", "block");
 
 		hasUpEntrance = false;
 		hasDownEntrance = true;
@@ -90,7 +88,7 @@ public class BuildingBlock extends Entity
 
 	    case HSQUIGGLY:
 
-		this.texture = new Texture("HSquiggly.png");
+		addSprite("HSquiggly.png", "block");
 
 		hasUpEntrance = false;
 		hasDownEntrance = false;
@@ -106,7 +104,7 @@ public class BuildingBlock extends Entity
 
 	    case HSTRAIGHT:
 
-		this.texture = new Texture("HStraight.png");
+		addSprite("HStraight.png", "block");
 
 		hasUpEntrance = false;
 		hasDownEntrance = false;
@@ -122,7 +120,7 @@ public class BuildingBlock extends Entity
 
 	    case ULELBOW:
 
-		this.texture = new Texture("ULElbow.png");
+		addSprite("ULElbow.png", "block");
 
 		hasUpEntrance = true;
 		hasDownEntrance = false;
@@ -138,7 +136,7 @@ public class BuildingBlock extends Entity
 
 	    case URELBOW:
 
-		this.texture = new Texture("URElbow.png");
+		addSprite("URElbow.png", "block");
 
 		hasUpEntrance = true;
 		hasDownEntrance = false;
@@ -154,7 +152,7 @@ public class BuildingBlock extends Entity
 
 	    case VSQUIGGLY:
 
-		this.texture = new Texture("VSquiggly.png");
+		addSprite("VSquiggly.png", "block");
 
 		hasUpEntrance = true;
 		hasDownEntrance = true;
@@ -170,7 +168,7 @@ public class BuildingBlock extends Entity
 
 	    case VSTRAIGHT:
 
-		this.texture = new Texture("VStraight.png");
+		addSprite("VStraight.png", "block");
 
 		hasUpEntrance = true;
 		hasDownEntrance = true;
@@ -187,9 +185,6 @@ public class BuildingBlock extends Entity
 	    default:
 		break;
 	    }
-
-	if (texture != null)
-	    sprite.setRegion(texture);
 
 	visible = true;
     }
@@ -210,6 +205,6 @@ public class BuildingBlock extends Entity
 	batch.begin();
 
 	if (visible)
-	    batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	    batch.draw(getSprite("block"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }

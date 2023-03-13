@@ -14,21 +14,6 @@ public class LevelTransitionManager extends Entity
 
     public GameScene gameScene;
 
-    Sprite sprite2;
-    Texture texture2;
-
-    Sprite sprite3;
-    Texture texture3;
-
-    Sprite sprite4;
-    Texture texture4;
-
-    Sprite sprite5;
-    Texture texture5;
-
-    Sprite sprite6;
-    Texture texture6;
-
     float timer;
     boolean timerRunning;
 
@@ -47,30 +32,13 @@ public class LevelTransitionManager extends Entity
 	super(5.75f, 7.5f, 6.25f, 2f);
 
 	this.gameScene = gameScene;
-
-	this.sprite = new Sprite();
-	this.texture = new Texture("Black.png");
-	sprite.setTexture(texture);
-
-	this.sprite2 = new Sprite();
-	this.texture2 = new Texture("White.png");
-	sprite2.setTexture(texture2);
-
-	this.sprite3 = new Sprite();
-	this.texture3 = new Texture("Yellow.png");
-	sprite3.setTexture(texture3);
-
-	this.sprite4 = new Sprite();
-	this.texture4 = new Texture("Water.png");
-	sprite4.setTexture(texture4);
-
-	this.sprite5 = new Sprite();
-	this.texture5 = new Texture("DeleteOutline.png");
-	sprite5.setTexture(texture5);
-
-	this.sprite6 = new Sprite();
-	this.texture6 = new Texture("Green.png");
-	sprite6.setTexture(texture6);
+	
+	addSprite("Black.png", "black");
+	addSprite("White.png", "white");
+	addSprite("Yellow.png", "yellow");
+	addSprite("Water.png", "water");
+	addSprite("DeleteOutline.png", "delete");
+	addSprite("Green.png", "green");
 
 	timer = 0;
 	timerRunning = false;
@@ -126,9 +94,9 @@ public class LevelTransitionManager extends Entity
 	if (!gameScene.isLevelStarted())
 	{
 
-	    batch.draw(sprite, this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
-	    batch.draw(sprite2, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-	    batch.draw(sprite3, this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
+	    batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	    batch.draw(getSprite("yellow"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
 
 	    FontHelper.font.getData().setScale(0.7f, 0.7f);
 	    FontHelper.font.setColor(0f, 0f, 0f, 1);
@@ -143,10 +111,10 @@ public class LevelTransitionManager extends Entity
 	} else if (gameScene.isPaused())
 	{
 
-	    batch.draw(sprite, this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
-	    // batch.draw(sprite2, this.getX(), this.getY(), this.getWidth(),
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
+	    // batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(),
 	    // this.getHeight());
-	    batch.draw(sprite3, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	    batch.draw(getSprite("yellow"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 	    FontHelper.font.getData().setScale(0.9f, 0.9f);
 	    FontHelper.font.setColor(0.5f, 0f, 0f, 1);
@@ -163,9 +131,9 @@ public class LevelTransitionManager extends Entity
 
 	    timerRunning = true;
 
-	    batch.draw(sprite, this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
-	    batch.draw(sprite2, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-	    batch.draw(sprite3, this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
+	    batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	    batch.draw(getSprite("yellow"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
 
 	    FontHelper.font.getData().setScale(0.9f, 0.9f);
 	    FontHelper.font.setColor(0.5f, 0f, 0f, 1);
@@ -180,9 +148,9 @@ public class LevelTransitionManager extends Entity
 	    if (gameScene.gameUI.loopsManager.loops > 3)
 	    {
 
-		batch.draw(sprite, this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
-		batch.draw(sprite2, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		batch.draw(sprite4, this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
+		batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
+		batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		batch.draw(getSprite("water"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
 
 		FontHelper.font.getData().setScale(0.7f, 0.7f);
 		FontHelper.font.setColor(1f, 1f, 1f, 1);
@@ -208,9 +176,9 @@ public class LevelTransitionManager extends Entity
 	} else if (gameScene.isLevelEnded() && timer > 7 && timer < 10)
 	{
 
-	    batch.draw(sprite, this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
-	    batch.draw(sprite2, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-	    batch.draw(sprite4, this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
+	    batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	    batch.draw(getSprite("water"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
 
 	    FontHelper.font.getData().setScale(0.7f, 0.7f);
 	    FontHelper.font.setColor(1f, 1f, 1f, 1);
@@ -228,10 +196,10 @@ public class LevelTransitionManager extends Entity
 		float sizeX = gameScene.bfManager.blockField[deleteBlockX][deleteBlockY].getWidth();
 		float sizeY = gameScene.bfManager.blockField[deleteBlockX][deleteBlockY].getHeight();
 
-		batch.draw(sprite5, x, y, sizeX, 1);
-		batch.draw(sprite5, x, y, 1, sizeY);
-		batch.draw(sprite5, x, y + sizeY, sizeX, 1);
-		batch.draw(sprite5, x + sizeX, y, 1, sizeY + 1);
+		batch.draw(getSprite("delete"), x, y, sizeX, 1);
+		batch.draw(getSprite("delete"), x, y, 1, sizeY);
+		batch.draw(getSprite("delete"), x, y + sizeY, sizeX, 1);
+		batch.draw(getSprite("delete"), x + sizeX, y, 1, sizeY + 1);
 	    }
 
 	} else if (gameScene.isLevelEnded() && timer > 11 && timer < 12)
@@ -306,8 +274,8 @@ public class LevelTransitionManager extends Entity
 	} else if (gameScene.isLevelEnded() && timer > 15 && timer < 18)
 	{
 
-	    batch.draw(sprite, this.getX() - 10, this.getY() - 50, this.getWidth(), this.getHeight() + 40);
-	    batch.draw(sprite2, this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 50, this.getWidth(), this.getHeight() + 40);
+	    batch.draw(getSprite("white"), this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
 
 	    FontHelper.font.getData().setScale(0.7f, 0.7f);
 	    FontHelper.font.setColor(0f, 0f, 0f, 1);
@@ -319,8 +287,8 @@ public class LevelTransitionManager extends Entity
 	} else if (gameScene.isLevelEnded() && timer > 18 && !hasSelectedInitials)
 	{
 
-	    batch.draw(sprite, this.getX() - 10, this.getY() - 50, this.getWidth(), this.getHeight() + 40);
-	    batch.draw(sprite2, this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 50, this.getWidth(), this.getHeight() + 40);
+	    batch.draw(getSprite("white"), this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
 
 	    FontHelper.font.getData().setScale(0.7f, 0.7f);
 	    FontHelper.font.setColor(0f, 0f, 0f, 1);
@@ -442,9 +410,9 @@ public class LevelTransitionManager extends Entity
 	} else if (gameScene.isLevelEnded() && timer > 20 && hasSelectedInitials && hasViewedLeaderboard)
 	{
 
-	    batch.draw(sprite, this.getX() - 10, this.getY() - 50, this.getWidth(), this.getHeight() + 40);
-	    batch.draw(sprite2, this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
-	    batch.draw(sprite6, this.getX() + 2.5f, this.getY() - 37.5f, this.getWidth() - 5, this.getHeight() + 35);
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 50, this.getWidth(), this.getHeight() + 40);
+	    batch.draw(getSprite("white"), this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
+	    batch.draw(getSprite("green"), this.getX() + 2.5f, this.getY() - 37.5f, this.getWidth() - 5, this.getHeight() + 35);
 
 	    FontHelper.font.getData().setScale(0.7f, 0.7f);
 	    FontHelper.font.draw(batch, "PLAY ANOTHER GAME?\n\n        Y/N", this.getX() + 30, this.getY() + 50);

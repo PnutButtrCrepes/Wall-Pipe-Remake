@@ -59,9 +59,7 @@ public class Water extends Entity
 
 	speed = 0.5f;
 
-	this.sprite = new Sprite();
-	this.texture = new Texture("Water.png");
-	this.sprite.setTexture(texture);
+	addSprite("Water.png", "water");
 
 	water = new ArrayList<CachedWaterBlock>();
     }
@@ -713,8 +711,8 @@ public class Water extends Entity
 	batch.begin();
 
 	for (CachedWaterBlock wb : water)
-	    batch.draw(wb.sprite, wb.getX(), wb.getY(), wb.getWidth(), wb.getHeight());
+	    batch.draw(wb.getSprite("water"), wb.getX(), wb.getY(), wb.getWidth(), wb.getHeight());
 
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("water"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }

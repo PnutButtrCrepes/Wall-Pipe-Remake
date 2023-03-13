@@ -1,5 +1,9 @@
 package com.crepes.butter.peanut;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -7,8 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class Entity extends Actor
 {
-
-    final float DISPLAY_SCALE = 32;
+    private final float DISPLAY_SCALE = 32;
+    
+    private HashMap<String, Sprite> sprites;
     
     protected float unscaledX;
     protected float unscaledY;
@@ -16,11 +21,10 @@ public abstract class Entity extends Actor
     protected float unscaledWidth;
     protected float unscaledHeight;
 
-    protected Sprite sprite;
-    protected Texture texture;
-
     public Entity(float x, float y, float sizeX, float sizeY)
     {
+	sprites = new HashMap<String, Sprite>();
+	
 	unscaledX = x;
 	unscaledY = y;
 	
@@ -29,6 +33,20 @@ public abstract class Entity extends Actor
 	
 	this.setPosition(x * DISPLAY_SCALE, y * DISPLAY_SCALE);
 	this.setSize(sizeX * DISPLAY_SCALE, sizeY * DISPLAY_SCALE);
+    }
+    
+    protected void addSprite(String fileName, String alias)
+    {
+	Texture texture = new Texture(fileName);
+	Sprite sprite = new Sprite();
+	sprite.setRegion(texture);
+	
+	sprites.put(alias, sprite);
+    }
+    
+    protected Sprite getSprite(String alias)
+    {
+	return sprites.get(alias);
     }
     
     public void init(float x, float y, float sizeX, float sizeY)

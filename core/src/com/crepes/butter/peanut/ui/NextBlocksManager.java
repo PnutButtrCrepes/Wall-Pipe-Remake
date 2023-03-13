@@ -21,9 +21,7 @@ public class NextBlocksManager extends Entity
 
 	this.gameScene = gameScene;
 
-	this.sprite = new Sprite();
-	this.texture = new Texture("Black.png");
-	sprite.setRegion(texture);
+	addSprite("Black.png", "black");
 
 	blockQueue = new BuildingBlock[4];
 
@@ -103,6 +101,6 @@ public class NextBlocksManager extends Entity
 	batch.end();
 	batch.begin();
 
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }
