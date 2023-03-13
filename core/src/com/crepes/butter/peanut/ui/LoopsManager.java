@@ -1,8 +1,6 @@
 package com.crepes.butter.peanut.ui;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.FontHelper;
 import com.crepes.butter.peanut.GameScene;
@@ -72,7 +70,6 @@ public class LoopsManager extends Entity
 	batch.end();
 	batch.begin();
 
-	float temp = getX();
 	batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 	FontHelper.font.getData().setScale(0.75f, 0.75f);
