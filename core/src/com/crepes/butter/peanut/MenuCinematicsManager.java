@@ -1,6 +1,7 @@
 package com.crepes.butter.peanut;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.crepes.butter.peanut.Scene.SceneType;
 
 public class MenuCinematicsManager extends Entity
 {
@@ -65,7 +66,7 @@ public class MenuCinematicsManager extends Entity
 	{
 
 	    scene.readyToSwitch = true;
-	    scene.switchSceneType = SceneType.GAME;
+	    scene.switchSceneType = Scene.SceneType.GAME;
 	}
     }
 }

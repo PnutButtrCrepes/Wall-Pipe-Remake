@@ -23,4 +23,10 @@ public abstract class Scene extends Stage implements InputProcessor {
 	}
 	
 	public abstract void addActors();
+	
+	public enum SceneType {
+
+		MAIN_MENU,
+		GAME
+	}
 }
