@@ -3,6 +3,8 @@ package com.crepes.butter.peanut;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.crepes.butter.peanut.blocks.BuildingBlock;
+import com.crepes.butter.peanut.blocks.WaterEmitter;
 import com.crepes.butter.peanut.ui.Clock;
 import com.crepes.butter.peanut.ui.GameUI;
 import com.crepes.butter.peanut.ui.Leaderboard;
