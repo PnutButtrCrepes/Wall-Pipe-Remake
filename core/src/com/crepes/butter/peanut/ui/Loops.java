@@ -2,7 +2,7 @@ package com.crepes.butter.peanut.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Entity;
-import com.crepes.butter.peanut.FontHelper;
+import com.crepes.butter.peanut.WallPipe;
 import com.crepes.butter.peanut.GameScene;
 
 public class Loops extends Entity
@@ -72,10 +72,10 @@ public class Loops extends Entity
 
 	batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-	FontHelper.font.getData().setScale(0.75f, 0.75f);
-	FontHelper.font.draw(batch, "Loops", this.getX() + 4, this.getY() + 56);
+	WallPipe.font.getData().setScale(0.75f, 0.75f);
+	WallPipe.font.draw(batch, "Loops", this.getX() + 4, this.getY() + 56);
 
-	FontHelper.font.getData().setScale(1, 1);
-	FontHelper.font.draw(batch, String.valueOf(loops), this.getX() + 18, this.getY() + 28);
+	WallPipe.font.getData().setScale(1, 1);
+	WallPipe.font.draw(batch, String.valueOf(loops), this.getX() + 18, this.getY() + 28);
     }
 }

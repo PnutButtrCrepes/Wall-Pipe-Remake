@@ -34,33 +34,33 @@ public class MenuCinematicsManager extends Entity
 	batch.end();
 	batch.begin();
 
-	FontHelper.font.getData().setScale(1f, 1f);
-	FontHelper.font.setColor(1, 1, 1, 1);
-	FontHelper.font.draw(batch, "FOR THE PATIENT USER", this.getX() - 110, this.getY() - 175);
+	WallPipe.font.getData().setScale(1f, 1f);
+	WallPipe.font.setColor(1, 1, 1, 1);
+	WallPipe.font.draw(batch, "FOR THE PATIENT USER", this.getX() - 110, this.getY() - 175);
 
 	if (timer < 3)
 	{
 
-	    FontHelper.font.getData().setScale(2f, 2f);
-	    FontHelper.font.setColor(0, 0, 0, 1);
-	    FontHelper.font.draw(batch, "Nathan\nKeenan", this.getX() - 70, this.getY() + 50);
+	    WallPipe.font.getData().setScale(2f, 2f);
+	    WallPipe.font.setColor(0, 0, 0, 1);
+	    WallPipe.font.draw(batch, "Nathan\nKeenan", this.getX() - 70, this.getY() + 50);
 
 	} else if (timer > 3 && timer < 6)
 	{
 
 	    scene.displayYellow();
 
-	    FontHelper.font.getData().setScale(1.5f, 1.5f);
-	    FontHelper.font.setColor(0.5f, 0f, 0f, 1);
-	    FontHelper.font.draw(batch, "PRESENTS", this.getX() - 70, this.getY() + 90);
+	    WallPipe.font.getData().setScale(1.5f, 1.5f);
+	    WallPipe.font.setColor(0.5f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch, "PRESENTS", this.getX() - 70, this.getY() + 90);
 
-	    FontHelper.font.getData().setScale(1.5f, 1.5f);
-	    FontHelper.font.setColor(0f, 0f, 0.5f, 1);
-	    FontHelper.font.draw(batch, "WALL PIPE", this.getX() - 80, this.getY() + 40);
+	    WallPipe.font.getData().setScale(1.5f, 1.5f);
+	    WallPipe.font.setColor(0f, 0f, 0.5f, 1);
+	    WallPipe.font.draw(batch, "WALL PIPE", this.getX() - 80, this.getY() + 40);
 
-	    FontHelper.font.getData().setScale(1.5f, 1.5f);
-	    FontHelper.font.setColor(0f, 0f, 0.5f, 1);
-	    FontHelper.font.draw(batch, "v3", this.getX() - 20, this.getY() - 10);
+	    WallPipe.font.getData().setScale(1.5f, 1.5f);
+	    WallPipe.font.setColor(0f, 0f, 0.5f, 1);
+	    WallPipe.font.draw(batch, "v3", this.getX() - 20, this.getY() - 10);
 
 	} else
 	{

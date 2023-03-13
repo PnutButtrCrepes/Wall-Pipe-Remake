@@ -2,7 +2,7 @@ package com.crepes.butter.peanut.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Entity;
-import com.crepes.butter.peanut.FontHelper;
+import com.crepes.butter.peanut.WallPipe;
 import com.crepes.butter.peanut.GameScene;
 
 public class TitleInformation extends Entity
@@ -37,8 +37,8 @@ public class TitleInformation extends Entity
 	batch.end();
 	batch.begin();
 
-	FontHelper.font.getData().setScale(0.7f, 0.7f);
-	FontHelper.font.draw(batch, "W A L L  P I P E  G A M E               by Nathan Keenan", this.getX() + 30,
+	WallPipe.font.getData().setScale(0.7f, 0.7f);
+	WallPipe.font.draw(batch, "W A L L  P I P E  G A M E               by Nathan Keenan", this.getX() + 30,
 		this.getY() + 16);
     }
 }

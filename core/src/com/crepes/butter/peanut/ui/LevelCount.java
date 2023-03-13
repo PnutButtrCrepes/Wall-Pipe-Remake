@@ -2,7 +2,7 @@ package com.crepes.butter.peanut.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Entity;
-import com.crepes.butter.peanut.FontHelper;
+import com.crepes.butter.peanut.WallPipe;
 import com.crepes.butter.peanut.GameScene;
 
 public class LevelCount extends Entity {
@@ -35,10 +35,10 @@ public class LevelCount extends Entity {
 		
 		batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		
-		FontHelper.font.getData().setScale(0.6f, 0.6f);
-		FontHelper.font.draw(batch, "LEVEL:", this.getX() + 4, this.getY() + 14);
+		WallPipe.font.getData().setScale(0.6f, 0.6f);
+		WallPipe.font.draw(batch, "LEVEL:", this.getX() + 4, this.getY() + 14);
 		
-		FontHelper.font.getData().setScale(0.6f, 0.6f);
-		FontHelper.font.draw(batch, String.valueOf(gameScene.levelCount), this.getX() + 48, this.getY() + 14);
+		WallPipe.font.getData().setScale(0.6f, 0.6f);
+		WallPipe.font.draw(batch, String.valueOf(gameScene.levelCount), this.getX() + 48, this.getY() + 14);
 	}
 }

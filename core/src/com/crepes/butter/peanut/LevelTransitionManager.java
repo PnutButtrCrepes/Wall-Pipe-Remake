@@ -96,15 +96,15 @@ public class LevelTransitionManager extends Entity
 	    batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	    batch.draw(getSprite("yellow"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
 
-	    FontHelper.font.getData().setScale(0.7f, 0.7f);
-	    FontHelper.font.setColor(0f, 0f, 0f, 1);
-	    FontHelper.font.draw(batch, "CLICK MOUSE TO BEGIN", this.getX() + 20, this.getY() + 55);
+	    WallPipe.font.getData().setScale(0.7f, 0.7f);
+	    WallPipe.font.setColor(0f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch, "CLICK MOUSE TO BEGIN", this.getX() + 20, this.getY() + 55);
 
-	    FontHelper.font.getData().setScale(0.6f, 0.6f);
-	    FontHelper.font.setColor(0.5f, 0f, 0f, 1);
-	    FontHelper.font.draw(batch, "LEVEL: " + gameScene.levelCount, this.getX() + 60, this.getY() + 25);
+	    WallPipe.font.getData().setScale(0.6f, 0.6f);
+	    WallPipe.font.setColor(0.5f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch, "LEVEL: " + gameScene.levelCount, this.getX() + 60, this.getY() + 25);
 
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	} else if (gameScene.isPaused())
 	{
@@ -114,15 +114,15 @@ public class LevelTransitionManager extends Entity
 	    // this.getHeight());
 	    batch.draw(getSprite("yellow"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-	    FontHelper.font.getData().setScale(0.9f, 0.9f);
-	    FontHelper.font.setColor(0.5f, 0f, 0f, 1);
-	    FontHelper.font.draw(batch, "GAME PAUSED...", this.getX() + 40, this.getY() + 55);
+	    WallPipe.font.getData().setScale(0.9f, 0.9f);
+	    WallPipe.font.setColor(0.5f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch, "GAME PAUSED...", this.getX() + 40, this.getY() + 55);
 
-	    FontHelper.font.getData().setScale(0.6f, 0.6f);
-	    FontHelper.font.setColor(0f, 0f, 0f, 1);
-	    FontHelper.font.draw(batch, "Click to Continue", this.getX() + 50, this.getY() + 20);
+	    WallPipe.font.getData().setScale(0.6f, 0.6f);
+	    WallPipe.font.setColor(0f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch, "Click to Continue", this.getX() + 50, this.getY() + 20);
 
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	} else if (gameScene.isLevelEnded() && timer < 3)
 	{
@@ -133,12 +133,12 @@ public class LevelTransitionManager extends Entity
 	    batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	    batch.draw(getSprite("yellow"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
 
-	    FontHelper.font.getData().setScale(0.9f, 0.9f);
-	    FontHelper.font.setColor(0.5f, 0f, 0f, 1);
-	    FontHelper.font.draw(batch, "LEVEL " + String.valueOf((int) gameScene.levelCount) + " OVER",
+	    WallPipe.font.getData().setScale(0.9f, 0.9f);
+	    WallPipe.font.setColor(0.5f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch, "LEVEL " + String.valueOf((int) gameScene.levelCount) + " OVER",
 		    this.getX() + 40, this.getY() + 45);
 
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	} else if (gameScene.isLevelEnded() && timer > 3 && timer < 6)
 	{
@@ -150,14 +150,14 @@ public class LevelTransitionManager extends Entity
 		batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		batch.draw(getSprite("water"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
 
-		FontHelper.font.getData().setScale(0.7f, 0.7f);
-		FontHelper.font.setColor(1f, 1f, 1f, 1);
-		FontHelper.font.draw(batch,
+		WallPipe.font.getData().setScale(0.7f, 0.7f);
+		WallPipe.font.setColor(1f, 1f, 1f, 1);
+		WallPipe.font.draw(batch,
 			"BONUS: " + String.valueOf((int) gameScene.gameUI.loopsManager.loops) + " LOOPS MADE\nADDING "
 				+ String.valueOf((int) gameScene.gameUI.loopsManager.getBonus()) + " TO SCORE",
 			this.getX() + 20, this.getY() + 55);
 
-		FontHelper.font.setColor(1f, 1f, 1f, 1);
+		WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	    } else
 	    {
@@ -178,10 +178,10 @@ public class LevelTransitionManager extends Entity
 	    batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	    batch.draw(getSprite("water"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5, this.getHeight() - 5);
 
-	    FontHelper.font.getData().setScale(0.7f, 0.7f);
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
-	    FontHelper.font.draw(batch, "REMOVING EMPTY PIPES", this.getX() + 18, this.getY() + 40);
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.getData().setScale(0.7f, 0.7f);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.draw(batch, "REMOVING EMPTY PIPES", this.getX() + 18, this.getY() + 40);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	} else if (gameScene.isLevelEnded() && timer > 10 && timer < 11)
 	{
@@ -250,10 +250,10 @@ public class LevelTransitionManager extends Entity
 	} else if (gameScene.isLevelEnded() && timer > 12 && timer < 15)
 	{
 
-	    FontHelper.font.getData().setScale(1.1f, 1.1f);
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
-	    FontHelper.font.draw(batch, "GAME OVER", this.getX() + 50, this.getY() + 5);
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.getData().setScale(1.1f, 1.1f);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.draw(batch, "GAME OVER", this.getX() + 50, this.getY() + 5);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	} else if (gameScene.isLevelEnded() && timer > 15 && timer < 18
 		&& (((int) (gameScene.scoreManager.score) < gameScene.leaderboardManager.leaderboardEntries[9].score)
@@ -275,12 +275,12 @@ public class LevelTransitionManager extends Entity
 	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 50, this.getWidth(), this.getHeight() + 40);
 	    batch.draw(getSprite("white"), this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
 
-	    FontHelper.font.getData().setScale(0.7f, 0.7f);
-	    FontHelper.font.setColor(0f, 0f, 0f, 1);
-	    FontHelper.font.draw(batch,
+	    WallPipe.font.getData().setScale(0.7f, 0.7f);
+	    WallPipe.font.setColor(0f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch,
 		    "YOUR SCORE OF " + (int) (gameScene.scoreManager.score) + "\nIS IN THE TOP TEN!", this.getX() + 10,
 		    this.getY() + 55);
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	} else if (gameScene.isLevelEnded() && timer > 18 && !hasSelectedInitials)
 	{
@@ -288,9 +288,9 @@ public class LevelTransitionManager extends Entity
 	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 50, this.getWidth(), this.getHeight() + 40);
 	    batch.draw(getSprite("white"), this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
 
-	    FontHelper.font.getData().setScale(0.7f, 0.7f);
-	    FontHelper.font.setColor(0f, 0f, 0f, 1);
-	    FontHelper.font.draw(batch,
+	    WallPipe.font.getData().setScale(0.7f, 0.7f);
+	    WallPipe.font.setColor(0f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch,
 		    "YOUR SCORE OF " + (int) (gameScene.scoreManager.score) + "\nIS IN THE TOP TEN!", this.getX() + 10,
 		    this.getY() + 55);
 
@@ -300,32 +300,32 @@ public class LevelTransitionManager extends Entity
 		if (initials[0] == null)
 		{
 
-		    FontHelper.font.getData().setScale(0.7f, 0.7f);
-		    FontHelper.font.setColor(0f, 0f, 0f, 1);
-		    FontHelper.font.draw(batch, "ENTER INITIALS: ", this.getX() + 10, this.getY() - 15);
+		    WallPipe.font.getData().setScale(0.7f, 0.7f);
+		    WallPipe.font.setColor(0f, 0f, 0f, 1);
+		    WallPipe.font.draw(batch, "ENTER INITIALS: ", this.getX() + 10, this.getY() - 15);
 
 		} else if (initials[1] == null)
 		{
 
-		    FontHelper.font.getData().setScale(0.7f, 0.7f);
-		    FontHelper.font.setColor(0f, 0f, 0f, 1);
-		    FontHelper.font.draw(batch, "ENTER INITIALS: " + initials[0] + "", this.getX() + 10,
+		    WallPipe.font.getData().setScale(0.7f, 0.7f);
+		    WallPipe.font.setColor(0f, 0f, 0f, 1);
+		    WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + "", this.getX() + 10,
 			    this.getY() - 15);
 
 		} else if (initials[2] == null)
 		{
 
-		    FontHelper.font.getData().setScale(0.7f, 0.7f);
-		    FontHelper.font.setColor(0f, 0f, 0f, 1);
-		    FontHelper.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + "", this.getX() + 10,
+		    WallPipe.font.getData().setScale(0.7f, 0.7f);
+		    WallPipe.font.setColor(0f, 0f, 0f, 1);
+		    WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + "", this.getX() + 10,
 			    this.getY() - 15);
 
 		} else
 		{
 
-		    FontHelper.font.getData().setScale(0.7f, 0.7f);
-		    FontHelper.font.setColor(0f, 0f, 0f, 1);
-		    FontHelper.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + initials[2],
+		    WallPipe.font.getData().setScale(0.7f, 0.7f);
+		    WallPipe.font.setColor(0f, 0f, 0f, 1);
+		    WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + initials[2],
 			    this.getX() + 10, this.getY() - 15);
 		}
 
@@ -335,32 +335,32 @@ public class LevelTransitionManager extends Entity
 		if (initials[0] == null)
 		{
 
-		    FontHelper.font.getData().setScale(0.7f, 0.7f);
-		    FontHelper.font.setColor(0f, 0f, 0f, 1);
-		    FontHelper.font.draw(batch, "ENTER INITIALS: _", this.getX() + 10, this.getY() - 15);
+		    WallPipe.font.getData().setScale(0.7f, 0.7f);
+		    WallPipe.font.setColor(0f, 0f, 0f, 1);
+		    WallPipe.font.draw(batch, "ENTER INITIALS: _", this.getX() + 10, this.getY() - 15);
 
 		} else if (initials[1] == null)
 		{
 
-		    FontHelper.font.getData().setScale(0.7f, 0.7f);
-		    FontHelper.font.setColor(0f, 0f, 0f, 1);
-		    FontHelper.font.draw(batch, "ENTER INITIALS: " + initials[0] + "_", this.getX() + 10,
+		    WallPipe.font.getData().setScale(0.7f, 0.7f);
+		    WallPipe.font.setColor(0f, 0f, 0f, 1);
+		    WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + "_", this.getX() + 10,
 			    this.getY() - 15);
 
 		} else if (initials[2] == null)
 		{
 
-		    FontHelper.font.getData().setScale(0.7f, 0.7f);
-		    FontHelper.font.setColor(0f, 0f, 0f, 1);
-		    FontHelper.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + "_", this.getX() + 10,
+		    WallPipe.font.getData().setScale(0.7f, 0.7f);
+		    WallPipe.font.setColor(0f, 0f, 0f, 1);
+		    WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + "_", this.getX() + 10,
 			    this.getY() - 15);
 
 		} else
 		{
 
-		    FontHelper.font.getData().setScale(0.7f, 0.7f);
-		    FontHelper.font.setColor(0f, 0f, 0f, 1);
-		    FontHelper.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + initials[2],
+		    WallPipe.font.getData().setScale(0.7f, 0.7f);
+		    WallPipe.font.setColor(0f, 0f, 0f, 1);
+		    WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + initials[2],
 			    this.getX() + 10, this.getY() - 15);
 		}
 	    }
@@ -368,7 +368,7 @@ public class LevelTransitionManager extends Entity
 	    if (timer > 19)
 		timer = 18;
 
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	} else if (gameScene.isLevelEnded() && timer > 19 && hasSelectedInitials && !hasViewedLeaderboard)
 	{
@@ -412,9 +412,9 @@ public class LevelTransitionManager extends Entity
 	    batch.draw(getSprite("white"), this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
 	    batch.draw(getSprite("green"), this.getX() + 2.5f, this.getY() - 37.5f, this.getWidth() - 5, this.getHeight() + 35);
 
-	    FontHelper.font.getData().setScale(0.7f, 0.7f);
-	    FontHelper.font.draw(batch, "PLAY ANOTHER GAME?\n\n        Y/N", this.getX() + 30, this.getY() + 50);
-	    FontHelper.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.getData().setScale(0.7f, 0.7f);
+	    WallPipe.font.draw(batch, "PLAY ANOTHER GAME?\n\n        Y/N", this.getX() + 30, this.getY() + 50);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 	}
     }
 }

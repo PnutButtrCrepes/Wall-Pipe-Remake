@@ -197,35 +197,35 @@ public class Leaderboard extends Entity
 
 	batch.draw(getSprite("water"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-	FontHelper.font.getData().setScale(1.5f, 1.5f);
-	FontHelper.font.setColor(1f, 1f, 0f, 1);
-	FontHelper.font.draw(batch, "WALLPIPE SCOREBOARD", this.getX() + 60, this.getY() + 335);
+	WallPipe.font.getData().setScale(1.5f, 1.5f);
+	WallPipe.font.setColor(1f, 1f, 0f, 1);
+	WallPipe.font.draw(batch, "WALLPIPE SCOREBOARD", this.getX() + 60, this.getY() + 335);
 
-	FontHelper.font.getData().setScale(0.7f, 0.7f);
-	FontHelper.font.draw(batch, "NAME", this.getX() + 50, this.getY() + 285);
+	WallPipe.font.getData().setScale(0.7f, 0.7f);
+	WallPipe.font.draw(batch, "NAME", this.getX() + 50, this.getY() + 285);
 
-	FontHelper.font.getData().setScale(0.7f, 0.7f);
-	FontHelper.font.draw(batch, "SCORE", this.getX() + 150, this.getY() + 285);
+	WallPipe.font.getData().setScale(0.7f, 0.7f);
+	WallPipe.font.draw(batch, "SCORE", this.getX() + 150, this.getY() + 285);
 
-	FontHelper.font.getData().setScale(0.7f, 0.7f);
-	FontHelper.font.draw(batch, "LEVEL", this.getX() + 250, this.getY() + 285);
+	WallPipe.font.getData().setScale(0.7f, 0.7f);
+	WallPipe.font.draw(batch, "LEVEL", this.getX() + 250, this.getY() + 285);
 
-	FontHelper.font.getData().setScale(0.7f, 0.7f);
-	FontHelper.font.draw(batch, "DATE", this.getX() + 350, this.getY() + 285);
+	WallPipe.font.getData().setScale(0.7f, 0.7f);
+	WallPipe.font.draw(batch, "DATE", this.getX() + 350, this.getY() + 285);
 
-	FontHelper.font.getData().setScale(0.6f, 0.7f);
-	FontHelper.font.draw(batch, names, this.getX() + 50, this.getY() + 260);
+	WallPipe.font.getData().setScale(0.6f, 0.7f);
+	WallPipe.font.draw(batch, names, this.getX() + 50, this.getY() + 260);
 
-	FontHelper.font.getData().setScale(0.6f, 0.7f);
-	FontHelper.font.draw(batch, scores, this.getX() + 150, this.getY() + 260);
+	WallPipe.font.getData().setScale(0.6f, 0.7f);
+	WallPipe.font.draw(batch, scores, this.getX() + 150, this.getY() + 260);
 
-	FontHelper.font.getData().setScale(0.6f, 0.7f);
-	FontHelper.font.draw(batch, levels, this.getX() + 250, this.getY() + 260);
+	WallPipe.font.getData().setScale(0.6f, 0.7f);
+	WallPipe.font.draw(batch, levels, this.getX() + 250, this.getY() + 260);
 
-	FontHelper.font.getData().setScale(0.6f, 0.7f);
-	FontHelper.font.draw(batch, dates, this.getX() + 350, this.getY() + 260);
+	WallPipe.font.getData().setScale(0.6f, 0.7f);
+	WallPipe.font.draw(batch, dates, this.getX() + 350, this.getY() + 260);
 
-	FontHelper.font.setColor(1f, 1f, 1f, 1);
+	WallPipe.font.setColor(1f, 1f, 1f, 1);
 
     }
 }
