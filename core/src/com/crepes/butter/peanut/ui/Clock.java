@@ -5,7 +5,7 @@ import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.FontHelper;
 import com.crepes.butter.peanut.GameScene;
 
-public class ClockManager extends Entity
+public class Clock extends Entity
 {
 
     public GameScene gameScene;
@@ -13,7 +13,7 @@ public class ClockManager extends Entity
     public boolean running;
     public float time;
 
-    public ClockManager(GameScene gameScene)
+    public Clock(GameScene gameScene)
     {
 
 	super(0.25f, 4f, 1.5f, 1f);

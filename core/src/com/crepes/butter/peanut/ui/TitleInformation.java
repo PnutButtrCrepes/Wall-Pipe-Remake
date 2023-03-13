@@ -5,14 +5,14 @@ import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.FontHelper;
 import com.crepes.butter.peanut.GameScene;
 
-public class TitleInformationManager extends Entity
+public class TitleInformation extends Entity
 {
 
     public float score;
 
     public GameScene gameScene;
 
-    public TitleInformationManager(GameScene gameScene)
+    public TitleInformation(GameScene gameScene)
     {
 
 	super(2f, 13.25f, 14f, 0.5f);

@@ -5,14 +5,14 @@ import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.FontHelper;
 import com.crepes.butter.peanut.GameScene;
 
-public class ScoreNeededManager extends Entity
+public class ScoreNeeded extends Entity
 {
 
     public float scoreNeeded;
 
     public GameScene gameScene;
 
-    public ScoreNeededManager(GameScene gameScene)
+    public ScoreNeeded(GameScene gameScene)
     {
 
 	super(2f, 1.25f, 4.5f, 0.5f);

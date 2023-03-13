@@ -5,14 +5,14 @@ import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.FontHelper;
 import com.crepes.butter.peanut.GameScene;
 
-public class HotKeysManager extends Entity
+public class HotKeys extends Entity
 {
 
     public float score;
 
     public GameScene gameScene;
 
-    public HotKeysManager(GameScene gameScene)
+    public HotKeys(GameScene gameScene)
     {
 
 	super(2f, 0.25f, 14f, 0.5f);

@@ -8,9 +8,9 @@ public class GameUI extends Entity
 {
     public GameScene gameScene;
     
-    public HotKeysManager hkManager;
-    public LoopsManager loopsManager;
-    public ScoreNeededManager scoreNeededManager;
+    public HotKeys hkManager;
+    public Loops loopsManager;
+    public ScoreNeeded scoreNeededManager;
     
     public GameUI(GameScene gameScene)
     {
@@ -18,9 +18,9 @@ public class GameUI extends Entity
 	
 	this.gameScene = gameScene;
 	
-	hkManager = new HotKeysManager(gameScene);
-	loopsManager = new LoopsManager(gameScene);
-	scoreNeededManager = new ScoreNeededManager(gameScene);
+	hkManager = new HotKeys(gameScene);
+	loopsManager = new Loops(gameScene);
+	scoreNeededManager = new ScoreNeeded(gameScene);
     }
     
     public void reset()

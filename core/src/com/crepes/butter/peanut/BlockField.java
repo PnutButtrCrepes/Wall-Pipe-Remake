@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class BlockFieldManager extends Entity
+public class BlockField extends Entity
 {
 
     GameScene gameScene;
@@ -26,7 +26,7 @@ public class BlockFieldManager extends Entity
 
     boolean[][] cracks;
 
-    public BlockFieldManager(GameScene gameScene)
+    public BlockField(GameScene gameScene)
     {
 
 	super(0f, 0f, 0f, 0f);

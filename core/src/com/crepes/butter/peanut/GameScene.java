@@ -3,13 +3,13 @@ package com.crepes.butter.peanut;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.crepes.butter.peanut.ui.ClockManager;
+import com.crepes.butter.peanut.ui.Clock;
 import com.crepes.butter.peanut.ui.GameUI;
-import com.crepes.butter.peanut.ui.LeaderboardManager;
-import com.crepes.butter.peanut.ui.LevelCountManager;
-import com.crepes.butter.peanut.ui.NextBlocksManager;
-import com.crepes.butter.peanut.ui.ScoreManager;
-import com.crepes.butter.peanut.ui.TitleInformationManager;
+import com.crepes.butter.peanut.ui.Leaderboard;
+import com.crepes.butter.peanut.ui.LevelCount;
+import com.crepes.butter.peanut.ui.NextBlocks;
+import com.crepes.butter.peanut.ui.Score;
+import com.crepes.butter.peanut.ui.TitleInformation;
 
 public class GameScene extends Scene implements InputProcessor
 {
@@ -35,17 +35,17 @@ public class GameScene extends Scene implements InputProcessor
 
     public WaterEmitter emitter;
 
-    public TitleInformationManager tManager;
-    public BlockFieldManager bfManager;
-    public NextBlocksManager nbManager;
-    public ClockManager clockManager;
-    public LevelCountManager lcManager;
-    public ScoreManager scoreManager;
+    public TitleInformation tManager;
+    public BlockField bfManager;
+    public NextBlocks nbManager;
+    public Clock clockManager;
+    public LevelCount lcManager;
+    public Score scoreManager;
     public GameUI gameUI;
 
     public LevelTransitionManager levelManager;
 
-    public LeaderboardManager leaderboardManager;
+    public Leaderboard leaderboardManager;
 
     public Water water;
 
@@ -63,21 +63,21 @@ public class GameScene extends Scene implements InputProcessor
 
 	// TODO Emitter goes here, remember to move all this into an init function.
 
-	tManager = new TitleInformationManager(this);
-	bfManager = new BlockFieldManager(this);
-	nbManager = new NextBlocksManager(this);
-	clockManager = new ClockManager(this);
+	tManager = new TitleInformation(this);
+	bfManager = new BlockField(this);
+	nbManager = new NextBlocks(this);
+	clockManager = new Clock(this);
 
 	emitter = new WaterEmitter(this);
 
 	gameUI = new GameUI(this);
-	lcManager = new LevelCountManager(this);
-	scoreManager = new ScoreManager(this);
+	lcManager = new LevelCount(this);
+	scoreManager = new Score(this);
 	water = new Water(this);
 
 	levelManager = new LevelTransitionManager(this);
 
-	leaderboardManager = new LeaderboardManager();
+	leaderboardManager = new Leaderboard();
 
 	addActors();
 

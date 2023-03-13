@@ -5,11 +5,11 @@ import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.FontHelper;
 import com.crepes.butter.peanut.GameScene;
 
-public class LevelCountManager extends Entity {
+public class LevelCount extends Entity {
 	
 	GameScene gameScene;
 	
-	public LevelCountManager(GameScene gameScene) {
+	public LevelCount(GameScene gameScene) {
 		
 	    super(7f, 1.25f, 3f, 0.5f);
 	    

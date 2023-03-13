@@ -5,7 +5,7 @@ import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.FontHelper;
 import com.crepes.butter.peanut.GameScene;
 
-public class LoopsManager extends Entity
+public class Loops extends Entity
 {
 
     GameScene gameScene;
@@ -13,7 +13,7 @@ public class LoopsManager extends Entity
     public int loops;
     public boolean bonusAdded;
 
-    public LoopsManager(GameScene gameScene)
+    public Loops(GameScene gameScene)
     {
 
 	super(0.25f, 2f, 1.5f, 1f);

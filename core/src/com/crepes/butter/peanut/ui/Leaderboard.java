@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import com.crepes.butter.peanut.*;
 
-public class LeaderboardManager extends Entity
+public class Leaderboard extends Entity
 {
 
     public LeaderboardEntry[] leaderboardEntries;
@@ -19,7 +19,7 @@ public class LeaderboardManager extends Entity
     String levels;
     String dates;
 
-    public LeaderboardManager()
+    public Leaderboard()
     {
 
 	super(2f, 2f, 14f, 11f);

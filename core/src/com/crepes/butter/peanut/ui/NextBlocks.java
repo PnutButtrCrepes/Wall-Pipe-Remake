@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import com.crepes.butter.peanut.*;
 
-public class NextBlocksManager extends Entity
+public class NextBlocks extends Entity
 {
 
     public GameScene gameScene;
 
     public BuildingBlock[] blockQueue;
 
-    public NextBlocksManager(GameScene gameScene)
+    public NextBlocks(GameScene gameScene)
     {
 
 	super(0.25f, 6f, 1.5f, 6f);

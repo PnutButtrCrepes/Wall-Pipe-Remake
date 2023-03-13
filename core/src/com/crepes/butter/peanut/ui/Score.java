@@ -5,13 +5,13 @@ import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.FontHelper;
 import com.crepes.butter.peanut.GameScene;
 
-public class ScoreManager extends Entity {
+public class Score extends Entity {
 
 	public float score;
 	
 	public GameScene gameScene;
 	
-	public ScoreManager(GameScene gameScene) {
+	public Score(GameScene gameScene) {
 		
 	    super(11f, 1.25f, 5f, 0.5f);
 		
