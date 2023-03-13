@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import com.crepes.butter.peanut.*;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
-import com.crepes.butter.peanut.blocks.BuildingBlockType;
 
 public class NextBlocks extends Entity
 {
@@ -33,31 +32,31 @@ public class NextBlocks extends Entity
 	int index = (int) (Math.random() * 100 + 1);
 
 	if (index <= 14)
-	    return new BuildingBlock(BuildingBlockType.ULELBOW);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.ULELBOW);
 
 	if (index <= 28)
-	    return new BuildingBlock(BuildingBlockType.URELBOW);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.URELBOW);
 
 	if (index <= 42)
-	    return new BuildingBlock(BuildingBlockType.DLELBOW);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.DLELBOW);
 
 	if (index <= 56)
-	    return new BuildingBlock(BuildingBlockType.DRELBOW);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.DRELBOW);
 
 	if (index <= 70)
-	    return new BuildingBlock(BuildingBlockType.HSTRAIGHT);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.HSTRAIGHT);
 
 	if (index <= 84)
-	    return new BuildingBlock(BuildingBlockType.VSTRAIGHT);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.VSTRAIGHT);
 
 	if (index <= 92)
-	    return new BuildingBlock(BuildingBlockType.CROSS);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.CROSS);
 
 	if (index <= 96)
-	    return new BuildingBlock(BuildingBlockType.HSQUIGGLY);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.HSQUIGGLY);
 
 	if (index <= 100)
-	    return new BuildingBlock(BuildingBlockType.VSQUIGGLY);
+	    return new BuildingBlock(BuildingBlock.BuildingBlockType.VSQUIGGLY);
 
 	return null;
     }
