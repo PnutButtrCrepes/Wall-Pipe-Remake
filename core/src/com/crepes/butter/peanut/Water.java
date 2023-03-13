@@ -49,7 +49,7 @@ public class Water extends Entity
 	    this.setX(gameScene.emitter.getUnscaledX() + 0.75f);
 	    this.setWidth(0.125f);
 	}
-	
+
 	this.setY(gameScene.emitter.getUnscaledY() + 0.5f - 3f / 32f);
 	this.setHeight(6f / 32f);
 
@@ -59,9 +59,7 @@ public class Water extends Entity
 
 	speed = 0.5f;
 
-	this.sprite = new Sprite();
-	this.texture = new Texture("Water.png");
-	this.sprite.setTexture(texture);
+	addSprite("Water.png", "water");
 
 	water = new ArrayList<CachedWaterBlock>();
     }
@@ -222,10 +220,6 @@ public class Water extends Entity
 		if (gameScene.bfManager.blockField[(int) (posX - 2)][(int) (posY - 2)] != null && currentBlock != null)
 		    if (!gameScene.bfManager.blockField[(int) (posX - 2)][(int) (posY - 2)].equals(currentBlock))
 		    {
-
-			// && !gameScene.bfManager.blockField[(int) (posX - 2)][(int) (posY -
-			// 2)].equals(gameScene.emitter) TODO Why was this in here?
-
 			newBlock = true;
 			squigglyCounter = 0;
 
@@ -237,7 +231,8 @@ public class Water extends Entity
 
 		currentBlock = gameScene.bfManager.blockField[(int) (posX - 2)][(int) (posY - 2)];
 
-	    } else
+	    }
+	    else
 	    {
 
 		currentBlock = null;
@@ -256,447 +251,455 @@ public class Water extends Entity
 		gameScene.setLevelEnded(true);
 	    }
 
-	    if (running)
+	    if (!running)
+		return;
+
+	    switch (direction)
 	    {
 
-		switch (direction)
-		{
+	    case UP:
 
-		case UP:
+		this.setHeight(getUnscaledHeight() + delta * speed);
 
-		    this.setHeight(getUnscaledHeight() + delta * speed);
-
-		    if (newBlock)
-			if (!currentBlock.hasDownEntrance)
-			{
-
-			    running = false;
-			    gameScene.setLevelEnded(true);
-
-			} else
-			{
-
-			    currentBlock.watered = true;
-			}
-
-		    if (currentBlock.type != null)
-			switch (currentBlock.type)
-			{
-
-			case HSQUIGGLY:
-
-			    if (squigglyCounter == 1 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 27f / 32f;
-
-				changeDirection(WaterDirection.RIGHT);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 3 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 27f / 32f;
-
-				changeDirection(WaterDirection.LEFT);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 5 && posY >= currentBlock.getUnscaledY() + 19f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 19f / 32f;
-
-				changeDirection(WaterDirection.RIGHT);
-				squigglyCounter++;
-			    }
-
-			    break;
-
-			case VSQUIGGLY:
-
-			    if (squigglyCounter == 0 && posY >= currentBlock.getUnscaledY() + 14f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 14f / 32f;
-
-				changeDirection(WaterDirection.LEFT);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 2 && posY >= currentBlock.getUnscaledY() + 24f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 24f / 32f;
-
-				changeDirection(WaterDirection.RIGHT);
-				squigglyCounter++;
-			    }
-
-			    break;
-
-			default:
-
-			    if (posY >= currentBlock.getUnscaledY() + 0.5f + 3f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 0.5f + 3f / 32f;
-
-				if (!currentBlock.hasUpExit)
-				{
-
-				    if (currentBlock.hasLeftExit)
-					changeDirection(WaterDirection.LEFT);
-				    else
-					changeDirection(WaterDirection.RIGHT);
-				}
-			    }
-
-			    break;
-			}
-
-		    break;
-
-		case DOWN:
-
-		    this.setHeight(getUnscaledHeight() - delta * speed);
-
-		    if (newBlock)
-			if (!currentBlock.hasUpEntrance)
-			{
-
-			    running = false;
-			    gameScene.setLevelEnded(true);
-
-			} else
-			{
-
-			    currentBlock.watered = true;
-			}
-
-		    if (currentBlock.type != null)
-			switch (currentBlock.type)
-			{
-
-			case HSQUIGGLY:
-
-			    if (squigglyCounter == 1 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 5f / 32f;
-
-				changeDirection(WaterDirection.LEFT);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 3 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 5f / 32f;
-
-				changeDirection(WaterDirection.RIGHT);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 5 && posY <= currentBlock.getUnscaledY() + 13f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 13f / 32f;
-
-				changeDirection(WaterDirection.LEFT);
-				squigglyCounter++;
-			    }
-
-			    break;
-
-			case VSQUIGGLY:
-
-			    if (squigglyCounter == 0 && posY <= currentBlock.getUnscaledY() + 18f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 18f / 32f;
-
-				changeDirection(WaterDirection.LEFT);
-				squigglyCounter--;
-			    }
-
-			    if (squigglyCounter == -2 && posY <= currentBlock.getUnscaledY() + 8f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 8f / 32f;
-
-				changeDirection(WaterDirection.RIGHT);
-				squigglyCounter--;
-			    }
-
-			    break;
-
-			default:
-
-			    if (posY <= currentBlock.getUnscaledY() + 0.5f - 3f / 32f)
-			    {
-
-				posY = currentBlock.getUnscaledY() + 0.5f - 3f / 32f;
-
-				if (!currentBlock.hasDownExit)
-				{
-
-				    if (currentBlock.hasLeftExit)
-					changeDirection(WaterDirection.LEFT);
-				    else
-					changeDirection(WaterDirection.RIGHT);
-				}
-			    }
-
-			    break;
-			}
-
-		    break;
-
-		case LEFT:
-
-		    this.setWidth(getUnscaledWidth() - delta * speed);
-
-		    if (newBlock)
-			if (!currentBlock.hasRightEntrance)
-			{
-
-			    running = false;
-			    gameScene.setLevelEnded(true);
-
-			} else
-			{
-
-			    currentBlock.watered = true;
-			}
-
-		    if (currentBlock.type != null)
-			switch (currentBlock.type)
-			{
-
-			case HSQUIGGLY:
-
-			    if (squigglyCounter == 0 && posX <= currentBlock.getUnscaledX() + 21f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 21f / 32f;
-
-				changeDirection(WaterDirection.DOWN);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 2 && posX <= currentBlock.getUnscaledX() + 13f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 13f / 32f;
-
-				changeDirection(WaterDirection.UP);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 4 && posX <= currentBlock.getUnscaledX() + 5f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 5f / 32f;
-
-				changeDirection(WaterDirection.DOWN);
-				squigglyCounter++;
-			    }
-
-			    break;
-
-			case VSQUIGGLY:
-
-			    if (squigglyCounter == 1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 4f / 32f;
-
-				changeDirection(WaterDirection.UP);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == -1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 4f / 32f;
-
-				changeDirection(WaterDirection.DOWN);
-				squigglyCounter--;
-			    }
-
-			    break;
-
-			default:
-
-			    if (posX <= currentBlock.getUnscaledX() + 0.5f - 3f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 0.5f - 3f / 32f;
-
-				if (!currentBlock.hasLeftExit)
-				{
-
-				    if (currentBlock.hasUpExit)
-					changeDirection(WaterDirection.UP);
-				    else
-					changeDirection(WaterDirection.DOWN);
-				}
-			    }
-
-			    break;
-			}
-
-		    break;
-
-		case RIGHT:
-
-		    this.setWidth(getUnscaledWidth() + delta * speed);
-
-		    if (newBlock)
-			if (!currentBlock.hasLeftEntrance)
-			{
-
-			    running = false;
-			    gameScene.setLevelEnded(true);
-
-			} else
-			{
-
-			    currentBlock.watered = true;
-			}
-
-		    if (currentBlock.type != null)
-			switch (currentBlock.type)
-			{
-
-			case HSQUIGGLY:
-
-			    if (squigglyCounter == 0 && posX >= currentBlock.getUnscaledX() + 11f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 11f / 32f;
-
-				changeDirection(WaterDirection.UP);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 2 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 19f / 32f;
-
-				changeDirection(WaterDirection.DOWN);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == 4 && posX >= currentBlock.getUnscaledX() + 27f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 27f / 32f;
-
-				changeDirection(WaterDirection.UP);
-				squigglyCounter++;
-			    }
-
-			    break;
-
-			case VSQUIGGLY:
-
-			    if (squigglyCounter == 3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 19f / 32f;
-
-				changeDirection(WaterDirection.UP);
-				squigglyCounter++;
-			    }
-
-			    if (squigglyCounter == -3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 19f / 32f;
-
-				changeDirection(WaterDirection.DOWN);
-				squigglyCounter--;
-			    }
-			    break;
-
-			default:
-
-			    if (posX >= currentBlock.getUnscaledX() + 0.5f + 3f / 32f)
-			    {
-
-				posX = currentBlock.getUnscaledX() + 0.5f + 3f / 32f;
-
-				if (!currentBlock.hasRightExit)
-				{
-
-				    if (currentBlock.hasUpExit)
-					changeDirection(WaterDirection.UP);
-				    else
-					changeDirection(WaterDirection.DOWN);
-				}
-			    }
-
-			    break;
-			}
-
-		    break;
-
-		default:
-		    break;
-		}
-
-		for (CachedWaterBlock wb : water)
-		{
-
-		    if (!wb.looped)
+		if (newBlock)
+		    if (!currentBlock.hasDownEntrance)
 		    {
 
-			if ((wb.getUnscaledX() + wb.getUnscaledWidth()) > wb.getUnscaledX())
+			running = false;
+			gameScene.setLevelEnded(true);
+
+		    } else
+		    {
+
+			currentBlock.watered = true;
+		    }
+
+		if (currentBlock.type != null)
+		    switch (currentBlock.type)
+		    {
+
+		    case HSQUIGGLY:
+
+			if (squigglyCounter == 1 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
 			{
 
-			    if ((wb.getUnscaledY() + wb.getUnscaledHeight()) > wb.getUnscaledY())
+			    posY = currentBlock.getUnscaledY() + 27f / 32f;
+
+			    changeDirection(WaterDirection.RIGHT);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 3 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 27f / 32f;
+
+			    changeDirection(WaterDirection.LEFT);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 5 && posY >= currentBlock.getUnscaledY() + 19f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 19f / 32f;
+
+			    changeDirection(WaterDirection.RIGHT);
+			    squigglyCounter++;
+			}
+
+			break;
+
+		    case VSQUIGGLY:
+
+			if (squigglyCounter == 0 && posY >= currentBlock.getUnscaledY() + 14f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 14f / 32f;
+
+			    changeDirection(WaterDirection.LEFT);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 2 && posY >= currentBlock.getUnscaledY() + 24f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 24f / 32f;
+
+			    changeDirection(WaterDirection.RIGHT);
+			    squigglyCounter++;
+			}
+
+			break;
+
+		    default:
+
+			if (posY >= currentBlock.getUnscaledY() + 0.5f + 3f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 0.5f + 3f / 32f;
+
+			    if (!currentBlock.hasUpExit)
 			    {
 
-				if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth() && posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
-				{
-				    gameScene.gameUI.loopsManager.loops++;
-				    wb.looped = true;
-				}
-
-			    } else
-			    {
-
-				if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth() && posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
-				{
-				    gameScene.gameUI.loopsManager.loops++;
-				    wb.looped = true;
-				}
+				if (currentBlock.hasLeftExit)
+				    changeDirection(WaterDirection.LEFT);
+				else
+				    changeDirection(WaterDirection.RIGHT);
 			    }
+			}
+
+			break;
+		    }
+
+		break;
+
+	    case DOWN:
+
+		this.setHeight(getUnscaledHeight() - delta * speed);
+
+		if (newBlock)
+		    if (!currentBlock.hasUpEntrance)
+		    {
+
+			running = false;
+			gameScene.setLevelEnded(true);
+
+		    } else
+		    {
+
+			currentBlock.watered = true;
+		    }
+
+		if (currentBlock.type != null)
+		    switch (currentBlock.type)
+		    {
+
+		    case HSQUIGGLY:
+
+			if (squigglyCounter == 1 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 5f / 32f;
+
+			    changeDirection(WaterDirection.LEFT);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 3 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 5f / 32f;
+
+			    changeDirection(WaterDirection.RIGHT);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 5 && posY <= currentBlock.getUnscaledY() + 13f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 13f / 32f;
+
+			    changeDirection(WaterDirection.LEFT);
+			    squigglyCounter++;
+			}
+
+			break;
+
+		    case VSQUIGGLY:
+
+			if (squigglyCounter == 0 && posY <= currentBlock.getUnscaledY() + 18f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 18f / 32f;
+
+			    changeDirection(WaterDirection.LEFT);
+			    squigglyCounter--;
+			}
+
+			if (squigglyCounter == -2 && posY <= currentBlock.getUnscaledY() + 8f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 8f / 32f;
+
+			    changeDirection(WaterDirection.RIGHT);
+			    squigglyCounter--;
+			}
+
+			break;
+
+		    default:
+
+			if (posY <= currentBlock.getUnscaledY() + 0.5f - 3f / 32f)
+			{
+
+			    posY = currentBlock.getUnscaledY() + 0.5f - 3f / 32f;
+
+			    if (!currentBlock.hasDownExit)
+			    {
+
+				if (currentBlock.hasLeftExit)
+				    changeDirection(WaterDirection.LEFT);
+				else
+				    changeDirection(WaterDirection.RIGHT);
+			    }
+			}
+
+			break;
+		    }
+
+		break;
+
+	    case LEFT:
+
+		this.setWidth(getUnscaledWidth() - delta * speed);
+
+		if (newBlock)
+		    if (!currentBlock.hasRightEntrance)
+		    {
+
+			running = false;
+			gameScene.setLevelEnded(true);
+
+		    } else
+		    {
+
+			currentBlock.watered = true;
+		    }
+
+		if (currentBlock.type != null)
+		    switch (currentBlock.type)
+		    {
+
+		    case HSQUIGGLY:
+
+			if (squigglyCounter == 0 && posX <= currentBlock.getUnscaledX() + 21f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 21f / 32f;
+
+			    changeDirection(WaterDirection.DOWN);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 2 && posX <= currentBlock.getUnscaledX() + 13f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 13f / 32f;
+
+			    changeDirection(WaterDirection.UP);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 4 && posX <= currentBlock.getUnscaledX() + 5f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 5f / 32f;
+
+			    changeDirection(WaterDirection.DOWN);
+			    squigglyCounter++;
+			}
+
+			break;
+
+		    case VSQUIGGLY:
+
+			if (squigglyCounter == 1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 4f / 32f;
+
+			    changeDirection(WaterDirection.UP);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == -1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 4f / 32f;
+
+			    changeDirection(WaterDirection.DOWN);
+			    squigglyCounter--;
+			}
+
+			break;
+
+		    default:
+
+			if (posX <= currentBlock.getUnscaledX() + 0.5f - 3f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 0.5f - 3f / 32f;
+
+			    if (!currentBlock.hasLeftExit)
+			    {
+
+				if (currentBlock.hasUpExit)
+				    changeDirection(WaterDirection.UP);
+				else
+				    changeDirection(WaterDirection.DOWN);
+			    }
+			}
+
+			break;
+		    }
+
+		break;
+
+	    case RIGHT:
+
+		this.setWidth(getUnscaledWidth() + delta * speed);
+
+		if (newBlock)
+		    if (!currentBlock.hasLeftEntrance)
+		    {
+
+			running = false;
+			gameScene.setLevelEnded(true);
+
+		    } else
+		    {
+
+			currentBlock.watered = true;
+		    }
+
+		if (currentBlock.type != null)
+		    switch (currentBlock.type)
+		    {
+
+		    case HSQUIGGLY:
+
+			if (squigglyCounter == 0 && posX >= currentBlock.getUnscaledX() + 11f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 11f / 32f;
+
+			    changeDirection(WaterDirection.UP);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 2 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 19f / 32f;
+
+			    changeDirection(WaterDirection.DOWN);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == 4 && posX >= currentBlock.getUnscaledX() + 27f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 27f / 32f;
+
+			    changeDirection(WaterDirection.UP);
+			    squigglyCounter++;
+			}
+
+			break;
+
+		    case VSQUIGGLY:
+
+			if (squigglyCounter == 3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 19f / 32f;
+
+			    changeDirection(WaterDirection.UP);
+			    squigglyCounter++;
+			}
+
+			if (squigglyCounter == -3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 19f / 32f;
+
+			    changeDirection(WaterDirection.DOWN);
+			    squigglyCounter--;
+			}
+			break;
+
+		    default:
+
+			if (posX >= currentBlock.getUnscaledX() + 0.5f + 3f / 32f)
+			{
+
+			    posX = currentBlock.getUnscaledX() + 0.5f + 3f / 32f;
+
+			    if (!currentBlock.hasRightExit)
+			    {
+
+				if (currentBlock.hasUpExit)
+				    changeDirection(WaterDirection.UP);
+				else
+				    changeDirection(WaterDirection.DOWN);
+			    }
+			}
+
+			break;
+		    }
+
+		break;
+
+	    default:
+		break;
+	    }
+
+	    checkForLoops();
+	}
+    }
+
+    private void checkForLoops()
+    {
+	for (CachedWaterBlock wb : water)
+	{
+
+	    if (!wb.looped)
+	    {
+
+		if ((wb.getUnscaledX() + wb.getUnscaledWidth()) > wb.getUnscaledX())
+		{
+
+		    if ((wb.getUnscaledY() + wb.getUnscaledHeight()) > wb.getUnscaledY())
+		    {
+
+			if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
+				&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
+			{
+			    gameScene.gameUI.loopsManager.loops++;
+			    wb.looped = true;
+			}
+
+		    } else
+		    {
+
+			if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
+				&& posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
+			{
+			    gameScene.gameUI.loopsManager.loops++;
+			    wb.looped = true;
+			}
+		    }
+
+		} else
+		{
+
+		    if ((wb.getUnscaledY() + wb.getUnscaledHeight()) > wb.getUnscaledY())
+		    {
+
+			if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
+				&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
+			{
+			    gameScene.gameUI.loopsManager.loops++;
+			    wb.looped = true;
 
 			} else
 			{
 
-			    if ((wb.getUnscaledY() + wb.getUnscaledHeight()) > wb.getUnscaledY())
+			    if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
+				    && posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
 			    {
-
-				if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth() && posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
-				{
-				    gameScene.gameUI.loopsManager.loops++;
-				    wb.looped = true;
-
-				} else
-				{
-
-				    if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth() && posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
-				    {
-					gameScene.gameUI.loopsManager.loops++;
-					wb.looped = true;
-				    }
-				}
+				gameScene.gameUI.loopsManager.loops++;
+				wb.looped = true;
 			    }
 			}
 		    }
@@ -713,8 +716,8 @@ public class Water extends Entity
 	batch.begin();
 
 	for (CachedWaterBlock wb : water)
-	    batch.draw(wb.sprite, wb.getX(), wb.getY(), wb.getWidth(), wb.getHeight());
+	    batch.draw(wb.getSprite("water"), wb.getX(), wb.getY(), wb.getWidth(), wb.getHeight());
 
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("water"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }

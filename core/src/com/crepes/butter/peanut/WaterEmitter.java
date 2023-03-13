@@ -22,20 +22,16 @@ public class WaterEmitter extends BuildingBlock
 
 	init((int) (Math.random() * 12 + 3), (int) (Math.random() * 9 + 3), 1, 1);
 
-	this.sprite = new Sprite();
-
 	this.typeIndex = (int) (Math.random() * 2);
 
 	if (typeIndex == 0)
 	{
-
-	    this.texture = new Texture("LWaterEmitter.png");
+	    addSprite("LWaterEmitter.png", "block");
 	    this.hasLeftExit = true;
 
 	} else
 	{
-
-	    this.texture = new Texture("RWaterEmitter.png");
+	    addSprite("RWaterEmitter.png", "block");
 	    this.hasRightExit = true;
 	}
 
@@ -43,8 +39,6 @@ public class WaterEmitter extends BuildingBlock
 	this.hasDownEntrance = false;
 	this.hasRightEntrance = false;
 	this.hasLeftEntrance = false;
-
-	this.sprite.setRegion(texture);
 
 	gameScene.bfManager.addBlock(this, (int) this.getUnscaledX(), (int) this.getUnscaledY());
     }
@@ -59,19 +53,17 @@ public class WaterEmitter extends BuildingBlock
 	if (typeIndex == 0)
 	{
 
-	    this.texture = new Texture("LWaterEmitter.png");
+	    addSprite("LWaterEmitter.png", "block");
 	    this.hasLeftExit = true;
 	    this.hasRightExit = false;
 
 	} else
 	{
 
-	    this.texture = new Texture("RWaterEmitter.png");
+	    addSprite("RWaterEmitter.png", "block");
 	    this.hasRightExit = true;
 	    this.hasLeftExit = false;
 	}
-
-	this.sprite.setRegion(texture);
 
 	gameScene.bfManager.addBlock(this, (int) this.getUnscaledX(), (int) this.getUnscaledY());
     }
@@ -89,6 +81,6 @@ public class WaterEmitter extends BuildingBlock
 	batch.end();
 	batch.begin();
 
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("block"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }

@@ -139,7 +139,7 @@ public class BlockFieldManager extends Entity
 	    {
 
 		if (blockField[i][j] != null)
-		    batch.draw(blockField[i][j].sprite, blockField[i][j].getX(), blockField[i][j].getY(),
+		    batch.draw(blockField[i][j].getSprite("block"), blockField[i][j].getX(), blockField[i][j].getY(),
 			    blockField[i][j].getWidth(), blockField[i][j].getHeight());
 	    }
 	}

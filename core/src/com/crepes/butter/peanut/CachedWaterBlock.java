@@ -12,9 +12,7 @@ public class CachedWaterBlock extends Entity {
 		
 	    super(x, y, sizeX, sizeY);
 		
-		this.sprite = new Sprite();
-		this.texture = new Texture("Water.png");
-		this.sprite.setRegion(texture);
+	    	addSprite("Water.png", "water");
 		
 		looped = false;
 	}

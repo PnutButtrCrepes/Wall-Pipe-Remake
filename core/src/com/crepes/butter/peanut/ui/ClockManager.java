@@ -26,9 +26,7 @@ public class ClockManager extends Entity
 
 	time = 40;
 
-	this.sprite = new Sprite();
-	this.texture = new Texture("Black.png");
-	sprite.setRegion(texture);
+	addSprite("Black.png", "black");
     }
 
     public void reset()
@@ -71,7 +69,7 @@ public class ClockManager extends Entity
 	batch.end();
 	batch.begin();
 
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 	FontHelper.font.getData().setScale(0.75f, 0.75f);
 	FontHelper.font.draw(batch, "Clock", this.getX() + 4, this.getY() + 56);

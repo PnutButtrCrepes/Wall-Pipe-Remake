@@ -25,9 +25,7 @@ public class LoopsManager extends Entity
 	loops = 0;
 	bonusAdded = false;
 
-	this.sprite = new Sprite();
-	this.texture = new Texture("Black.png");
-	sprite.setTexture(texture);
+	addSprite("Black.png", "black");
     }
 
     public void reset()
@@ -75,7 +73,7 @@ public class LoopsManager extends Entity
 	batch.begin();
 
 	float temp = getX();
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 	FontHelper.font.getData().setScale(0.75f, 0.75f);
 	FontHelper.font.draw(batch, "Loops", this.getX() + 4, this.getY() + 56);

@@ -12,9 +12,7 @@ public class BlankTile extends Entity
 
 	super(x, y, sizeX, sizeY);
 
-	this.sprite = new Sprite();
-	this.texture = new Texture(texture);
-	sprite.setTexture(this.texture);
+	addSprite(texture, "texture");
     }
 
     @Override
@@ -24,6 +22,6 @@ public class BlankTile extends Entity
 	batch.end();
 	batch.begin();
 
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("texture"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }

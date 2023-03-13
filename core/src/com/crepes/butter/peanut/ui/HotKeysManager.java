@@ -21,9 +21,7 @@ public class HotKeysManager extends Entity
 
 	score = 0;
 
-	this.sprite = new Sprite();
-	this.texture = new Texture("Background.png");
-	sprite.setTexture(texture);
+	addSprite("Background.png", "background");
 
 	this.gameScene = gameScene;
     }
@@ -43,7 +41,7 @@ public class HotKeysManager extends Entity
 	batch.end();
 	batch.begin();
 
-	batch.draw(sprite, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	batch.draw(getSprite("background"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
 	FontHelper.font.getData().setScale(0.6f, 0.6f);
 	FontHelper.font.draw(batch, "<D>irections", this.getX() + 30, this.getY() + 14);
