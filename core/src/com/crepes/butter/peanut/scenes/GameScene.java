@@ -1,8 +1,13 @@
-package com.crepes.butter.peanut;
+package com.crepes.butter.peanut.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.crepes.butter.peanut.BlockField;
+import com.crepes.butter.peanut.LevelTransitionManager;
+import com.crepes.butter.peanut.Scene;
+import com.crepes.butter.peanut.SoundGenerator;
+import com.crepes.butter.peanut.Water;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.WaterEmitter;
 import com.crepes.butter.peanut.ui.Clock;
@@ -232,18 +237,10 @@ public class GameScene extends Scene implements InputProcessor
     }
 
     @Override
-    public boolean keyDown(int keycode)
-    {
-
-	return false;
-    }
+    public boolean keyDown(int keycode) { return false; }
 
     @Override
-    public boolean keyUp(int keycode)
-    {
-	// TODO Auto-generated method stub
-	return false;
-    }
+    public boolean keyUp(int keycode) { return false; }
 
     @Override
     public boolean keyTyped(char character)
@@ -252,56 +249,32 @@ public class GameScene extends Scene implements InputProcessor
 	if (!isLevelEnded())
 	{
 	    if (character == 'p')
-	    {
-
 		togglePause();
-	    }
-
-	} else if (isLevelEnded() && !levelManager.hasSelectedInitials)
+	}
+	else if (isLevelEnded() && !levelManager.hasSelectedInitials)
 	{
 
 	    if (character == '\r')
 	    {
-
 		levelManager.hasSelectedInitials = true;
-
-	    } else if (character == '\b')
+	    }
+	    else if (character == '\b')
 	    {
-
 		if (levelManager.initials[2] != null)
-		{
-
 		    levelManager.initials[2] = null;
-
-		} else if (levelManager.initials[1] != null)
-		{
-
+		else if (levelManager.initials[1] != null)
 		    levelManager.initials[1] = null;
-
-		} else if (levelManager.initials[0] != null)
-		{
-
+		else if (levelManager.initials[0] != null)
 		    levelManager.initials[0] = null;
-		}
-
-	    } else if (Character.isAlphabetic(character))
+	    }
+	    else if (Character.isAlphabetic(character))
 	    {
-
 		if (levelManager.initials[0] == null)
-		{
-
 		    levelManager.initials[0] = Character.toUpperCase(character);
-
-		} else if (levelManager.initials[1] == null)
-		{
-
+		else if (levelManager.initials[1] == null)
 		    levelManager.initials[1] = Character.toUpperCase(character);
-
-		} else if (levelManager.initials[2] == null)
-		{
-
+		else if (levelManager.initials[2] == null)
 		    levelManager.initials[2] = Character.toUpperCase(character);
-		}
 	    }
 
 	} else if (isLevelEnded() && levelManager.hasSelectedInitials && !levelManager.hasViewedLeaderboard)
@@ -363,7 +336,8 @@ public class GameScene extends Scene implements InputProcessor
 
 		if (mouseGrabbed)
 		{
-
+		    SoundGenerator.playWave(SoundGenerator.constructPulse(200, 0.5f, 100, 0.25)); // this is the Wall Pipe placement sound
+		    
 		    placingBlock = nbManager.blockQueue[0];
 		    nbManager.blockQueue[0].visible = false;
 		    mouseGrabbed = false;
@@ -375,7 +349,6 @@ public class GameScene extends Scene implements InputProcessor
 		    {
 			if (bfManager.blockField[xIndex - 2][yIndex - 2] == null)
 			{
-
 			    bfManager.addBlock(placingBlock, xIndex, yIndex);
 			    nbManager.shiftBlocks();
 			    mouseGrabbed = true;
@@ -397,18 +370,10 @@ public class GameScene extends Scene implements InputProcessor
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button)
-    {
-	// TODO Auto-generated method stub
-	return false;
-    }
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer)
-    {
-	// TODO Auto-generated method stub
-	return false;
-    }
+    public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY)

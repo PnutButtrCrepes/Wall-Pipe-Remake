@@ -11,6 +11,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.crepes.butter.peanut.scenes.GameScene;
+import com.crepes.butter.peanut.scenes.MainMenuScene;
 
 public class WallPipe extends ApplicationAdapter
 {
@@ -50,6 +52,8 @@ public class WallPipe extends ApplicationAdapter
 	backgroundRenderer = new OrthogonalTiledMapRenderer(null);
 
 	changeScene(menuScene);
+	
+	SoundGenerator.initSoundSystem();
     }
 
     @Override

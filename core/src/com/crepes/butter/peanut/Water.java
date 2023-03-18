@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
+import com.crepes.butter.peanut.scenes.GameScene;
 
 public class Water extends Entity
 {

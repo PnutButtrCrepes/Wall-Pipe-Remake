@@ -3,7 +3,7 @@ package com.crepes.butter.peanut.ui;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.WallPipe;
-import com.crepes.butter.peanut.GameScene;
+import com.crepes.butter.peanut.scenes.GameScene;
 
 public class Score extends Entity {
 

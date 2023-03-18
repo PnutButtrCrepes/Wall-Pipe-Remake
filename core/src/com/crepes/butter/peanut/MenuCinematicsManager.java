@@ -2,6 +2,7 @@ package com.crepes.butter.peanut;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Scene.SceneType;
+import com.crepes.butter.peanut.scenes.MainMenuScene;
 
 public class MenuCinematicsManager extends Entity
 {

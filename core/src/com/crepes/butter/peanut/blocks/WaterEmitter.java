@@ -1,7 +1,7 @@
 package com.crepes.butter.peanut.blocks;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.crepes.butter.peanut.GameScene;
+import com.crepes.butter.peanut.scenes.GameScene;
 
 public class WaterEmitter extends BuildingBlock
 {

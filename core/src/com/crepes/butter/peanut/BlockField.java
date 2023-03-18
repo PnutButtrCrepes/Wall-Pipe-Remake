@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
+import com.crepes.butter.peanut.scenes.GameScene;
 
 public class BlockField extends Entity
 {
@@ -18,7 +19,7 @@ public class BlockField extends Entity
 
     float blockBreakTimer;
 
-    boolean replacing;
+    public boolean replacing;
 
     BuildingBlock replacementBlock;
 

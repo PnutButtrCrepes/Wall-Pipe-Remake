@@ -5,6 +5,7 @@ import java.sql.*;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.crepes.butter.peanut.scenes.GameScene;
 import com.crepes.butter.peanut.ui.LeaderboardEntry;
 
 public class LevelTransitionManager extends Entity
@@ -18,11 +19,11 @@ public class LevelTransitionManager extends Entity
     int deleteBlockX;
     int deleteBlockY;
 
-    boolean hasSelectedInitials;
+    public boolean hasSelectedInitials;
     boolean scoreAdded;
-    boolean hasViewedLeaderboard;
+    public boolean hasViewedLeaderboard;
 
-    Character[] initials;
+    public Character[] initials;
 
     public LevelTransitionManager(GameScene gameScene)
     {
