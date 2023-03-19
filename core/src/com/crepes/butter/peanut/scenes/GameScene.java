@@ -19,17 +19,17 @@ public class GameScene extends Scene implements InputProcessor
     private int xIndex;
     private int yIndex;
     
+    private float pausedMouseX;
+    private float pausedMouseY;
+    
+    private BuildingBlock placingBlock;
+    
     public GameState gameState;
     
     public float screenWidthRatio;
     public float screenHeightRatio;
 
     public boolean mouseGrabbed;
-
-    private float pausedMouseX;
-    private float pausedMouseY;
-
-    public BuildingBlock placingBlock;
 
     public WaterEmitter emitter;
 
