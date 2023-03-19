@@ -179,15 +179,49 @@ public class GameScene extends Scene implements InputProcessor
 	    pausedMouseY = Gdx.input.getY();
 
 	    if (gameState == GameState.PAUSED)
-	    {
-
 		Gdx.input.setCursorCatched(true);
-
-	    } else
-	    {
-
+	    else
 		Gdx.input.setCursorCatched(false);
-	    }
+	}
+    }
+    
+    public void toggleOptionDialog()
+    {
+
+	if (isLevelStarted() && !isLevelEnded())
+	{
+	    if(gameState == GameState.RUNNING)
+		gameState = GameState.OPTIONS_DIALOG;
+	    else if (gameState == GameState.OPTIONS_DIALOG)
+		gameState = GameState.RUNNING;
+
+	    pausedMouseX = Gdx.input.getX();
+	    pausedMouseY = Gdx.input.getY();
+
+	    if (gameState == GameState.OPTIONS_DIALOG)
+		Gdx.input.setCursorCatched(true);
+	    else
+		Gdx.input.setCursorCatched(false);
+	}
+    }
+    
+    public void quitDialog()
+    {
+
+	if (isLevelStarted() && !isLevelEnded())
+	{
+	    if(gameState == GameState.RUNNING)
+		gameState = GameState.QUIT_DIALOG;
+	    else if (gameState == GameState.QUIT_DIALOG)
+		gameState = GameState.RUNNING;
+
+	    pausedMouseX = Gdx.input.getX();
+	    pausedMouseY = Gdx.input.getY();
+
+	    if (gameState == GameState.QUIT_DIALOG)
+		Gdx.input.setCursorCatched(true);
+	    else
+		Gdx.input.setCursorCatched(false);
 	}
     }
 
@@ -238,6 +272,16 @@ public class GameScene extends Scene implements InputProcessor
 	{
 	    if (character == 'p')
 		togglePause();
+	    
+	    if (character == 'q')
+	    {
+		quitDialog();
+	    }
+	    
+	    if(character == 'o')
+	    {
+		toggleOptionDialog();
+	    }
 	}
 	else if (isLevelEnded() && !levelManager.hasSelectedInitials)
 	{
@@ -385,6 +429,8 @@ public class GameScene extends Scene implements InputProcessor
 	NOT_STARTED,
 	RUNNING,
 	PAUSED,
+	OPTIONS_DIALOG,
+	QUIT_DIALOG,
 	LEVEL_ENDED
     }
 }

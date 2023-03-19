@@ -6,6 +6,7 @@ import java.sql.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.scenes.GameScene;
+import com.crepes.butter.peanut.scenes.GameScene.GameState;
 
 public class LevelTransitionManager extends Entity
 {
@@ -124,7 +125,43 @@ public class LevelTransitionManager extends Entity
 
 	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
-	} else if (gameScene.isLevelEnded() && timer < 3)
+	} else if (gameScene.gameState == GameState.OPTIONS_DIALOG)
+	{
+	    /*
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
+	    // batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(),
+	    // this.getHeight());
+	    batch.draw(getSprite("yellow"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
+	    WallPipe.font.getData().setScale(0.9f, 0.9f);
+	    WallPipe.font.setColor(0.5f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch, "GAME PAUSED...", this.getX() + 40, this.getY() + 55);
+
+	    WallPipe.font.getData().setScale(0.6f, 0.6f);
+	    WallPipe.font.setColor(0f, 0f, 0f, 1);
+	    WallPipe.font.draw(batch, "Click to Continue", this.getX() + 50, this.getY() + 20);
+
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
+	    */
+	}
+	else if (gameScene.gameState == GameState.QUIT_DIALOG)
+	{
+	    batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
+	    // batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(),
+	    // this.getHeight());
+	    batch.draw(getSprite("green"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
+	    WallPipe.font.getData().setScale(0.6f, 0.6f);
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
+	    WallPipe.font.draw(batch, "QUIT WALL PIPE GAME ?", this.getX() + 30, this.getY() + 55);
+
+	    WallPipe.font.getData().setScale(0.6f, 0.6f);
+	    WallPipe.font.setColor(0.8f, 0.8f, 0f, 1);
+	    WallPipe.font.draw(batch, "(Y/N)", this.getX() + 80, this.getY() + 30);
+
+	    WallPipe.font.setColor(1f, 1f, 1f, 1);
+	}
+	else if (gameScene.isLevelEnded() && timer < 3)
 	{
 
 	    timerRunning = true;
