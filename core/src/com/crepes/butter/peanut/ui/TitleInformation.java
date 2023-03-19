@@ -7,14 +7,10 @@ import com.crepes.butter.peanut.scenes.GameScene;
 
 public class TitleInformation extends Entity
 {
-    public GameScene gameScene;
-
-    public TitleInformation(GameScene gameScene)
+    public TitleInformation()
     {
 
 	super(2f, 13.25f, 14f, 0.5f);
-
-	this.gameScene = gameScene;
     }
 
     @Override

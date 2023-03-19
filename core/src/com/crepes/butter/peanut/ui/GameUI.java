@@ -28,7 +28,7 @@ public class GameUI extends Entity
 	loopsManager = new Loops(gameScene);
 	scoreManager = new Score(gameScene);
 	scoreNeededManager = new ScoreNeeded(gameScene);
-	titleInformation = new TitleInformation(gameScene);
+	titleInformation = new TitleInformation();
     }
     
     public void reset()
