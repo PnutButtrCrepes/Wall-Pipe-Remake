@@ -12,7 +12,7 @@ import com.crepes.butter.peanut.scenes.GameScene;
 public class LevelTransitionManager extends Entity
 {
     private static final Color DARK_RED = new Color(0.5f, 0, 0, 1);
-    
+
     public GameScene gameScene;
 
     float timer;
@@ -74,18 +74,15 @@ public class LevelTransitionManager extends Entity
     {
 
 	if (timerRunning)
-	{
-
 	    timer += delta;
-	}
     }
-    
+
     private void drawText(Batch batch, String text, Color color, float x, float y, float scale)
     {
-	    WallPipe.font.getData().setScale(scale, scale);
-	    WallPipe.font.setColor(color);
-	    WallPipe.font.draw(batch, text, x, y);
-	    WallPipe.font.setColor(1, 1, 1, 1);
+	WallPipe.font.getData().setScale(scale, scale);
+	WallPipe.font.setColor(color);
+	WallPipe.font.draw(batch, text, x, y);
+	WallPipe.font.setColor(1, 1, 1, 1);
     }
 
     @Override
@@ -108,7 +105,8 @@ public class LevelTransitionManager extends Entity
 		    this.getHeight() - 5);
 
 	    drawText(batch, "CLICK MOUSE TO BEGIN", Color.BLACK, this.getX() + 20, this.getY() + 55, 0.7f);
-	    drawText(batch, "LEVEL: " + gameScene.gameUI.levelCount.levelCount, DARK_RED, this.getX() + 60, this.getY() + 25, 0.6f);
+	    drawText(batch, "LEVEL: " + gameScene.gameUI.levelCount.levelCount, DARK_RED, this.getX() + 60,
+		    this.getY() + 25, 0.6f);
 	    break;
 
 	case RUNNING:
@@ -150,7 +148,8 @@ public class LevelTransitionManager extends Entity
 
 		WallPipe.font.getData().setScale(0.9f, 0.9f);
 		WallPipe.font.setColor(0.5f, 0f, 0f, 1);
-		WallPipe.font.draw(batch, "LEVEL " + String.valueOf((int) gameScene.gameUI.levelCount.levelCount) + " OVER",
+		WallPipe.font.draw(batch,
+			"LEVEL " + String.valueOf((int) gameScene.gameUI.levelCount.levelCount) + " OVER",
 			this.getX() + 40, this.getY() + 45);
 
 		WallPipe.font.setColor(1f, 1f, 1f, 1);
@@ -230,32 +229,22 @@ public class LevelTransitionManager extends Entity
 		    gameScene.gameUI.scoreManager.score -= 20;
 
 		    if (gameScene.gameUI.scoreManager.score < 0)
-		    {
-
 			gameScene.gameUI.scoreManager.score = 0;
-		    }
 		}
 
-		Delete: for (int i = 0; i < 15; i++)
-		{
+		Delete:
+		for (int i = 0; i < 15; i++)
 		    for (int j = 0; j < 12; j++)
-		    {
-
-			if (gameScene.bfManager.blockField[i][11 - j] != null)
+			if (gameScene.bfManager.blockField[i][11 - j] != null
+				&& !gameScene.bfManager.blockField[i][11 - j].watered)
 			{
 
-			    if (!gameScene.bfManager.blockField[i][11 - j].watered)
-			    {
+			    deleteBlockX = i;
+			    deleteBlockY = 11 - j;
 
-				deleteBlockX = i;
-				deleteBlockY = 11 - j;
-
-				timer = 10.6f;
-				break Delete;
-			    }
+			    timer = 10.6f;
+			    break Delete;
 			}
-		    }
-		}
 
 	    } else if (timer > 12
 		    && gameScene.gameUI.scoreManager.score >= gameScene.gameUI.scoreNeededManager.scoreNeeded)
@@ -406,7 +395,8 @@ public class LevelTransitionManager extends Entity
 		    gameScene.leaderboardManager.addScore(new LeaderboardEntry(
 			    Character.toString(initials[0]) + Character.toString(initials[1])
 				    + Character.toString(initials[2]),
-			    (int) gameScene.gameUI.scoreManager.score, gameScene.gameUI.levelCount.levelCount, formatter.format(date)));
+			    (int) gameScene.gameUI.scoreManager.score, gameScene.gameUI.levelCount.levelCount,
+			    formatter.format(date)));
 		    scoreAdded = true;
 		}
 
@@ -429,7 +419,8 @@ public class LevelTransitionManager extends Entity
 		batch.draw(getSprite("green"), this.getX() + 2.5f, this.getY() - 37.5f, this.getWidth() - 5,
 			this.getHeight() + 35);
 
-		drawText(batch, "PLAY ANOTHER GAME?\n\n        Y/N", Color.WHITE, this.getX() + 30, this.getY() + 50, 0.7f);
+		drawText(batch, "PLAY ANOTHER GAME?\n\n        Y/N", Color.WHITE, this.getX() + 30, this.getY() + 50,
+			0.7f);
 	    }
 	    break;
 
