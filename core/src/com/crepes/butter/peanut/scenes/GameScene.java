@@ -168,7 +168,7 @@ public class GameScene extends Scene implements InputProcessor
     public void togglePause()
     {
 
-	if (isLevelStarted() && !isLevelEnded())
+	if (gameState == GameState.RUNNING || gameState == GameState.PAUSED)
 	{
 	    if(gameState == GameState.RUNNING)
 		gameState = GameState.PAUSED;
@@ -188,7 +188,7 @@ public class GameScene extends Scene implements InputProcessor
     public void toggleOptionDialog()
     {
 
-	if (isLevelStarted() && !isLevelEnded())
+	if (gameState == GameState.RUNNING || gameState == GameState.OPTIONS_DIALOG)
 	{
 	    if(gameState == GameState.RUNNING)
 		gameState = GameState.OPTIONS_DIALOG;
@@ -208,7 +208,7 @@ public class GameScene extends Scene implements InputProcessor
     public void quitDialog()
     {
 
-	if (isLevelStarted() && !isLevelEnded())
+	if (gameState == GameState.RUNNING || gameState == GameState.QUIT_DIALOG)
 	{
 	    if(gameState == GameState.RUNNING)
 		gameState = GameState.QUIT_DIALOG;
@@ -223,33 +223,6 @@ public class GameScene extends Scene implements InputProcessor
 	    else
 		Gdx.input.setCursorCatched(false);
 	}
-    }
-
-    public boolean isLevelStarted()
-    {
-
-	if (gameState == GameState.NOT_STARTED)
-	    return false;
-	else
-	    return true;
-    }
-
-    public boolean isPaused()
-    {
-
-	if (gameState == GameState.PAUSED)
-	    return true;
-	else
-	    return false;
-    }
-
-    public boolean isLevelEnded()
-    {
-
-	if (gameState == GameState.LEVEL_ENDED)
-	    return true;
-	else
-	    return false;
     }
 
     public void setLevelEnded(boolean bool)
@@ -268,7 +241,7 @@ public class GameScene extends Scene implements InputProcessor
     public boolean keyTyped(char character)
     {
 
-	if (!isLevelEnded())
+	if (!(gameState == GameState.LEVEL_ENDED))
 	{
 	    if (character == 'p')
 		togglePause();
@@ -283,7 +256,7 @@ public class GameScene extends Scene implements InputProcessor
 		toggleOptionDialog();
 	    }
 	}
-	else if (isLevelEnded() && !levelManager.hasSelectedInitials)
+	else if (gameState == GameState.LEVEL_ENDED && !levelManager.hasSelectedInitials)
 	{
 
 	    if (character == '\r')
@@ -309,7 +282,7 @@ public class GameScene extends Scene implements InputProcessor
 		    levelManager.initials[2] = Character.toUpperCase(character);
 	    }
 
-	} else if (isLevelEnded() && levelManager.hasSelectedInitials && !levelManager.hasViewedLeaderboard)
+	} else if (gameState == GameState.LEVEL_ENDED && levelManager.hasSelectedInitials && !levelManager.hasViewedLeaderboard)
 	{
 
 	    if (character == '\r')
@@ -318,7 +291,7 @@ public class GameScene extends Scene implements InputProcessor
 		levelManager.hasViewedLeaderboard = true;
 	    }
 
-	} else if (isLevelEnded() && levelManager.hasSelectedInitials && levelManager.hasViewedLeaderboard)
+	} else if (gameState == GameState.LEVEL_ENDED && levelManager.hasSelectedInitials && levelManager.hasViewedLeaderboard)
 	{
 
 	    if (character == 'y')
@@ -339,27 +312,15 @@ public class GameScene extends Scene implements InputProcessor
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-
-	if (!isLevelStarted())
+	switch (gameState)
 	{
-
+	case NOT_STARTED:
 	    mouseGrabbed = true;
 	    gameState = GameState.RUNNING;
-
 	    resetMousePosition();
-
-	} else if (isPaused())
-	{
-
-	    Gdx.input.setCursorPosition((int) pausedMouseX, (int) pausedMouseY);
-	    togglePause();
-
-	} else if (isLevelEnded())
-	{
-
-	} else
-	{
-
+	    break;
+	    
+	case RUNNING:
 	    xIndex = (int) (screenX / (screenWidthRatio * 32));
 	    yIndex = (int) ((viewport.getScreenHeight() - screenY) / (screenHeightRatio * 32));
 
@@ -396,9 +357,27 @@ public class GameScene extends Scene implements InputProcessor
 		    }
 		}
 	    }
+	    break;
+	    
+	case PAUSED:
+	    Gdx.input.setCursorPosition((int) pausedMouseX, (int) pausedMouseY);
+	    togglePause();
+	    break;
+	    
+	case OPTIONS_DIALOG:
+	    break;
+	    
+	case QUIT_DIALOG:
+	    break;
+	    
+	case LEVEL_ENDED:
+	    break;
+	    
+	default:
+	    return false;
 	}
-
-	return false;
+	
+	return true;
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.scenes.GameScene;
+import com.crepes.butter.peanut.scenes.GameScene.GameState;
 
 public class Water extends Entity
 {
@@ -208,7 +209,7 @@ public class Water extends Entity
     public void act(float delta)
     {
 
-	if (!gameScene.isPaused() && gameScene.isLevelStarted())
+	if (gameScene.gameState == GameState.RUNNING)
 	{
 
 	    posX = (this.getUnscaledX() + this.getUnscaledWidth());

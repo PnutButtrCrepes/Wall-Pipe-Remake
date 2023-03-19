@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.WallPipe;
 import com.crepes.butter.peanut.scenes.GameScene;
+import com.crepes.butter.peanut.scenes.GameScene.GameState;
 
 public class Clock extends Entity
 {
@@ -36,7 +37,7 @@ public class Clock extends Entity
     public void act(float delta)
     {
 
-	if (!gameScene.isPaused() && gameScene.isLevelStarted())
+	if (gameScene.gameState == GameState.RUNNING)
 	{
 
 	    if (running)
