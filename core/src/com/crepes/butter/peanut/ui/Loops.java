@@ -38,12 +38,16 @@ public class Loops extends Entity
 
 	if (loops <= 3)
 	    return 0;
-	else if (loops > 3 && loops <= 7)
+	else if (loops >= 4 && loops <= 7)
 	    return 400;
-	else if (loops > 7 && loops <= 11)
+	else if (loops >= 8 && loops <= 11)
 	    return 800;
-	else
+	else if (loops >= 12 && loops <= 15)
 	    return 1500;
+	else if (loops >= 16 && loops <= 19)
+	    return 3000;
+	else
+	    return 5000;
     }
 
     public void addBonus()

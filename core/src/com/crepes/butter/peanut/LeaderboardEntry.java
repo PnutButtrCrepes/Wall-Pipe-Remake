@@ -1,4 +1,4 @@
-package com.crepes.butter.peanut.ui;
+package com.crepes.butter.peanut;
 
 import java.io.Serializable;
 

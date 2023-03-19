@@ -1,4 +1,4 @@
-package com.crepes.butter.peanut.ui;
+package com.crepes.butter.peanut;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 

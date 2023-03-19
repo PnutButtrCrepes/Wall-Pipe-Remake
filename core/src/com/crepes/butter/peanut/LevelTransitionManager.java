@@ -6,7 +6,6 @@ import java.sql.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.scenes.GameScene;
-import com.crepes.butter.peanut.ui.LeaderboardEntry;
 
 public class LevelTransitionManager extends Entity
 {

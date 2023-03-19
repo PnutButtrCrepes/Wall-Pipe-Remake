@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.BlockField;
+import com.crepes.butter.peanut.Leaderboard;
 import com.crepes.butter.peanut.LevelTransitionManager;
+import com.crepes.butter.peanut.NextBlocks;
 import com.crepes.butter.peanut.Scene;
 import com.crepes.butter.peanut.SoundGenerator;
 import com.crepes.butter.peanut.Water;
@@ -12,9 +14,7 @@ import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.WaterEmitter;
 import com.crepes.butter.peanut.ui.Clock;
 import com.crepes.butter.peanut.ui.GameUI;
-import com.crepes.butter.peanut.ui.Leaderboard;
 import com.crepes.butter.peanut.ui.LevelCount;
-import com.crepes.butter.peanut.ui.NextBlocks;
 import com.crepes.butter.peanut.ui.Score;
 import com.crepes.butter.peanut.ui.TitleInformation;
 
@@ -30,6 +30,8 @@ public class GameScene extends Scene implements InputProcessor
     public boolean mouseGrabbed;
 
     private boolean levelStarted;
+    public boolean directions;
+    public boolean quitDialog;
     private boolean paused;
     private boolean levelEnded;
 
