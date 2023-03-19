@@ -7,9 +7,6 @@ import com.crepes.butter.peanut.scenes.GameScene;
 
 public class TitleInformation extends Entity
 {
-
-    public float score;
-
     public GameScene gameScene;
 
     public TitleInformation(GameScene gameScene)
@@ -17,17 +14,12 @@ public class TitleInformation extends Entity
 
 	super(2f, 13.25f, 14f, 0.5f);
 
-	score = 0;
-
 	this.gameScene = gameScene;
     }
 
     @Override
     public void act(float delta)
     {
-
-	if (gameScene.water.running)
-	    score += delta * 8;
     }
 
     @Override

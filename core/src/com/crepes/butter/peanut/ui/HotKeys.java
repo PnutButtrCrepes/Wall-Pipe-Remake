@@ -7,17 +7,12 @@ import com.crepes.butter.peanut.scenes.GameScene;
 
 public class HotKeys extends Entity
 {
-
-    public float score;
-
     public GameScene gameScene;
 
     public HotKeys(GameScene gameScene)
     {
 
 	super(2f, 0.25f, 14f, 0.5f);
-
-	score = 0;
 
 	addSprite("Background.png", "background");
 
@@ -27,9 +22,6 @@ public class HotKeys extends Entity
     @Override
     public void act(float delta)
     {
-
-	if (gameScene.water.running)
-	    score += delta * 8;
     }
 
     @Override
