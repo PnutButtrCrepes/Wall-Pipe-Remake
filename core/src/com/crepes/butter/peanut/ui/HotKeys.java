@@ -3,20 +3,15 @@ package com.crepes.butter.peanut.ui;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.WallPipe;
-import com.crepes.butter.peanut.scenes.GameScene;
 
 public class HotKeys extends Entity
 {
-    public GameScene gameScene;
-
-    public HotKeys(GameScene gameScene)
+    public HotKeys()
     {
 
 	super(2f, 0.25f, 14f, 0.5f);
 
 	addSprite("Background.png", "background");
-
-	this.gameScene = gameScene;
     }
 
     @Override

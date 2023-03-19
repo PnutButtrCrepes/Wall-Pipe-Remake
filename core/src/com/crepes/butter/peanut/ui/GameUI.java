@@ -23,7 +23,7 @@ public class GameUI extends Entity
 	this.gameScene = gameScene;
 	
 	clock = new Clock(gameScene);
-	hkManager = new HotKeys(gameScene);
+	hkManager = new HotKeys();
 	levelCount = new LevelCount(gameScene);
 	loopsManager = new Loops(gameScene);
 	scoreManager = new Score(gameScene);
