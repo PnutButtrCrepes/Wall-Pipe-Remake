@@ -64,47 +64,16 @@ public class Water extends Entity
 
 	water = new ArrayList<CachedWaterBlock>();
     }
-
-    public void reset()
-    {
-
-	if (gameScene.emitter.typeIndex == 0)
-	{
-
-	    direction = WaterDirection.LEFT;
-
-	    this.setX(gameScene.emitter.getUnscaledX() + 0.25f);
-	    this.setWidth(-0.125f);
-
-	} else
-	{
-
-	    direction = WaterDirection.RIGHT;
-
-	    this.setX(gameScene.emitter.getUnscaledX() + 0.75f);
-	    this.setWidth(0.125f);
-	}
-
-	this.setY(gameScene.emitter.getUnscaledY() + 0.5f - 3f / 32f);
-	this.setHeight(6f / 32f);
-
-	squigglyCounter = 0;
-
-	newBlock = false;
-	running = false;
-
-	water.clear();
-    }
-
-    public void cacheWaterBlock()
+    
+    private void cacheWaterBlock()
     {
 
 	placeHolder = new CachedWaterBlock(getUnscaledX(), getUnscaledY(), getUnscaledWidth(), getUnscaledHeight());
 	gameScene.addActor(placeHolder);
 	water.add(placeHolder);
     }
-
-    public void changeDirection(WaterDirection direction)
+    
+    private void changeDirection(WaterDirection direction)
     {
 
 	posX = (posX) + (int) ((posX - (int) posX) * 32) / 32;
@@ -203,6 +172,97 @@ public class Water extends Entity
 	}
 
 	this.direction = direction;
+    }
+    
+    private void checkForLoops()
+    {
+	for (CachedWaterBlock wb : water)
+	{
+
+	    if (!wb.looped)
+	    {
+
+		if ((wb.getUnscaledX() + wb.getUnscaledWidth()) > wb.getUnscaledX())
+		{
+
+		    if ((wb.getUnscaledY() + wb.getUnscaledHeight()) > wb.getUnscaledY())
+		    {
+
+			if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
+				&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
+			{
+			    gameScene.gameUI.loopsManager.loops++;
+			    wb.looped = true;
+			}
+
+		    } else
+		    {
+
+			if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
+				&& posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
+			{
+			    gameScene.gameUI.loopsManager.loops++;
+			    wb.looped = true;
+			}
+		    }
+
+		} else
+		{
+
+		    if ((wb.getUnscaledY() + wb.getUnscaledHeight()) > wb.getUnscaledY())
+		    {
+
+			if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
+				&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
+			{
+			    gameScene.gameUI.loopsManager.loops++;
+			    wb.looped = true;
+
+			} else
+			{
+
+			    if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
+				    && posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
+			    {
+				gameScene.gameUI.loopsManager.loops++;
+				wb.looped = true;
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    }
+
+    public void reset()
+    {
+
+	if (gameScene.emitter.typeIndex == 0)
+	{
+
+	    direction = WaterDirection.LEFT;
+
+	    this.setX(gameScene.emitter.getUnscaledX() + 0.25f);
+	    this.setWidth(-0.125f);
+
+	} else
+	{
+
+	    direction = WaterDirection.RIGHT;
+
+	    this.setX(gameScene.emitter.getUnscaledX() + 0.75f);
+	    this.setWidth(0.125f);
+	}
+
+	this.setY(gameScene.emitter.getUnscaledY() + 0.5f - 3f / 32f);
+	this.setHeight(6f / 32f);
+
+	squigglyCounter = 0;
+
+	newBlock = false;
+	running = false;
+
+	water.clear();
     }
 
     @Override
@@ -645,66 +705,6 @@ public class Water extends Entity
 	    }
 
 	    checkForLoops();
-	}
-    }
-
-    private void checkForLoops()
-    {
-	for (CachedWaterBlock wb : water)
-	{
-
-	    if (!wb.looped)
-	    {
-
-		if ((wb.getUnscaledX() + wb.getUnscaledWidth()) > wb.getUnscaledX())
-		{
-
-		    if ((wb.getUnscaledY() + wb.getUnscaledHeight()) > wb.getUnscaledY())
-		    {
-
-			if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
-				&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
-			{
-			    gameScene.gameUI.loopsManager.loops++;
-			    wb.looped = true;
-			}
-
-		    } else
-		    {
-
-			if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
-				&& posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
-			{
-			    gameScene.gameUI.loopsManager.loops++;
-			    wb.looped = true;
-			}
-		    }
-
-		} else
-		{
-
-		    if ((wb.getUnscaledY() + wb.getUnscaledHeight()) > wb.getUnscaledY())
-		    {
-
-			if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
-				&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
-			{
-			    gameScene.gameUI.loopsManager.loops++;
-			    wb.looped = true;
-
-			} else
-			{
-
-			    if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
-				    && posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
-			    {
-				gameScene.gameUI.loopsManager.loops++;
-				wb.looped = true;
-			    }
-			}
-		    }
-		}
-	    }
 	}
     }
 
