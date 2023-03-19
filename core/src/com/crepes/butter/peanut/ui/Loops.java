@@ -52,7 +52,7 @@ public class Loops extends Entity
 	if (!bonusAdded)
 	{
 
-	    gameScene.scoreManager.score += getBonus();
+	    gameScene.gameUI.scoreManager.score += getBonus();
 	    bonusAdded = true;
 	}
     }

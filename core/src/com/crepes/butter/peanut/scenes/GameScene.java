@@ -42,12 +42,9 @@ public class GameScene extends Scene implements InputProcessor
 
     public WaterEmitter emitter;
 
-    public TitleInformation tManager;
     public BlockField bfManager;
     public NextBlocks nbManager;
-    public Clock clockManager;
     public LevelCount lcManager;
-    public Score scoreManager;
     public GameUI gameUI;
 
     public LevelTransitionManager levelManager;
@@ -70,16 +67,13 @@ public class GameScene extends Scene implements InputProcessor
 
 	// TODO Emitter goes here, remember to move all this into an init function.
 
-	tManager = new TitleInformation(this);
 	bfManager = new BlockField(this);
 	nbManager = new NextBlocks(this);
-	clockManager = new Clock(this);
 
 	emitter = new WaterEmitter(this);
 
 	gameUI = new GameUI(this);
 	lcManager = new LevelCount(this);
-	scoreManager = new Score(this);
 	water = new Water(this);
 
 	levelManager = new LevelTransitionManager(this);
@@ -106,16 +100,13 @@ public class GameScene extends Scene implements InputProcessor
 
 	this.addActor(emitter);
 
-	this.addActor(tManager);
 	this.addActor(bfManager);
 	this.addActor(nbManager);
 
-	this.addActor(clockManager);
-	clockManager.running = true;
+	gameUI.clock.running = true;
 
 	this.addActor(gameUI);
 	this.addActor(lcManager);
-	this.addActor(scoreManager);
 
 	this.addActor(water);
 
@@ -128,7 +119,7 @@ public class GameScene extends Scene implements InputProcessor
     {
 
 	levelCount = 1;
-	scoreManager.score = 0;
+	gameUI.scoreManager.score = 0;
 
 	levelStarted = false;
 	paused = false;
@@ -143,11 +134,10 @@ public class GameScene extends Scene implements InputProcessor
 
 	emitter.reset();
 
-	clockManager.reset();
+	gameUI.clock.reset();
 	gameUI.reset();
 
 	lcManager.reset();
-	scoreManager.reset();
 
 	water.reset();
 
@@ -172,11 +162,11 @@ public class GameScene extends Scene implements InputProcessor
 
 	emitter.reset();
 
-	clockManager.reset();
+	gameUI.clock.reset();
 	gameUI.reset();
 
 	lcManager.reset();
-	scoreManager.reset();
+	gameUI.scoreManager.reset();
 
 	water.reset();
 

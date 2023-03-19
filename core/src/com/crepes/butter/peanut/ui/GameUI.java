@@ -8,9 +8,13 @@ public class GameUI extends Entity
 {
     public GameScene gameScene;
     
+    public Clock clock;
     public HotKeys hkManager;
+    public LevelCount levelCount;
     public Loops loopsManager;
+    public Score scoreManager;
     public ScoreNeeded scoreNeededManager;
+    public TitleInformation titleInformation;
     
     public GameUI(GameScene gameScene)
     {
@@ -18,14 +22,21 @@ public class GameUI extends Entity
 	
 	this.gameScene = gameScene;
 	
+	clock = new Clock(gameScene);
 	hkManager = new HotKeys(gameScene);
+	levelCount = new LevelCount(gameScene);
 	loopsManager = new Loops(gameScene);
+	scoreManager = new Score(gameScene);
 	scoreNeededManager = new ScoreNeeded(gameScene);
+	titleInformation = new TitleInformation(gameScene);
     }
     
     public void reset()
     {
+	clock.reset();
+	levelCount.reset();
 	loopsManager.reset();
+	scoreManager.reset();
 	scoreNeededManager.reset();
     }
     
@@ -42,9 +53,13 @@ public class GameUI extends Entity
     @Override
     public void act(float delta)
     {
+	clock.act(delta);
 	hkManager.act(delta);
+	levelCount.act(delta);
 	loopsManager.act(delta);
+	scoreManager.act(delta);
 	scoreNeededManager.act(delta);
+	titleInformation.act(delta);
     }
 
     @Override
@@ -53,14 +68,13 @@ public class GameUI extends Entity
 	batch.end();
 	batch.begin();
 	
-	// hotkeys
+	clock.draw(batch, parentAlpha);
 	hkManager.draw(batch, parentAlpha);
-	
-	// loops
+	levelCount.draw(batch, parentAlpha);
 	loopsManager.draw(batch, parentAlpha);
-	
-	// score
+	scoreManager.draw(batch, parentAlpha);
 	scoreNeededManager.draw(batch, parentAlpha);
+	titleInformation.draw(batch, parentAlpha);
 	
 	batch.end();
 	batch.begin();

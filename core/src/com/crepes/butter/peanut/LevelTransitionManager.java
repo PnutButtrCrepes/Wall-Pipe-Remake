@@ -212,12 +212,12 @@ public class LevelTransitionManager extends Entity
 		deleteBlockX = -1;
 		deleteBlockY = -1;
 
-		gameScene.scoreManager.score -= 20;
+		gameScene.gameUI.scoreManager.score -= 20;
 
-		if (gameScene.scoreManager.score < 0)
+		if (gameScene.gameUI.scoreManager.score < 0)
 		{
 
-		    gameScene.scoreManager.score = 0;
+		    gameScene.gameUI.scoreManager.score = 0;
 		}
 	    }
 
@@ -243,7 +243,7 @@ public class LevelTransitionManager extends Entity
 	    }
 
 	} else if (gameScene.isLevelEnded() && timer > 12
-		&& gameScene.scoreManager.score >= gameScene.gameUI.scoreNeededManager.scoreNeeded)
+		&& gameScene.gameUI.scoreManager.score >= gameScene.gameUI.scoreNeededManager.scoreNeeded)
 	{
 
 	    gameScene.levelInit();
@@ -257,8 +257,8 @@ public class LevelTransitionManager extends Entity
 	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	} else if (gameScene.isLevelEnded() && timer > 15 && timer < 18
-		&& (((int) (gameScene.scoreManager.score) < gameScene.leaderboardManager.leaderboardEntries[9].score)
-			|| ((int) (gameScene.scoreManager.score) == gameScene.leaderboardManager.leaderboardEntries[9].score
+		&& (((int) (gameScene.gameUI.scoreManager.score) < gameScene.leaderboardManager.leaderboardEntries[9].score)
+			|| ((int) (gameScene.gameUI.scoreManager.score) == gameScene.leaderboardManager.leaderboardEntries[9].score
 				&& gameScene.levelCount <= gameScene.leaderboardManager.leaderboardEntries[9].level)))
 	{
 
@@ -279,7 +279,7 @@ public class LevelTransitionManager extends Entity
 	    WallPipe.font.getData().setScale(0.7f, 0.7f);
 	    WallPipe.font.setColor(0f, 0f, 0f, 1);
 	    WallPipe.font.draw(batch,
-		    "YOUR SCORE OF " + (int) (gameScene.scoreManager.score) + "\nIS IN THE TOP TEN!", this.getX() + 10,
+		    "YOUR SCORE OF " + (int) (gameScene.gameUI.scoreManager.score) + "\nIS IN THE TOP TEN!", this.getX() + 10,
 		    this.getY() + 55);
 	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 
@@ -292,7 +292,7 @@ public class LevelTransitionManager extends Entity
 	    WallPipe.font.getData().setScale(0.7f, 0.7f);
 	    WallPipe.font.setColor(0f, 0f, 0f, 1);
 	    WallPipe.font.draw(batch,
-		    "YOUR SCORE OF " + (int) (gameScene.scoreManager.score) + "\nIS IN THE TOP TEN!", this.getX() + 10,
+		    "YOUR SCORE OF " + (int) (gameScene.gameUI.scoreManager.score) + "\nIS IN THE TOP TEN!", this.getX() + 10,
 		    this.getY() + 55);
 
 	    if (timer > 18.5)
@@ -392,7 +392,7 @@ public class LevelTransitionManager extends Entity
 		gameScene.leaderboardManager.addScore(new LeaderboardEntry(
 			Character.toString(initials[0]) + Character.toString(initials[1])
 				+ Character.toString(initials[2]),
-			(int) gameScene.scoreManager.score, gameScene.levelCount, formatter.format(date)));
+			(int) gameScene.gameUI.scoreManager.score, gameScene.levelCount, formatter.format(date)));
 		scoreAdded = true;
 	    }
 

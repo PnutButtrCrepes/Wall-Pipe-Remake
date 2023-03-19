@@ -27,7 +27,7 @@ public class ScoreNeeded extends Entity
     public void reset()
     {
 
-	scoreNeeded = (int) (gameScene.scoreManager.score) + 200 + (gameScene.levelCount * 10);
+	scoreNeeded = (int) (gameScene.gameUI.scoreManager.score) + 200 + (gameScene.levelCount * 10);
     }
 
     @Override
