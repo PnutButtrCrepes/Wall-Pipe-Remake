@@ -2,7 +2,6 @@ package com.crepes.butter.peanut;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-import com.crepes.butter.peanut.*;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.scenes.GameScene;
 

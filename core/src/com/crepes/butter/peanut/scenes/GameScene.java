@@ -12,15 +12,14 @@ import com.crepes.butter.peanut.SoundGenerator;
 import com.crepes.butter.peanut.Water;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.WaterEmitter;
-import com.crepes.butter.peanut.ui.Clock;
 import com.crepes.butter.peanut.ui.GameUI;
 import com.crepes.butter.peanut.ui.LevelCount;
-import com.crepes.butter.peanut.ui.Score;
-import com.crepes.butter.peanut.ui.TitleInformation;
 
 public class GameScene extends Scene implements InputProcessor
 {
 
+    public GameState gameState;
+    
     public float screenWidthRatio;
     public float screenHeightRatio;
 
@@ -29,11 +28,8 @@ public class GameScene extends Scene implements InputProcessor
 
     public boolean mouseGrabbed;
 
-    private boolean levelStarted;
     public boolean directions;
     public boolean quitDialog;
-    private boolean paused;
-    private boolean levelEnded;
 
     private float pausedMouseX;
     private float pausedMouseY;
@@ -84,9 +80,7 @@ public class GameScene extends Scene implements InputProcessor
 
 	addActors();
 
-	levelStarted = false;
-	paused = false;
-	levelEnded = false;
+	gameState = GameState.NOT_STARTED;
 
 	levelCount = 0;
 
@@ -123,9 +117,7 @@ public class GameScene extends Scene implements InputProcessor
 	levelCount = 1;
 	gameUI.scoreManager.score = 0;
 
-	levelStarted = false;
-	paused = false;
-	levelEnded = false;
+	gameState = GameState.NOT_STARTED;
 
 	mouseGrabbed = false;
 
@@ -151,9 +143,7 @@ public class GameScene extends Scene implements InputProcessor
 
 	levelCount++;
 
-	levelStarted = false;
-	paused = false;
-	levelEnded = false;
+	gameState = GameState.NOT_STARTED;
 
 	mouseGrabbed = false;
 
@@ -180,12 +170,15 @@ public class GameScene extends Scene implements InputProcessor
 
 	if (isLevelStarted() && !isLevelEnded())
 	{
-	    paused = !paused;
+	    if(gameState == GameState.RUNNING)
+		gameState = GameState.PAUSED;
+	    else if (gameState == GameState.PAUSED)
+		gameState = GameState.RUNNING;
 
 	    pausedMouseX = Gdx.input.getX();
 	    pausedMouseY = Gdx.input.getY();
 
-	    if (paused)
+	    if (gameState == GameState.PAUSED)
 	    {
 
 		Gdx.input.setCursorCatched(true);
@@ -201,31 +194,34 @@ public class GameScene extends Scene implements InputProcessor
     public boolean isLevelStarted()
     {
 
-	return levelStarted;
-    }
-
-    public void setLevelStarted(boolean bool)
-    {
-
-	levelStarted = bool;
+	if (gameState == GameState.NOT_STARTED)
+	    return false;
+	else
+	    return true;
     }
 
     public boolean isPaused()
     {
 
-	return paused;
+	if (gameState == GameState.PAUSED)
+	    return true;
+	else
+	    return false;
     }
 
     public boolean isLevelEnded()
     {
 
-	return levelEnded;
+	if (gameState == GameState.LEVEL_ENDED)
+	    return true;
+	else
+	    return false;
     }
 
     public void setLevelEnded(boolean bool)
     {
 
-	levelEnded = bool;
+	gameState = GameState.LEVEL_ENDED;
     }
 
     @Override
@@ -304,7 +300,7 @@ public class GameScene extends Scene implements InputProcessor
 	{
 
 	    mouseGrabbed = true;
-	    levelStarted = true;
+	    gameState = GameState.RUNNING;
 
 	    resetMousePosition();
 
@@ -382,5 +378,13 @@ public class GameScene extends Scene implements InputProcessor
 
 	Gdx.input.setCursorPosition((int) ((nbManager.getX() + 24) * screenWidthRatio),
 		(int) (viewport.getScreenHeight() - ((nbManager.getY() + 24) * screenHeightRatio)));
+    }
+    
+    public enum GameState
+    {
+	NOT_STARTED,
+	RUNNING,
+	PAUSED,
+	LEVEL_ENDED
     }
 }
