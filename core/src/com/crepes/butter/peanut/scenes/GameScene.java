@@ -16,21 +16,18 @@ import com.crepes.butter.peanut.ui.GameUI;
 
 public class GameScene extends Scene implements InputProcessor
 {
-
+    private int xIndex;
+    private int yIndex;
+    
     public GameState gameState;
     
     public float screenWidthRatio;
     public float screenHeightRatio;
 
-    public int xIndex;
-    public int yIndex;
-
     public boolean mouseGrabbed;
 
     private float pausedMouseX;
     private float pausedMouseY;
-
-    public int levelCount;
 
     public BuildingBlock placingBlock;
 
@@ -72,11 +69,8 @@ public class GameScene extends Scene implements InputProcessor
 
 	gameState = GameState.NOT_STARTED;
 
-	levelCount = 0;
-
 	mouseGrabbed = false;
 
-	levelCount++;
 	gameUI.reset();
     }
 
@@ -96,7 +90,7 @@ public class GameScene extends Scene implements InputProcessor
     public void totalReset()
     {
 
-	levelCount = 1;
+	gameUI.levelCount.levelCount = 1;
 	gameUI.scoreManager.score = 0;
 
 	gameState = GameState.NOT_STARTED;
@@ -116,7 +110,7 @@ public class GameScene extends Scene implements InputProcessor
     public void levelInit()
     {
 
-	levelCount++;
+	gameUI.levelCount.levelCount++;
 
 	gameState = GameState.NOT_STARTED;
 

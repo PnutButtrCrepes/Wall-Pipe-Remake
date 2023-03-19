@@ -103,7 +103,7 @@ public class LevelTransitionManager extends Entity
 
 	    WallPipe.font.getData().setScale(0.6f, 0.6f);
 	    WallPipe.font.setColor(0.5f, 0f, 0f, 1);
-	    WallPipe.font.draw(batch, "LEVEL: " + gameScene.levelCount, this.getX() + 60, this.getY() + 25);
+	    WallPipe.font.draw(batch, "LEVEL: " + gameScene.gameUI.levelCount.levelCount, this.getX() + 60, this.getY() + 25);
 
 	    WallPipe.font.setColor(1f, 1f, 1f, 1);
 	    break;
@@ -161,7 +161,7 @@ public class LevelTransitionManager extends Entity
 
 		WallPipe.font.getData().setScale(0.9f, 0.9f);
 		WallPipe.font.setColor(0.5f, 0f, 0f, 1);
-		WallPipe.font.draw(batch, "LEVEL " + String.valueOf((int) gameScene.levelCount) + " OVER",
+		WallPipe.font.draw(batch, "LEVEL " + String.valueOf((int) gameScene.gameUI.levelCount.levelCount) + " OVER",
 			this.getX() + 40, this.getY() + 45);
 
 		WallPipe.font.setColor(1f, 1f, 1f, 1);
@@ -288,7 +288,7 @@ public class LevelTransitionManager extends Entity
 	    } else if (timer > 15 && timer < 18
 		    && (((int) (gameScene.gameUI.scoreManager.score) < gameScene.leaderboardManager.leaderboardEntries[9].score)
 			    || ((int) (gameScene.gameUI.scoreManager.score) == gameScene.leaderboardManager.leaderboardEntries[9].score
-				    && gameScene.levelCount <= gameScene.leaderboardManager.leaderboardEntries[9].level)))
+				    && gameScene.gameUI.levelCount.levelCount <= gameScene.leaderboardManager.leaderboardEntries[9].level)))
 	    {
 
 		timer = 19;
@@ -423,7 +423,7 @@ public class LevelTransitionManager extends Entity
 		    gameScene.leaderboardManager.addScore(new LeaderboardEntry(
 			    Character.toString(initials[0]) + Character.toString(initials[1])
 				    + Character.toString(initials[2]),
-			    (int) gameScene.gameUI.scoreManager.score, gameScene.levelCount, formatter.format(date)));
+			    (int) gameScene.gameUI.scoreManager.score, gameScene.gameUI.levelCount.levelCount, formatter.format(date)));
 		    scoreAdded = true;
 		}
 
