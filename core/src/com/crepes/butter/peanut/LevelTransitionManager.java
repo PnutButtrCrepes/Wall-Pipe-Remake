@@ -1,15 +1,18 @@
 package com.crepes.butter.peanut;
 
 import java.text.SimpleDateFormat;
+import java.nio.channels.NonWritableChannelException;
 import java.sql.*;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.scenes.GameScene;
 
 public class LevelTransitionManager extends Entity
 {
-
+    private static final Color DARK_RED = new Color(0.5f, 0, 0, 1);
+    
     public GameScene gameScene;
 
     float timer;
@@ -26,7 +29,6 @@ public class LevelTransitionManager extends Entity
 
     public LevelTransitionManager(GameScene gameScene)
     {
-
 	super(5.75f, 7.5f, 6.25f, 2f);
 
 	this.gameScene = gameScene;
@@ -77,6 +79,14 @@ public class LevelTransitionManager extends Entity
 	    timer += delta;
 	}
     }
+    
+    private void drawText(Batch batch, String text, Color color, float x, float y, float scale)
+    {
+	    WallPipe.font.getData().setScale(scale, scale);
+	    WallPipe.font.setColor(color);
+	    WallPipe.font.draw(batch, text, x, y);
+	    WallPipe.font.setColor(1, 1, 1, 1);
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha)
@@ -97,15 +107,8 @@ public class LevelTransitionManager extends Entity
 	    batch.draw(getSprite("yellow"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5,
 		    this.getHeight() - 5);
 
-	    WallPipe.font.getData().setScale(0.7f, 0.7f);
-	    WallPipe.font.setColor(0f, 0f, 0f, 1);
-	    WallPipe.font.draw(batch, "CLICK MOUSE TO BEGIN", this.getX() + 20, this.getY() + 55);
-
-	    WallPipe.font.getData().setScale(0.6f, 0.6f);
-	    WallPipe.font.setColor(0.5f, 0f, 0f, 1);
-	    WallPipe.font.draw(batch, "LEVEL: " + gameScene.gameUI.levelCount.levelCount, this.getX() + 60, this.getY() + 25);
-
-	    WallPipe.font.setColor(1f, 1f, 1f, 1);
+	    drawText(batch, "CLICK MOUSE TO BEGIN", Color.BLACK, this.getX() + 20, this.getY() + 55, 0.7f);
+	    drawText(batch, "LEVEL: " + gameScene.gameUI.levelCount.levelCount, DARK_RED, this.getX() + 60, this.getY() + 25, 0.6f);
 	    break;
 
 	case RUNNING:
@@ -117,15 +120,8 @@ public class LevelTransitionManager extends Entity
 	    // this.getHeight());
 	    batch.draw(getSprite("yellow"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-	    WallPipe.font.getData().setScale(0.9f, 0.9f);
-	    WallPipe.font.setColor(0.5f, 0f, 0f, 1);
-	    WallPipe.font.draw(batch, "GAME PAUSED...", this.getX() + 40, this.getY() + 55);
-
-	    WallPipe.font.getData().setScale(0.6f, 0.6f);
-	    WallPipe.font.setColor(0f, 0f, 0f, 1);
-	    WallPipe.font.draw(batch, "Click to Continue", this.getX() + 50, this.getY() + 20);
-
-	    WallPipe.font.setColor(1f, 1f, 1f, 1);
+	    drawText(batch, "GAME PAUSED...", DARK_RED, this.getX() + 40, this.getY() + 55, 0.9f);
+	    drawText(batch, "Click to Continue", Color.BLACK, this.getX() + 50, this.getY() + 20, 0.6f);
 	    break;
 
 	case OPTIONS_DIALOG:
@@ -137,15 +133,8 @@ public class LevelTransitionManager extends Entity
 	    // this.getHeight());
 	    batch.draw(getSprite("green"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-	    WallPipe.font.getData().setScale(0.6f, 0.6f);
-	    WallPipe.font.setColor(1f, 1f, 1f, 1);
-	    WallPipe.font.draw(batch, "QUIT WALL PIPE GAME ?", this.getX() + 30, this.getY() + 55);
-
-	    WallPipe.font.getData().setScale(0.6f, 0.6f);
-	    WallPipe.font.setColor(0.8f, 0.8f, 0f, 1);
-	    WallPipe.font.draw(batch, "(Y/N)", this.getX() + 80, this.getY() + 30);
-
-	    WallPipe.font.setColor(1f, 1f, 1f, 1);
+	    drawText(batch, "QUIT WALL PIPE GAME ?", Color.WHITE, this.getX() + 30, this.getY() + 55, 0.6f);
+	    drawText(batch, "(Y/N)", new Color(0.8f, 0.8f, 0f, 1), this.getX() + 80, this.getY() + 30, 0.6f);
 	    break;
 
 	case LEVEL_ENDED:
@@ -208,10 +197,7 @@ public class LevelTransitionManager extends Entity
 		batch.draw(getSprite("water"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5,
 			this.getHeight() - 5);
 
-		WallPipe.font.getData().setScale(0.7f, 0.7f);
-		WallPipe.font.setColor(1f, 1f, 1f, 1);
-		WallPipe.font.draw(batch, "REMOVING EMPTY PIPES", this.getX() + 18, this.getY() + 40);
-		WallPipe.font.setColor(1f, 1f, 1f, 1);
+		drawText(batch, "REMOVING EMPTY PIPES", Color.WHITE, this.getX() + 18, this.getY() + 40, 0.7f);
 
 	    } else if (timer > 10 && timer < 11)
 	    {
@@ -280,10 +266,7 @@ public class LevelTransitionManager extends Entity
 	    } else if (timer > 12 && timer < 15)
 	    {
 
-		WallPipe.font.getData().setScale(1.1f, 1.1f);
-		WallPipe.font.setColor(1f, 1f, 1f, 1);
-		WallPipe.font.draw(batch, "GAME OVER", this.getX() + 50, this.getY() + 5);
-		WallPipe.font.setColor(1f, 1f, 1f, 1);
+		drawText(batch, "GAME OVER", Color.WHITE, this.getX() + 50, this.getY() + 5, 1.1f);
 
 	    } else if (timer > 15 && timer < 18
 		    && (((int) (gameScene.gameUI.scoreManager.score) < gameScene.leaderboardManager.leaderboardEntries[9].score)
@@ -446,9 +429,7 @@ public class LevelTransitionManager extends Entity
 		batch.draw(getSprite("green"), this.getX() + 2.5f, this.getY() - 37.5f, this.getWidth() - 5,
 			this.getHeight() + 35);
 
-		WallPipe.font.getData().setScale(0.7f, 0.7f);
-		WallPipe.font.draw(batch, "PLAY ANOTHER GAME?\n\n        Y/N", this.getX() + 30, this.getY() + 50);
-		WallPipe.font.setColor(1f, 1f, 1f, 1);
+		drawText(batch, "PLAY ANOTHER GAME?\n\n        Y/N", Color.WHITE, this.getX() + 30, this.getY() + 50, 0.7f);
 	    }
 	    break;
 
