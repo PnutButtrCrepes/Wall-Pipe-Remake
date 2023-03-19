@@ -13,7 +13,6 @@ import com.crepes.butter.peanut.Water;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.WaterEmitter;
 import com.crepes.butter.peanut.ui.GameUI;
-import com.crepes.butter.peanut.ui.LevelCount;
 
 public class GameScene extends Scene implements InputProcessor
 {
@@ -28,9 +27,6 @@ public class GameScene extends Scene implements InputProcessor
 
     public boolean mouseGrabbed;
 
-    public boolean directions;
-    public boolean quitDialog;
-
     private float pausedMouseX;
     private float pausedMouseY;
 
@@ -42,7 +38,6 @@ public class GameScene extends Scene implements InputProcessor
 
     public BlockField bfManager;
     public NextBlocks nbManager;
-    public LevelCount lcManager;
     public GameUI gameUI;
 
     public LevelTransitionManager levelManager;
@@ -65,17 +60,12 @@ public class GameScene extends Scene implements InputProcessor
 
 	// TODO Emitter goes here, remember to move all this into an init function.
 
-	bfManager = new BlockField(this);
-	nbManager = new NextBlocks(this);
-
-	emitter = new WaterEmitter(this);
-
 	gameUI = new GameUI(this);
-	lcManager = new LevelCount(this);
+	nbManager = new NextBlocks(this);
+	bfManager = new BlockField(this);
+	emitter = new WaterEmitter(this);
 	water = new Water(this);
-
 	levelManager = new LevelTransitionManager(this);
-
 	leaderboardManager = new Leaderboard();
 
 	addActors();
@@ -93,21 +83,13 @@ public class GameScene extends Scene implements InputProcessor
     @Override
     public void addActors()
     {
-
 	this.addActor(emitter);
-
 	this.addActor(bfManager);
 	this.addActor(nbManager);
-
 	gameUI.clock.running = true;
-
 	this.addActor(gameUI);
-	this.addActor(lcManager);
-
 	this.addActor(water);
-
 	this.addActor(levelManager);
-
 	this.addActor(leaderboardManager);
     }
 
@@ -125,16 +107,9 @@ public class GameScene extends Scene implements InputProcessor
 
 	bfManager.reset();
 	nbManager.reset();
-
 	emitter.reset();
-
-	gameUI.clock.reset();
 	gameUI.reset();
-
-	lcManager.reset();
-
 	water.reset();
-
 	levelManager.reset();
     }
 
@@ -151,17 +126,10 @@ public class GameScene extends Scene implements InputProcessor
 
 	bfManager.reset();
 	nbManager.reset();
-
 	emitter.reset();
-
-	gameUI.clock.reset();
 	gameUI.reset();
-
-	lcManager.reset();
 	gameUI.scoreManager.reset();
-
 	water.reset();
-
 	levelManager.reset();
     }
 
