@@ -14,11 +14,11 @@ public class LevelTransitionManager extends Entity
 
     public GameScene gameScene;
 
-    float timer;
-    boolean timerRunning;
+    private float timer;
+    private boolean timerRunning;
 
-    int deleteBlockX;
-    int deleteBlockY;
+    private int deleteBlockX;
+    private int deleteBlockY;
 
     public boolean hasSelectedInitials;
     boolean scoreAdded;

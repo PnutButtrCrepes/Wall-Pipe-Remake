@@ -6,26 +6,25 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.BlockField;
 import com.crepes.butter.peanut.Leaderboard;
 import com.crepes.butter.peanut.LevelTransitionManager;
-import com.crepes.butter.peanut.NextBlocks;
-import com.crepes.butter.peanut.Scene;
 import com.crepes.butter.peanut.SoundGenerator;
 import com.crepes.butter.peanut.Water;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.WaterEmitter;
 import com.crepes.butter.peanut.ui.GameUI;
+import com.crepes.butter.peanut.ui.NextBlocks;
 
 public class GameScene extends Scene implements InputProcessor
 {
     private int xIndex;
     private int yIndex;
-    
+
     private float pausedMouseX;
     private float pausedMouseY;
-    
+
     private BuildingBlock placingBlock;
-    
+
     public GameState gameState;
-    
+
     public float screenWidthRatio;
     public float screenHeightRatio;
 
@@ -132,7 +131,7 @@ public class GameScene extends Scene implements InputProcessor
 
 	if (gameState == GameState.RUNNING || gameState == GameState.PAUSED)
 	{
-	    if(gameState == GameState.RUNNING)
+	    if (gameState == GameState.RUNNING)
 		gameState = GameState.PAUSED;
 	    else if (gameState == GameState.PAUSED)
 		gameState = GameState.RUNNING;
@@ -146,13 +145,13 @@ public class GameScene extends Scene implements InputProcessor
 		Gdx.input.setCursorCatched(false);
 	}
     }
-    
+
     public void toggleOptionDialog()
     {
 
 	if (gameState == GameState.RUNNING || gameState == GameState.OPTIONS_DIALOG)
 	{
-	    if(gameState == GameState.RUNNING)
+	    if (gameState == GameState.RUNNING)
 		gameState = GameState.OPTIONS_DIALOG;
 	    else if (gameState == GameState.OPTIONS_DIALOG)
 		gameState = GameState.RUNNING;
@@ -166,13 +165,13 @@ public class GameScene extends Scene implements InputProcessor
 		Gdx.input.setCursorCatched(false);
 	}
     }
-    
+
     public void quitDialog()
     {
 
 	if (gameState == GameState.RUNNING || gameState == GameState.QUIT_DIALOG)
 	{
-	    if(gameState == GameState.RUNNING)
+	    if (gameState == GameState.RUNNING)
 		gameState = GameState.QUIT_DIALOG;
 	    else if (gameState == GameState.QUIT_DIALOG)
 		gameState = GameState.RUNNING;
@@ -194,10 +193,16 @@ public class GameScene extends Scene implements InputProcessor
     }
 
     @Override
-    public boolean keyDown(int keycode) { return false; }
+    public boolean keyDown(int keycode)
+    {
+	return false;
+    }
 
     @Override
-    public boolean keyUp(int keycode) { return false; }
+    public boolean keyUp(int keycode)
+    {
+	return false;
+    }
 
     @Override
     public boolean keyTyped(char character)
@@ -207,25 +212,20 @@ public class GameScene extends Scene implements InputProcessor
 	{
 	    if (character == 'p')
 		togglePause();
-	    
+
 	    if (character == 'q')
-	    {
 		quitDialog();
-	    }
-	    
-	    if(character == 'o')
-	    {
+
+	    if (character == 'o')
 		toggleOptionDialog();
-	    }
-	}
-	else if (gameState == GameState.LEVEL_ENDED && !levelManager.hasSelectedInitials)
+	    
+	} else if (gameState == GameState.LEVEL_ENDED && !levelManager.hasSelectedInitials)
 	{
 
 	    if (character == '\r')
 	    {
 		levelManager.hasSelectedInitials = true;
-	    }
-	    else if (character == '\b')
+	    } else if (character == '\b')
 	    {
 		if (levelManager.initials[2] != null)
 		    levelManager.initials[2] = null;
@@ -233,8 +233,7 @@ public class GameScene extends Scene implements InputProcessor
 		    levelManager.initials[1] = null;
 		else if (levelManager.initials[0] != null)
 		    levelManager.initials[0] = null;
-	    }
-	    else if (Character.isAlphabetic(character))
+	    } else if (Character.isAlphabetic(character))
 	    {
 		if (levelManager.initials[0] == null)
 		    levelManager.initials[0] = Character.toUpperCase(character);
@@ -244,28 +243,21 @@ public class GameScene extends Scene implements InputProcessor
 		    levelManager.initials[2] = Character.toUpperCase(character);
 	    }
 
-	} else if (gameState == GameState.LEVEL_ENDED && levelManager.hasSelectedInitials && !levelManager.hasViewedLeaderboard)
+	} else if (gameState == GameState.LEVEL_ENDED && levelManager.hasSelectedInitials
+		&& !levelManager.hasViewedLeaderboard)
 	{
 
 	    if (character == '\r')
-	    {
-
 		levelManager.hasViewedLeaderboard = true;
-	    }
 
-	} else if (gameState == GameState.LEVEL_ENDED && levelManager.hasSelectedInitials && levelManager.hasViewedLeaderboard)
+	} else if (gameState == GameState.LEVEL_ENDED && levelManager.hasSelectedInitials
+		&& levelManager.hasViewedLeaderboard)
 	{
 
 	    if (character == 'y')
-	    {
-
 		totalReset();
-
-	    } else if (character == 'n')
-	    {
-
+	    else if (character == 'n')
 		System.exit(0);
-	    }
 	}
 
 	return false;
@@ -281,7 +273,7 @@ public class GameScene extends Scene implements InputProcessor
 	    gameState = GameState.RUNNING;
 	    resetMousePosition();
 	    break;
-	    
+
 	case RUNNING:
 	    xIndex = (int) (screenX / (screenWidthRatio * 32));
 	    yIndex = (int) ((viewport.getScreenHeight() - screenY) / (screenHeightRatio * 32));
@@ -291,8 +283,10 @@ public class GameScene extends Scene implements InputProcessor
 
 		if (mouseGrabbed)
 		{
-		    SoundGenerator.playWave(SoundGenerator.constructPulse(200, 0.5f, 100, 0.25)); // this is the Wall Pipe placement sound
-		    
+		    SoundGenerator.playWave(SoundGenerator.constructPulse(200, 0.5f, 100, 0.25)); // this is the Wall
+												  // Pipe placement
+												  // sound
+
 		    placingBlock = nbManager.blockQueue[0];
 		    nbManager.blockQueue[0].visible = false;
 		    mouseGrabbed = false;
@@ -320,33 +314,39 @@ public class GameScene extends Scene implements InputProcessor
 		}
 	    }
 	    break;
-	    
+
 	case PAUSED:
 	    Gdx.input.setCursorPosition((int) pausedMouseX, (int) pausedMouseY);
 	    togglePause();
 	    break;
-	    
+
 	case OPTIONS_DIALOG:
 	    break;
-	    
+
 	case QUIT_DIALOG:
 	    break;
-	    
+
 	case LEVEL_ENDED:
 	    break;
-	    
+
 	default:
 	    return false;
 	}
-	
+
 	return true;
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
+    public boolean touchUp(int screenX, int screenY, int pointer, int button)
+    {
+	return false;
+    }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
+    public boolean touchDragged(int screenX, int screenY, int pointer)
+    {
+	return false;
+    }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY)
@@ -364,14 +364,9 @@ public class GameScene extends Scene implements InputProcessor
 	Gdx.input.setCursorPosition((int) ((nbManager.getX() + 24) * screenWidthRatio),
 		(int) (viewport.getScreenHeight() - ((nbManager.getY() + 24) * screenHeightRatio)));
     }
-    
+
     public enum GameState
     {
-	NOT_STARTED,
-	RUNNING,
-	PAUSED,
-	OPTIONS_DIALOG,
-	QUIT_DIALOG,
-	LEVEL_ENDED
+	NOT_STARTED, RUNNING, PAUSED, OPTIONS_DIALOG, QUIT_DIALOG, LEVEL_ENDED
     }
 }

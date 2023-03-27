@@ -1,8 +1,9 @@
-package com.crepes.butter.peanut;
+package com.crepes.butter.peanut.scenes;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.crepes.butter.peanut.Entity;
 
 public abstract class Scene extends Stage implements InputProcessor {
 

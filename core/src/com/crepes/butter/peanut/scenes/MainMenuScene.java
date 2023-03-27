@@ -4,7 +4,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.BlankTile;
 import com.crepes.butter.peanut.MenuCinematicsManager;
-import com.crepes.butter.peanut.Scene;
 
 public class MainMenuScene extends Scene implements InputProcessor {
 

@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.scenes.GameScene;
 import com.crepes.butter.peanut.scenes.MainMenuScene;
+import com.crepes.butter.peanut.scenes.Scene;
 
 public class WallPipe extends ApplicationAdapter
 {
