@@ -1,7 +1,6 @@
 package com.crepes.butter.peanut;
 
 import java.text.SimpleDateFormat;
-import java.nio.channels.NonWritableChannelException;
 import java.sql.*;
 
 import com.badlogic.gdx.graphics.Color;
@@ -146,13 +145,8 @@ public class LevelTransitionManager extends Entity
 		batch.draw(getSprite("yellow"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5,
 			this.getHeight() - 5);
 
-		WallPipe.font.getData().setScale(0.9f, 0.9f);
-		WallPipe.font.setColor(0.5f, 0f, 0f, 1);
-		WallPipe.font.draw(batch,
-			"LEVEL " + String.valueOf((int) gameScene.gameUI.levelCount.levelCount) + " OVER",
-			this.getX() + 40, this.getY() + 45);
-
-		WallPipe.font.setColor(1f, 1f, 1f, 1);
+		drawText(batch, "LEVEL " + String.valueOf((int) gameScene.gameUI.levelCount.levelCount) + " OVER",
+			new Color(0.5f, 0f, 0f, 1), this.getX() + 40, this.getY() + 45, 0.9f);
 
 	    } else if (timer > 3 && timer < 6)
 	    {
@@ -166,15 +160,11 @@ public class LevelTransitionManager extends Entity
 		    batch.draw(getSprite("water"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5,
 			    this.getHeight() - 5);
 
-		    WallPipe.font.getData().setScale(0.7f, 0.7f);
-		    WallPipe.font.setColor(1f, 1f, 1f, 1);
-		    WallPipe.font.draw(batch,
+		    drawText(batch,
 			    "BONUS: " + String.valueOf((int) gameScene.gameUI.loopsManager.loops)
 				    + " LOOPS MADE\nADDING "
 				    + String.valueOf((int) gameScene.gameUI.loopsManager.getBonus()) + " TO SCORE",
-			    this.getX() + 20, this.getY() + 55);
-
-		    WallPipe.font.setColor(1f, 1f, 1f, 1);
+			    Color.WHITE, this.getX() + 20, this.getY() + 55, 0.7f);
 
 		} else
 		{
@@ -232,8 +222,7 @@ public class LevelTransitionManager extends Entity
 			gameScene.gameUI.scoreManager.score = 0;
 		}
 
-		Delete:
-		for (int i = 0; i < 15; i++)
+		Delete: for (int i = 0; i < 15; i++)
 		    for (int j = 0; j < 12; j++)
 			if (gameScene.bfManager.blockField[i][11 - j] != null
 				&& !gameScene.bfManager.blockField[i][11 - j].watered)
@@ -278,12 +267,8 @@ public class LevelTransitionManager extends Entity
 			this.getHeight() + 40);
 		batch.draw(getSprite("white"), this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
 
-		WallPipe.font.getData().setScale(0.7f, 0.7f);
-		WallPipe.font.setColor(0f, 0f, 0f, 1);
-		WallPipe.font.draw(batch,
-			"YOUR SCORE OF " + (int) (gameScene.gameUI.scoreManager.score) + "\nIS IN THE TOP TEN!",
-			this.getX() + 10, this.getY() + 55);
-		WallPipe.font.setColor(1f, 1f, 1f, 1);
+		drawText(batch, "YOUR SCORE OF " + (int) (gameScene.gameUI.scoreManager.score) + "\nIS IN THE TOP TEN!",
+			Color.BLACK, this.getX() + 10, this.getY() + 55, 0.7f);
 
 	    } else if (timer > 18 && !hasSelectedInitials)
 	    {
@@ -292,87 +277,42 @@ public class LevelTransitionManager extends Entity
 			this.getHeight() + 40);
 		batch.draw(getSprite("white"), this.getX(), this.getY() - 40, this.getWidth(), this.getHeight() + 40);
 
-		WallPipe.font.getData().setScale(0.7f, 0.7f);
-		WallPipe.font.setColor(0f, 0f, 0f, 1);
-		WallPipe.font.draw(batch,
-			"YOUR SCORE OF " + (int) (gameScene.gameUI.scoreManager.score) + "\nIS IN THE TOP TEN!",
-			this.getX() + 10, this.getY() + 55);
+		drawText(batch, "YOUR SCORE OF " + (int) (gameScene.gameUI.scoreManager.score) + "\nIS IN THE TOP TEN!",
+			Color.BLACK, this.getX() + 10, this.getY() + 55, 0.7f);
 
 		if (timer > 18.5)
 		{
 
 		    if (initials[0] == null)
-		    {
 
-			WallPipe.font.getData().setScale(0.7f, 0.7f);
-			WallPipe.font.setColor(0f, 0f, 0f, 1);
-			WallPipe.font.draw(batch, "ENTER INITIALS: ", this.getX() + 10, this.getY() - 15);
-
-		    } else if (initials[1] == null)
-		    {
-
-			WallPipe.font.getData().setScale(0.7f, 0.7f);
-			WallPipe.font.setColor(0f, 0f, 0f, 1);
-			WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + "", this.getX() + 10,
-				this.getY() - 15);
-
-		    } else if (initials[2] == null)
-		    {
-
-			WallPipe.font.getData().setScale(0.7f, 0.7f);
-			WallPipe.font.setColor(0f, 0f, 0f, 1);
-			WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + "", this.getX() + 10,
-				this.getY() - 15);
-
-		    } else
-		    {
-
-			WallPipe.font.getData().setScale(0.7f, 0.7f);
-			WallPipe.font.setColor(0f, 0f, 0f, 1);
-			WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + initials[2],
-				this.getX() + 10, this.getY() - 15);
-		    }
+			drawText(batch, "ENTER INITIALS: ", Color.BLACK, this.getX() + 10, this.getY() - 15, 0.7f);
+		    else if (initials[1] == null)
+			drawText(batch, "ENTER INITIALS: " + initials[0] + "", Color.BLACK, this.getX() + 10,
+				this.getY() - 15, 0.7f);
+		    else if (initials[2] == null)
+			drawText(batch, "ENTER INITIALS: " + initials[0] + initials[1] + "", Color.BLACK,
+				this.getX() + 10, this.getY() - 15, 0.7f);
+		    else
+			drawText(batch, "ENTER INITIALS: " + initials[0] + initials[1] + initials[2], Color.BLACK,
+				this.getX() + 10, this.getY() - 15, 0.7f);
 
 		} else
 		{
-
 		    if (initials[0] == null)
-		    {
-
-			WallPipe.font.getData().setScale(0.7f, 0.7f);
-			WallPipe.font.setColor(0f, 0f, 0f, 1);
-			WallPipe.font.draw(batch, "ENTER INITIALS: _", this.getX() + 10, this.getY() - 15);
-
-		    } else if (initials[1] == null)
-		    {
-
-			WallPipe.font.getData().setScale(0.7f, 0.7f);
-			WallPipe.font.setColor(0f, 0f, 0f, 1);
-			WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + "_", this.getX() + 10,
-				this.getY() - 15);
-
-		    } else if (initials[2] == null)
-		    {
-
-			WallPipe.font.getData().setScale(0.7f, 0.7f);
-			WallPipe.font.setColor(0f, 0f, 0f, 1);
-			WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + "_",
-				this.getX() + 10, this.getY() - 15);
-
-		    } else
-		    {
-
-			WallPipe.font.getData().setScale(0.7f, 0.7f);
-			WallPipe.font.setColor(0f, 0f, 0f, 1);
-			WallPipe.font.draw(batch, "ENTER INITIALS: " + initials[0] + initials[1] + initials[2],
-				this.getX() + 10, this.getY() - 15);
-		    }
+			drawText(batch, "ENTER INITIALS: _", Color.BLACK, this.getX() + 10, this.getY() - 15, 0.7f);
+		    else if (initials[1] == null)
+			drawText(batch, "ENTER INITIALS: " + initials[0] + "_", Color.BLACK, this.getX() + 10,
+				this.getY() - 15, 0.7f);
+		    else if (initials[2] == null)
+			drawText(batch, "ENTER INITIALS: " + initials[0] + initials[1] + "_", Color.BLACK,
+				this.getX() + 10, this.getY() - 15, 0.7f);
+		    else
+			drawText(batch, "ENTER INITIALS: " + initials[0] + initials[1] + initials[2], Color.BLACK,
+				this.getX() + 10, this.getY() - 15, 0.7f);
 		}
 
 		if (timer > 19)
 		    timer = 18;
-
-		WallPipe.font.setColor(1f, 1f, 1f, 1);
 
 	    } else if (timer > 19 && hasSelectedInitials && !hasViewedLeaderboard)
 	    {
