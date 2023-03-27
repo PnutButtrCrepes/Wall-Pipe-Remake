@@ -6,12 +6,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.BlockField;
 import com.crepes.butter.peanut.Leaderboard;
 import com.crepes.butter.peanut.LevelTransitionManager;
+import com.crepes.butter.peanut.ui.NextBlocks;
 import com.crepes.butter.peanut.SoundGenerator;
 import com.crepes.butter.peanut.Water;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.WaterEmitter;
 import com.crepes.butter.peanut.ui.GameUI;
-import com.crepes.butter.peanut.ui.NextBlocks;
 
 public class GameScene extends Scene implements InputProcessor
 {
