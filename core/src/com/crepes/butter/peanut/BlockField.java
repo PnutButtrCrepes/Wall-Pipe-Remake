@@ -52,13 +52,8 @@ public class BlockField extends Entity
     {
 
 	for (int i = 0; i < 15; i++)
-	{
 	    for (int j = 0; j < 12; j++)
-	    {
-
 		gameScene.bfManager.blockField[i][11 - j] = null;
-	    }
-	}
     }
 
     public void addBlock(BuildingBlock block, int xIndex, int yIndex)

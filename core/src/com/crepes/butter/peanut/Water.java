@@ -174,6 +174,21 @@ public class Water extends Entity
 	this.direction = direction;
     }
 
+    private void setPositionDeltaAndChangeDirection(float positionDelta, boolean xAxis, boolean increment, WaterDirection direction)
+    {
+	if (xAxis)
+	    posX = currentBlock.getUnscaledX() + positionDelta;
+	else
+	    posY = currentBlock.getUnscaledY() + positionDelta;
+
+	changeDirection(direction);
+	
+	if (increment)
+	    squigglyCounter++;
+	else
+	    squigglyCounter--;
+    }
+
     private void checkForLoops()
     {
 	for (CachedWaterBlock wb : water)
@@ -297,15 +312,8 @@ public class Water extends Entity
 	    currentBlock = null;
 	}
 
-	if (currentBlock == null)
+	if (currentBlock == null || currentBlock.beingReplaced)
 	{
-
-	    running = false;
-	    gameScene.setLevelEnded(true);
-
-	} else if (currentBlock.beingReplaced)
-	{
-
 	    running = false;
 	    gameScene.setLevelEnded(true);
 	}
@@ -340,53 +348,20 @@ public class Water extends Entity
 		case HSQUIGGLY:
 
 		    if (squigglyCounter == 1 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 27f / 32f;
-
-			changeDirection(WaterDirection.RIGHT);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 3 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 27f / 32f;
-
-			changeDirection(WaterDirection.LEFT);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 5 && posY >= currentBlock.getUnscaledY() + 19f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 19f / 32f;
-
-			changeDirection(WaterDirection.RIGHT);
-			squigglyCounter++;
-		    }
+			setPositionDeltaAndChangeDirection(27f / 32f, false, true, WaterDirection.RIGHT);
+		    else if (squigglyCounter == 3 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
+			setPositionDeltaAndChangeDirection(27f / 32f, false, true, WaterDirection.LEFT);
+		    else if (squigglyCounter == 5 && posY >= currentBlock.getUnscaledY() + 19f / 32f)
+			setPositionDeltaAndChangeDirection(19f / 32f, false, true, WaterDirection.RIGHT);
 
 		    break;
 
 		case VSQUIGGLY:
 
 		    if (squigglyCounter == 0 && posY >= currentBlock.getUnscaledY() + 14f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 14f / 32f;
-
-			changeDirection(WaterDirection.LEFT);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 2 && posY >= currentBlock.getUnscaledY() + 24f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 24f / 32f;
-
-			changeDirection(WaterDirection.RIGHT);
-			squigglyCounter++;
-		    }
+			setPositionDeltaAndChangeDirection(14f / 32f, false, true, WaterDirection.LEFT);
+		    else if (squigglyCounter == 2 && posY >= currentBlock.getUnscaledY() + 24f / 32f)
+			setPositionDeltaAndChangeDirection(24f / 32f, false, true, WaterDirection.RIGHT);
 
 		    break;
 
@@ -398,13 +373,10 @@ public class Water extends Entity
 			posY = currentBlock.getUnscaledY() + 0.5f + 3f / 32f;
 
 			if (!currentBlock.hasUpExit)
-			{
-
 			    if (currentBlock.hasLeftExit)
 				changeDirection(WaterDirection.LEFT);
 			    else
 				changeDirection(WaterDirection.RIGHT);
-			}
 		    }
 
 		    break;
@@ -436,53 +408,20 @@ public class Water extends Entity
 		case HSQUIGGLY:
 
 		    if (squigglyCounter == 1 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 5f / 32f;
-
-			changeDirection(WaterDirection.LEFT);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 3 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 5f / 32f;
-
-			changeDirection(WaterDirection.RIGHT);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 5 && posY <= currentBlock.getUnscaledY() + 13f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 13f / 32f;
-
-			changeDirection(WaterDirection.LEFT);
-			squigglyCounter++;
-		    }
+			setPositionDeltaAndChangeDirection(5f / 32f, false, true, WaterDirection.LEFT);
+		    else if (squigglyCounter == 3 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
+			setPositionDeltaAndChangeDirection(5f / 32f, false, true, WaterDirection.RIGHT);
+		    else if (squigglyCounter == 5 && posY <= currentBlock.getUnscaledY() + 13f / 32f)
+			setPositionDeltaAndChangeDirection(13f / 32f, false, true, WaterDirection.LEFT);
 
 		    break;
 
 		case VSQUIGGLY:
 
 		    if (squigglyCounter == 0 && posY <= currentBlock.getUnscaledY() + 18f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 18f / 32f;
-
-			changeDirection(WaterDirection.LEFT);
-			squigglyCounter--;
-		    }
-
-		    if (squigglyCounter == -2 && posY <= currentBlock.getUnscaledY() + 8f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 8f / 32f;
-
-			changeDirection(WaterDirection.RIGHT);
-			squigglyCounter--;
-		    }
+			setPositionDeltaAndChangeDirection(18f / 32f, false, false, WaterDirection.LEFT);
+		    else if (squigglyCounter == -2 && posY <= currentBlock.getUnscaledY() + 8f / 32f)
+			setPositionDeltaAndChangeDirection(8f / 32f, false, false, WaterDirection.RIGHT);
 
 		    break;
 
@@ -494,13 +433,10 @@ public class Water extends Entity
 			posY = currentBlock.getUnscaledY() + 0.5f - 3f / 32f;
 
 			if (!currentBlock.hasDownExit)
-			{
-
 			    if (currentBlock.hasLeftExit)
 				changeDirection(WaterDirection.LEFT);
 			    else
 				changeDirection(WaterDirection.RIGHT);
-			}
 		    }
 
 		    break;
@@ -532,53 +468,20 @@ public class Water extends Entity
 		case HSQUIGGLY:
 
 		    if (squigglyCounter == 0 && posX <= currentBlock.getUnscaledX() + 21f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 21f / 32f;
-
-			changeDirection(WaterDirection.DOWN);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 2 && posX <= currentBlock.getUnscaledX() + 13f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 13f / 32f;
-
-			changeDirection(WaterDirection.UP);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 4 && posX <= currentBlock.getUnscaledX() + 5f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 5f / 32f;
-
-			changeDirection(WaterDirection.DOWN);
-			squigglyCounter++;
-		    }
+			setPositionDeltaAndChangeDirection(21f / 32f, true, true, WaterDirection.DOWN);
+		    else if (squigglyCounter == 2 && posX <= currentBlock.getUnscaledX() + 13f / 32f)
+			setPositionDeltaAndChangeDirection(13f / 32f, true, true, WaterDirection.UP);
+		    else if (squigglyCounter == 4 && posX <= currentBlock.getUnscaledX() + 5f / 32f)
+			setPositionDeltaAndChangeDirection(5f / 32f, true, true, WaterDirection.DOWN);
 
 		    break;
 
 		case VSQUIGGLY:
 
 		    if (squigglyCounter == 1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 4f / 32f;
-
-			changeDirection(WaterDirection.UP);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == -1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 4f / 32f;
-
-			changeDirection(WaterDirection.DOWN);
-			squigglyCounter--;
-		    }
+			setPositionDeltaAndChangeDirection(4f / 32f, true, true, WaterDirection.UP);
+		    else if (squigglyCounter == -1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
+			setPositionDeltaAndChangeDirection(4f / 32f, true, false, WaterDirection.DOWN);
 
 		    break;
 
@@ -590,13 +493,10 @@ public class Water extends Entity
 			posX = currentBlock.getUnscaledX() + 0.5f - 3f / 32f;
 
 			if (!currentBlock.hasLeftExit)
-			{
-
 			    if (currentBlock.hasUpExit)
 				changeDirection(WaterDirection.UP);
 			    else
 				changeDirection(WaterDirection.DOWN);
-			}
 		    }
 
 		    break;
@@ -628,53 +528,21 @@ public class Water extends Entity
 		case HSQUIGGLY:
 
 		    if (squigglyCounter == 0 && posX >= currentBlock.getUnscaledX() + 11f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 11f / 32f;
-
-			changeDirection(WaterDirection.UP);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 2 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 19f / 32f;
-
-			changeDirection(WaterDirection.DOWN);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == 4 && posX >= currentBlock.getUnscaledX() + 27f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 27f / 32f;
-
-			changeDirection(WaterDirection.UP);
-			squigglyCounter++;
-		    }
+			setPositionDeltaAndChangeDirection(11f / 32f, true, true, WaterDirection.UP);
+		    else if (squigglyCounter == 2 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
+			setPositionDeltaAndChangeDirection(19f / 32f, true, true, WaterDirection.DOWN);
+		    else if (squigglyCounter == 4 && posX >= currentBlock.getUnscaledX() + 27f / 32f)
+			setPositionDeltaAndChangeDirection(27f / 32f, true, true, WaterDirection.UP);
 
 		    break;
 
 		case VSQUIGGLY:
 
 		    if (squigglyCounter == 3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 19f / 32f;
-
-			changeDirection(WaterDirection.UP);
-			squigglyCounter++;
-		    }
-
-		    if (squigglyCounter == -3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 19f / 32f;
-
-			changeDirection(WaterDirection.DOWN);
-			squigglyCounter--;
-		    }
+			setPositionDeltaAndChangeDirection(19f / 32f, true, true, WaterDirection.UP);
+		    else if (squigglyCounter == -3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
+			setPositionDeltaAndChangeDirection(19f / 32f, true, false, WaterDirection.DOWN);
+		    
 		    break;
 
 		default:
@@ -685,13 +553,10 @@ public class Water extends Entity
 			posX = currentBlock.getUnscaledX() + 0.5f + 3f / 32f;
 
 			if (!currentBlock.hasRightExit)
-			{
-
 			    if (currentBlock.hasUpExit)
 				changeDirection(WaterDirection.UP);
 			    else
 				changeDirection(WaterDirection.DOWN);
-			}
 		    }
 
 		    break;
