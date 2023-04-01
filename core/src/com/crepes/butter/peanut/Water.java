@@ -23,6 +23,7 @@ public class Water extends Entity
 
     public BuildingBlock currentBlock;
     public boolean newBlock;
+    public boolean positiveDirection;
 
     public ArrayList<CachedWaterBlock> water;
     public CachedWaterBlock placeHolder;
@@ -174,7 +175,8 @@ public class Water extends Entity
 	this.direction = direction;
     }
 
-    private void setPositionDeltaAndChangeDirection(float positionDelta, boolean xAxis, int increment, WaterDirection direction)
+    private void setPositionDeltaAndChangeDirection(float positionDelta, boolean xAxis, int increment,
+	    WaterDirection direction)
     {
 	if (xAxis)
 	    posX = currentBlock.getUnscaledX() + positionDelta;
@@ -247,29 +249,29 @@ public class Water extends Entity
     private WaterDirection invertWaterDirection(WaterDirection direction)
     {
 	WaterDirection invertedWaterDirection;
-	
+
 	switch (direction)
 	{
 	case DOWN:
 	    invertedWaterDirection = WaterDirection.UP;
-	    
+
 	case LEFT:
 	    invertedWaterDirection = WaterDirection.RIGHT;
-	    
+
 	case RIGHT:
 	    invertedWaterDirection = WaterDirection.LEFT;
-	    
+
 	case UP:
 	    invertedWaterDirection = WaterDirection.DOWN;
-	    
+
 	default:
 	    invertedWaterDirection = null;
 	    break;
 	}
-	
+
 	return invertedWaterDirection;
     }
-    
+
     public void reset()
     {
 
@@ -280,6 +282,7 @@ public class Water extends Entity
 
 	    this.setX(gameScene.emitter.getUnscaledX() + 0.25f);
 	    this.setWidth(-0.125f);
+	    positiveDirection = false;
 
 	} else
 	{
@@ -288,6 +291,7 @@ public class Water extends Entity
 
 	    this.setX(gameScene.emitter.getUnscaledX() + 0.75f);
 	    this.setWidth(0.125f);
+	    positiveDirection = true;
 	}
 
 	this.setY(gameScene.emitter.getUnscaledY() + 0.5f - 3f / 32f);
@@ -343,254 +347,324 @@ public class Water extends Entity
 	if (!running)
 	    return;
 
-	
-	
+	/***************************************************************/
+
+	if (newBlock)
+	    switch (direction)
+	    {
+	    case DOWN:
+	    case LEFT:
+		positiveDirection = false;
+		break;
+
+	    case RIGHT:
+	    case UP:
+		positiveDirection = true;
+		break;
+	    }
+
 	switch (direction)
 	{
-
-	case UP:
-
-	    this.setHeight(getUnscaledHeight() + delta * speed);
-
-	    if (newBlock)
-		if (!currentBlock.hasDownEntrance)
-		{
-
-		    running = false;
-		    gameScene.setLevelEnded(true);
-
-		} else
-		{
-
-		    currentBlock.watered = true;
-		}
-
-	    if (currentBlock.type != null)
-		switch (currentBlock.type)
-		{
-
-		case HSQUIGGLY:
-
-		    if (squigglyCounter == 1 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
-			setPositionDeltaAndChangeDirection(27f / 32f, false, 1, WaterDirection.RIGHT);
-		    else if (squigglyCounter == 3 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
-			setPositionDeltaAndChangeDirection(27f / 32f, false, 1, WaterDirection.LEFT);
-		    else if (squigglyCounter == 5 && posY >= currentBlock.getUnscaledY() + 19f / 32f)
-			setPositionDeltaAndChangeDirection(19f / 32f, false, 1, WaterDirection.RIGHT);
-
-		    break;
-
-		case VSQUIGGLY:
-
-		    if (squigglyCounter == 0 && posY >= currentBlock.getUnscaledY() + 14f / 32f)
-			setPositionDeltaAndChangeDirection(14f / 32f, false, 1, WaterDirection.LEFT);
-		    else if (squigglyCounter == 2 && posY >= currentBlock.getUnscaledY() + 24f / 32f)
-			setPositionDeltaAndChangeDirection(24f / 32f, false, 1, WaterDirection.RIGHT);
-
-		    break;
-
-		default:
-
-		    if (posY >= currentBlock.getUnscaledY() + 0.5f + 3f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 0.5f + 3f / 32f;
-
-			if (!currentBlock.hasUpExit)
-			    if (currentBlock.hasLeftExit)
-				changeDirection(WaterDirection.LEFT);
-			    else
-				changeDirection(WaterDirection.RIGHT);
-		    }
-
-		    break;
-		}
-
-	    break;
-
 	case DOWN:
-
 	    this.setHeight(getUnscaledHeight() - delta * speed);
-
-	    if (newBlock)
-		if (!currentBlock.hasUpEntrance)
-		{
-
-		    running = false;
-		    gameScene.setLevelEnded(true);
-
-		} else
-		{
-
-		    currentBlock.watered = true;
-		}
-
-	    if (currentBlock.type != null)
-		switch (currentBlock.type)
-		{
-
-		case HSQUIGGLY:
-
-		    if (squigglyCounter == 1 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
-			setPositionDeltaAndChangeDirection(5f / 32f, false, 1, WaterDirection.LEFT);
-		    else if (squigglyCounter == 3 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
-			setPositionDeltaAndChangeDirection(5f / 32f, false, 1, WaterDirection.RIGHT);
-		    else if (squigglyCounter == 5 && posY <= currentBlock.getUnscaledY() + 13f / 32f)
-			setPositionDeltaAndChangeDirection(13f / 32f, false, 1, WaterDirection.LEFT);
-
-		    break;
-
-		case VSQUIGGLY:
-
-		    if (squigglyCounter == 0 && posY <= currentBlock.getUnscaledY() + 18f / 32f)
-			setPositionDeltaAndChangeDirection(18f / 32f, false, -1, WaterDirection.LEFT);
-		    else if (squigglyCounter == -2 && posY <= currentBlock.getUnscaledY() + 8f / 32f)
-			setPositionDeltaAndChangeDirection(8f / 32f, false, -1, WaterDirection.RIGHT);
-
-		    break;
-
-		default:
-
-		    if (posY <= currentBlock.getUnscaledY() + 0.5f - 3f / 32f)
-		    {
-
-			posY = currentBlock.getUnscaledY() + 0.5f - 3f / 32f;
-
-			if (!currentBlock.hasDownExit)
-			    if (currentBlock.hasLeftExit)
-				changeDirection(WaterDirection.LEFT);
-			    else
-				changeDirection(WaterDirection.RIGHT);
-		    }
-
-		    break;
-		}
-
 	    break;
-
+	    
 	case LEFT:
-
 	    this.setWidth(getUnscaledWidth() - delta * speed);
-
-	    if (newBlock)
-		if (!currentBlock.hasRightEntrance)
-		{
-
-		    running = false;
-		    gameScene.setLevelEnded(true);
-
-		} else
-		{
-
-		    currentBlock.watered = true;
-		}
-
-	    if (currentBlock.type != null)
-		switch (currentBlock.type)
-		{
-
-		case HSQUIGGLY:
-
-		    if (squigglyCounter == 0 && posX <= currentBlock.getUnscaledX() + 21f / 32f)
-			setPositionDeltaAndChangeDirection(21f / 32f, true, 1, WaterDirection.DOWN);
-		    else if (squigglyCounter == 2 && posX <= currentBlock.getUnscaledX() + 13f / 32f)
-			setPositionDeltaAndChangeDirection(13f / 32f, true, 1, WaterDirection.UP);
-		    else if (squigglyCounter == 4 && posX <= currentBlock.getUnscaledX() + 5f / 32f)
-			setPositionDeltaAndChangeDirection(5f / 32f, true, 1, WaterDirection.DOWN);
-
-		    break;
-
-		case VSQUIGGLY:
-
-		    if (squigglyCounter == 1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
-			setPositionDeltaAndChangeDirection(4f / 32f, true, 1, WaterDirection.UP);
-		    else if (squigglyCounter == -1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
-			setPositionDeltaAndChangeDirection(4f / 32f, true, -1, WaterDirection.DOWN);
-
-		    break;
-
-		default:
-
-		    if (posX <= currentBlock.getUnscaledX() + 0.5f - 3f / 32f)
-		    {
-
-			posX = currentBlock.getUnscaledX() + 0.5f - 3f / 32f;
-
-			if (!currentBlock.hasLeftExit)
-			    if (currentBlock.hasUpExit)
-				changeDirection(WaterDirection.UP);
-			    else
-				changeDirection(WaterDirection.DOWN);
-		    }
-
-		    break;
-		}
-
 	    break;
 
 	case RIGHT:
-
 	    this.setWidth(getUnscaledWidth() + delta * speed);
+	    break;
+	    
+	case UP:
+	    this.setHeight(getUnscaledHeight() + delta * speed);
+	    break;
+	}
 
-	    if (newBlock)
-		if (!currentBlock.hasLeftEntrance)
+	if (currentBlock.type != null)
+	    switch (currentBlock.type)
+	    {
+	    case HSQUIGGLY:
+		
+		// TODO WORKING, EXTEND TO OTHER BLOCKS
+		
+		if (squigglyCounter == currentBlock.negativeToPositiveTurningPoints.size())
+		    break;
+		
+		if (positiveDirection)
 		{
-
-		    running = false;
-		    gameScene.setLevelEnded(true);
+		    if (currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).x > 0)
+		    {
+			if(direction == WaterDirection.RIGHT || direction == WaterDirection.UP)
+			{
+			if (posX >= currentBlock.getUnscaledX() + currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).x)
+			    setPositionDeltaAndChangeDirection(currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).x, true, 1, currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).targetWaterDirection);
+			}
+			else
+			{
+			    if (posX <= currentBlock.getUnscaledX() + currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).x)
+				    setPositionDeltaAndChangeDirection(currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).x, true, 1, currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).targetWaterDirection);
+			}
+		    } else
+		    {
+			if(direction == WaterDirection.RIGHT || direction == WaterDirection.UP)
+			{
+			if (posY >= currentBlock.getUnscaledY() + currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).y)
+			    setPositionDeltaAndChangeDirection(currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).y, false, 1, currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).targetWaterDirection);
+			}
+			else
+			{
+			    if (posY <= currentBlock.getUnscaledY() + currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).y)
+				    setPositionDeltaAndChangeDirection(currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).y, false, 1, currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter).targetWaterDirection);
+			}
+		    }
 
 		} else
 		{
-
-		    currentBlock.watered = true;
-		}
-
-	    if (currentBlock.type != null)
-		switch (currentBlock.type)
-		{
-
-		case HSQUIGGLY:
-
-		    if (squigglyCounter == 0 && posX >= currentBlock.getUnscaledX() + 11f / 32f)
-			setPositionDeltaAndChangeDirection(11f / 32f, true, 1, WaterDirection.UP);
-		    else if (squigglyCounter == 2 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-			setPositionDeltaAndChangeDirection(19f / 32f, true, 1, WaterDirection.DOWN);
-		    else if (squigglyCounter == 4 && posX >= currentBlock.getUnscaledX() + 27f / 32f)
-			setPositionDeltaAndChangeDirection(27f / 32f, true, 1, WaterDirection.UP);
-
-		    break;
-
-		case VSQUIGGLY:
-
-		    if (squigglyCounter == 3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-			setPositionDeltaAndChangeDirection(19f / 32f, true, 1, WaterDirection.UP);
-		    else if (squigglyCounter == -3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
-			setPositionDeltaAndChangeDirection(19f / 32f, true, -1, WaterDirection.DOWN);
-		    
-		    break;
-
-		default:
-
-		    if (posX >= currentBlock.getUnscaledX() + 0.5f + 3f / 32f)
+		    if (currentBlock.reverseTurningPoints.get(squigglyCounter).x > 0)
 		    {
-
-			posX = currentBlock.getUnscaledX() + 0.5f + 3f / 32f;
-
-			if (!currentBlock.hasRightExit)
-			    if (currentBlock.hasUpExit)
-				changeDirection(WaterDirection.UP);
-			    else
-				changeDirection(WaterDirection.DOWN);
+			if(direction == WaterDirection.RIGHT || direction == WaterDirection.UP)
+			{
+			if (posX >= currentBlock.getUnscaledX() + currentBlock.reverseTurningPoints.get(squigglyCounter).x)
+			    setPositionDeltaAndChangeDirection(currentBlock.reverseTurningPoints.get(squigglyCounter).x, true, 1, currentBlock.reverseTurningPoints.get(squigglyCounter).targetWaterDirection);
+			}
+			else
+			{
+			    if (posX <= currentBlock.getUnscaledX() + currentBlock.reverseTurningPoints.get(squigglyCounter).x)
+				    setPositionDeltaAndChangeDirection(currentBlock.reverseTurningPoints.get(squigglyCounter).x, true, 1, currentBlock.reverseTurningPoints.get(squigglyCounter).targetWaterDirection);
+			}
+		    } else
+		    {
+			if(direction == WaterDirection.RIGHT || direction == WaterDirection.UP)
+			{
+			if (posY >= currentBlock.getUnscaledY() + currentBlock.reverseTurningPoints.get(squigglyCounter).y)
+			    setPositionDeltaAndChangeDirection(currentBlock.reverseTurningPoints.get(squigglyCounter).y, false, 1, currentBlock.reverseTurningPoints.get(squigglyCounter).targetWaterDirection);
+			}
+			else
+			{
+			    if (posY <= currentBlock.getUnscaledY() + currentBlock.reverseTurningPoints.get(squigglyCounter).y)
+				    setPositionDeltaAndChangeDirection(currentBlock.reverseTurningPoints.get(squigglyCounter).y, false, 1, currentBlock.reverseTurningPoints.get(squigglyCounter).targetWaterDirection);
+			}
 		    }
-
-		    break;
 		}
+		break;
 
-	    break;
+	    case VSQUIGGLY:
+		break;
 
-	default:
-	    break;
-	}
+	    default:
+		break;
+	    }
+
+	/***************************************************************/
+
+	/*
+	 * switch (direction) {
+	 * 
+	 * case UP:
+	 * 
+	 * this.setHeight(getUnscaledHeight() + delta * speed);
+	 * 
+	 * if (newBlock) if (!currentBlock.hasDownEntrance) {
+	 * 
+	 * running = false; gameScene.setLevelEnded(true);
+	 * 
+	 * } else {
+	 * 
+	 * currentBlock.watered = true; }
+	 * 
+	 * if (currentBlock.type != null) switch (currentBlock.type) {
+	 * 
+	 * case HSQUIGGLY:
+	 * 
+	 * if (squigglyCounter == 1 && posY >= currentBlock.getUnscaledY() + 27f / 32f)
+	 * setPositionDeltaAndChangeDirection(27f / 32f, false, 1,
+	 * WaterDirection.RIGHT); else if (squigglyCounter == 3 && posY >=
+	 * currentBlock.getUnscaledY() + 27f / 32f)
+	 * setPositionDeltaAndChangeDirection(27f / 32f, false, 1, WaterDirection.LEFT);
+	 * else if (squigglyCounter == 5 && posY >= currentBlock.getUnscaledY() + 19f /
+	 * 32f) setPositionDeltaAndChangeDirection(19f / 32f, false, 1,
+	 * WaterDirection.RIGHT);
+	 * 
+	 * break;
+	 * 
+	 * case VSQUIGGLY:
+	 * 
+	 * if (squigglyCounter == 0 && posY >= currentBlock.getUnscaledY() + 14f / 32f)
+	 * setPositionDeltaAndChangeDirection(14f / 32f, false, 1, WaterDirection.LEFT);
+	 * else if (squigglyCounter == 2 && posY >= currentBlock.getUnscaledY() + 24f /
+	 * 32f) setPositionDeltaAndChangeDirection(24f / 32f, false, 1,
+	 * WaterDirection.RIGHT);
+	 * 
+	 * break;
+	 * 
+	 * default:
+	 * 
+	 * if (posY >= currentBlock.getUnscaledY() + 0.5f + 3f / 32f) {
+	 * 
+	 * posY = currentBlock.getUnscaledY() + 0.5f + 3f / 32f;
+	 * 
+	 * if (!currentBlock.hasUpExit) if (currentBlock.hasLeftExit)
+	 * changeDirection(WaterDirection.LEFT); else
+	 * changeDirection(WaterDirection.RIGHT); }
+	 * 
+	 * break; }
+	 * 
+	 * break;
+	 * 
+	 * case DOWN:
+	 * 
+	 * this.setHeight(getUnscaledHeight() - delta * speed);
+	 * 
+	 * if (newBlock) if (!currentBlock.hasUpEntrance) {
+	 * 
+	 * running = false; gameScene.setLevelEnded(true);
+	 * 
+	 * } else {
+	 * 
+	 * currentBlock.watered = true; }
+	 * 
+	 * if (currentBlock.type != null) switch (currentBlock.type) {
+	 * 
+	 * case HSQUIGGLY:
+	 * 
+	 * if (squigglyCounter == 1 && posY <= currentBlock.getUnscaledY() + 5f / 32f)
+	 * setPositionDeltaAndChangeDirection(5f / 32f, false, 1, WaterDirection.LEFT);
+	 * else if (squigglyCounter == 3 && posY <= currentBlock.getUnscaledY() + 5f /
+	 * 32f) setPositionDeltaAndChangeDirection(5f / 32f, false, 1,
+	 * WaterDirection.RIGHT); else if (squigglyCounter == 5 && posY <=
+	 * currentBlock.getUnscaledY() + 13f / 32f)
+	 * setPositionDeltaAndChangeDirection(13f / 32f, false, 1, WaterDirection.LEFT);
+	 * 
+	 * break;
+	 * 
+	 * case VSQUIGGLY:
+	 * 
+	 * if (squigglyCounter == 0 && posY <= currentBlock.getUnscaledY() + 18f / 32f)
+	 * setPositionDeltaAndChangeDirection(18f / 32f, false, -1,
+	 * WaterDirection.LEFT); else if (squigglyCounter == -2 && posY <=
+	 * currentBlock.getUnscaledY() + 8f / 32f) setPositionDeltaAndChangeDirection(8f
+	 * / 32f, false, -1, WaterDirection.RIGHT);
+	 * 
+	 * break;
+	 * 
+	 * default:
+	 * 
+	 * if (posY <= currentBlock.getUnscaledY() + 0.5f - 3f / 32f) {
+	 * 
+	 * posY = currentBlock.getUnscaledY() + 0.5f - 3f / 32f;
+	 * 
+	 * if (!currentBlock.hasDownExit) if (currentBlock.hasLeftExit)
+	 * changeDirection(WaterDirection.LEFT); else
+	 * changeDirection(WaterDirection.RIGHT); }
+	 * 
+	 * break; }
+	 * 
+	 * break;
+	 * 
+	 * case LEFT:
+	 * 
+	 * this.setWidth(getUnscaledWidth() - delta * speed);
+	 * 
+	 * if (newBlock) if (!currentBlock.hasRightEntrance) {
+	 * 
+	 * running = false; gameScene.setLevelEnded(true);
+	 * 
+	 * } else {
+	 * 
+	 * currentBlock.watered = true; }
+	 * 
+	 * if (currentBlock.type != null) switch (currentBlock.type) {
+	 * 
+	 * case HSQUIGGLY:
+	 * 
+	 * if (squigglyCounter == 0 && posX <= currentBlock.getUnscaledX() + 21f / 32f)
+	 * setPositionDeltaAndChangeDirection(21f / 32f, true, 1, WaterDirection.DOWN);
+	 * else if (squigglyCounter == 2 && posX <= currentBlock.getUnscaledX() + 13f /
+	 * 32f) setPositionDeltaAndChangeDirection(13f / 32f, true, 1,
+	 * WaterDirection.UP); else if (squigglyCounter == 4 && posX <=
+	 * currentBlock.getUnscaledX() + 5f / 32f) setPositionDeltaAndChangeDirection(5f
+	 * / 32f, true, 1, WaterDirection.DOWN);
+	 * 
+	 * break;
+	 * 
+	 * case VSQUIGGLY:
+	 * 
+	 * if (squigglyCounter == 1 && posX <= currentBlock.getUnscaledX() + 4f / 32f)
+	 * setPositionDeltaAndChangeDirection(4f / 32f, true, 1, WaterDirection.UP);
+	 * else if (squigglyCounter == -1 && posX <= currentBlock.getUnscaledX() + 4f /
+	 * 32f) setPositionDeltaAndChangeDirection(4f / 32f, true, -1,
+	 * WaterDirection.DOWN);
+	 * 
+	 * break;
+	 * 
+	 * default:
+	 * 
+	 * if (posX <= currentBlock.getUnscaledX() + 0.5f - 3f / 32f) {
+	 * 
+	 * posX = currentBlock.getUnscaledX() + 0.5f - 3f / 32f;
+	 * 
+	 * if (!currentBlock.hasLeftExit) if (currentBlock.hasUpExit)
+	 * changeDirection(WaterDirection.UP); else
+	 * changeDirection(WaterDirection.DOWN); }
+	 * 
+	 * break; }
+	 * 
+	 * break;
+	 * 
+	 * case RIGHT:
+	 * 
+	 * this.setWidth(getUnscaledWidth() + delta * speed);
+	 * 
+	 * if (newBlock) if (!currentBlock.hasLeftEntrance) {
+	 * 
+	 * running = false; gameScene.setLevelEnded(true);
+	 * 
+	 * } else {
+	 * 
+	 * currentBlock.watered = true; }
+	 * 
+	 * if (currentBlock.type != null) switch (currentBlock.type) {
+	 * 
+	 * case HSQUIGGLY:
+	 * 
+	 * if (squigglyCounter == 0 && posX >= currentBlock.getUnscaledX() + 11f / 32f)
+	 * setPositionDeltaAndChangeDirection(11f / 32f, true, 1, WaterDirection.UP);
+	 * else if (squigglyCounter == 2 && posX >= currentBlock.getUnscaledX() + 19f /
+	 * 32f) setPositionDeltaAndChangeDirection(19f / 32f, true, 1,
+	 * WaterDirection.DOWN); else if (squigglyCounter == 4 && posX >=
+	 * currentBlock.getUnscaledX() + 27f / 32f)
+	 * setPositionDeltaAndChangeDirection(27f / 32f, true, 1, WaterDirection.UP);
+	 * 
+	 * break;
+	 * 
+	 * case VSQUIGGLY:
+	 * 
+	 * if (squigglyCounter == 3 && posX >= currentBlock.getUnscaledX() + 19f / 32f)
+	 * setPositionDeltaAndChangeDirection(19f / 32f, true, 1, WaterDirection.UP);
+	 * else if (squigglyCounter == -3 && posX >= currentBlock.getUnscaledX() + 19f /
+	 * 32f) setPositionDeltaAndChangeDirection(19f / 32f, true, -1,
+	 * WaterDirection.DOWN);
+	 * 
+	 * break;
+	 * 
+	 * default:
+	 * 
+	 * if (posX >= currentBlock.getUnscaledX() + 0.5f + 3f / 32f) {
+	 * 
+	 * posX = currentBlock.getUnscaledX() + 0.5f + 3f / 32f;
+	 * 
+	 * if (!currentBlock.hasRightExit) if (currentBlock.hasUpExit)
+	 * changeDirection(WaterDirection.UP); else
+	 * changeDirection(WaterDirection.DOWN); }
+	 * 
+	 * break; }
+	 * 
+	 * break;
+	 * 
+	 * default: break; }
+	 */
 
 	checkForLoops();
     }

@@ -36,6 +36,7 @@ public class BuildingBlock extends Entity
 	super(0f, 0f, 1f, 1f);
 
 	negativeToPositiveTurningPoints = new ArrayList<BuildingBlock.TurningPoint>();
+	reverseTurningPoints = new ArrayList<BuildingBlock.TurningPoint>();
 	
 	watered = false;
 	beingReplaced = false;
@@ -96,6 +97,7 @@ public class BuildingBlock extends Entity
 
 	    case HSQUIGGLY:
 
+		// TODO WORKING, EXTEND TO OTHER BLOCKS
 		addSprite("HSquiggly.png", "block");
 
 		hasUpEntrance = false;
