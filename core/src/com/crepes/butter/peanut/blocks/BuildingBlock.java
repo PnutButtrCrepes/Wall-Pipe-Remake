@@ -26,7 +26,7 @@ public class BuildingBlock extends Entity
     public boolean beingReplaced;
     
     public ArrayList<TurningPoint> negativeToPositiveTurningPoints;
-    public ArrayList<TurningPoint> reverseTurningPoints;
+    //public ArrayList<TurningPoint> reverseTurningPoints;
 
     public boolean visible;
 
@@ -36,7 +36,7 @@ public class BuildingBlock extends Entity
 	super(0f, 0f, 1f, 1f);
 
 	negativeToPositiveTurningPoints = new ArrayList<BuildingBlock.TurningPoint>();
-	reverseTurningPoints = new ArrayList<BuildingBlock.TurningPoint>();
+	//reverseTurningPoints = new ArrayList<BuildingBlock.TurningPoint>();
 	
 	watered = false;
 	beingReplaced = false;
@@ -110,19 +110,12 @@ public class BuildingBlock extends Entity
 		hasLeftExit = true;
 		hasRightExit = true;
 		
-		negativeToPositiveTurningPoints.add(new TurningPoint(11f / 32f, 0, WaterDirection.UP));
-		negativeToPositiveTurningPoints.add(new TurningPoint(0, 27f / 32f, WaterDirection.RIGHT));
-		negativeToPositiveTurningPoints.add(new TurningPoint(19f / 32f, 0, WaterDirection.DOWN));
-		negativeToPositiveTurningPoints.add(new TurningPoint(0, 5f / 32f, WaterDirection.RIGHT));
-		negativeToPositiveTurningPoints.add(new TurningPoint(27f / 32f, 0, WaterDirection.UP));
-		negativeToPositiveTurningPoints.add(new TurningPoint(0, 19f / 32f, WaterDirection.RIGHT));
-		
-		reverseTurningPoints.add(new TurningPoint(21f / 32f, 0, WaterDirection.DOWN));
-		reverseTurningPoints.add(new TurningPoint(0, 5f / 32f, WaterDirection.LEFT));
-		reverseTurningPoints.add(new TurningPoint(13f / 32f, 0, WaterDirection.UP));
-		reverseTurningPoints.add(new TurningPoint(0, 27f / 32f, WaterDirection.LEFT));
-		reverseTurningPoints.add(new TurningPoint(5f / 32f, 0, WaterDirection.DOWN));
-		reverseTurningPoints.add(new TurningPoint(0, 13f / 32f, WaterDirection.LEFT));
+		negativeToPositiveTurningPoints.add(new TurningPoint(11f / 32f, 13f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
+		negativeToPositiveTurningPoints.add(new TurningPoint(5f / 32f, 27f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
+		negativeToPositiveTurningPoints.add(new TurningPoint(19f / 32f, 27f / 32f, WaterDirection.RIGHT, WaterDirection.DOWN));
+		negativeToPositiveTurningPoints.add(new TurningPoint(13f / 32f, 5f / 32f, WaterDirection.DOWN, WaterDirection.RIGHT));
+		negativeToPositiveTurningPoints.add(new TurningPoint(27f / 32f, 5f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
+		negativeToPositiveTurningPoints.add(new TurningPoint(21f / 32f, 19f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
 
 		break;
 
@@ -188,15 +181,15 @@ public class BuildingBlock extends Entity
 		hasLeftExit = false;
 		hasRightExit = false;
 		
-		negativeToPositiveTurningPoints.add(new TurningPoint(0, 14f / 32f, WaterDirection.LEFT));
-		negativeToPositiveTurningPoints.add(new TurningPoint(4f / 32f, 0, WaterDirection.UP));
-		negativeToPositiveTurningPoints.add(new TurningPoint(0, 24f / 32f, WaterDirection.RIGHT));
-		negativeToPositiveTurningPoints.add(new TurningPoint(19f / 32f, 0, WaterDirection.UP));
+		//negativeToPositiveTurningPoints.add(new TurningPoint(0, 14f / 32f, WaterDirection.LEFT));
+		//negativeToPositiveTurningPoints.add(new TurningPoint(4f / 32f, 0, WaterDirection.UP));
+		//negativeToPositiveTurningPoints.add(new TurningPoint(0, 24f / 32f, WaterDirection.RIGHT));
+		//negativeToPositiveTurningPoints.add(new TurningPoint(19f / 32f, 0, WaterDirection.UP));
 		
-		negativeToPositiveTurningPoints.add(new TurningPoint(0, 18f / 32f, WaterDirection.LEFT));
-		negativeToPositiveTurningPoints.add(new TurningPoint(4f / 32f, 0, WaterDirection.DOWN));
-		negativeToPositiveTurningPoints.add(new TurningPoint(0, 8f / 32f, WaterDirection.RIGHT));
-		negativeToPositiveTurningPoints.add(new TurningPoint(19f / 32f, 0, WaterDirection.DOWN));
+		//negativeToPositiveTurningPoints.add(new TurningPoint(0, 18f / 32f, WaterDirection.LEFT));
+		//negativeToPositiveTurningPoints.add(new TurningPoint(4f / 32f, 0, WaterDirection.DOWN));
+		//negativeToPositiveTurningPoints.add(new TurningPoint(0, 8f / 32f, WaterDirection.RIGHT));
+		//negativeToPositiveTurningPoints.add(new TurningPoint(19f / 32f, 0, WaterDirection.DOWN));
 
 		break;
 
@@ -260,15 +253,17 @@ public class BuildingBlock extends Entity
     
     public class TurningPoint
     {
-	public TurningPoint(float x, float y, WaterDirection targetWaterDirection)
+	public TurningPoint(float x, float y, WaterDirection previousWaterDirection, WaterDirection targetWaterDirection)
 	{
 	    this.x = x;
 	    this.y = y;
+	    this.previousWaterDirection = previousWaterDirection;
 	    this.targetWaterDirection = targetWaterDirection;
 	}
 	
 	public float x;
 	public float y;
+	public WaterDirection previousWaterDirection;
 	public WaterDirection targetWaterDirection;
     }
 }
