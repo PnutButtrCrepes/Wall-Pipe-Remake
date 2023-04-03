@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Entity;
-import com.crepes.butter.peanut.Water;
 import com.crepes.butter.peanut.Water.WaterDirection;
 
 public class BuildingBlock extends Entity
@@ -215,7 +214,106 @@ public class BuildingBlock extends Entity
 
 	visible = true;
     }
+    
+    public boolean hasDirectionalEntrace(WaterDirection direction)
+    {
+	boolean hasDirectionalEntrance = false;
+	
+	switch (direction)
+	{
+	case DOWN:
+	    hasDirectionalEntrance = hasUpEntrance;
+	    break;
+	    
+	case LEFT:
+	    hasDirectionalEntrance = hasRightEntrance;
+	    break;
+	    
+	case RIGHT:
+	    hasDirectionalEntrance = hasLeftEntrance;
+	    break;
+	    
+	case UP:
+	    hasDirectionalEntrance = hasDownEntrance;
+	    break;
+	    
+	default:
+	    break;
+	}
+	
+	return hasDirectionalEntrance;
+    }
+    
+    public boolean hasDirectionalExit(WaterDirection direction)
+    {
+	boolean hasDirectionalEntrance = false;
+	
+	switch (direction)
+	{
+	case DOWN:
+	    hasDirectionalEntrance = hasDownExit;
+	    break;
+	    
+	case LEFT:
+	    hasDirectionalEntrance = hasLeftExit;
+	    break;
+	    
+	case RIGHT:
+	    hasDirectionalEntrance = hasRightExit;
+	    break;
+	    
+	case UP:
+	    hasDirectionalEntrance = hasUpExit;
+	    break;
+	    
+	default:
+	    break;
+	}
+	
+	return hasDirectionalEntrance;
+    }
 
+    public WaterDirection getPerpendicularExit(WaterDirection direction)
+    {
+	WaterDirection perpendicularDirection = null;
+	
+	switch (direction)
+	{
+	case DOWN:
+	    if (hasLeftExit)
+		perpendicularDirection = WaterDirection.LEFT;
+	    else
+		perpendicularDirection = WaterDirection.RIGHT;
+	    break;
+	    
+	case LEFT:
+	    if (hasUpExit)
+		perpendicularDirection = WaterDirection.UP;
+	    else
+		perpendicularDirection = WaterDirection.DOWN;
+	    break;
+	    
+	case RIGHT:
+	    if (hasUpExit)
+		perpendicularDirection = WaterDirection.UP;
+	    else
+		perpendicularDirection = WaterDirection.DOWN;
+	    break;
+	    
+	case UP:
+	    if (hasLeftExit)
+		perpendicularDirection = WaterDirection.LEFT;
+	    else
+		perpendicularDirection = WaterDirection.RIGHT;
+	    break;
+	    
+	default:
+	    break;
+	}
+	
+	return perpendicularDirection;
+    }
+    
     @Override
     public void act(float delta)
     {
