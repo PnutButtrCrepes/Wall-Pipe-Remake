@@ -10,7 +10,8 @@ import com.crepes.butter.peanut.scenes.GameScene.GameState;
 
 public class Water extends Entity
 {
-
+    public static final float STREAM_WIDTH = 0.1875f;
+    
     public GameScene gameScene;
 
     public float posX;
@@ -53,8 +54,8 @@ public class Water extends Entity
 	    this.setWidth(0.125f);
 	}
 
-	this.setY(gameScene.emitter.getUnscaledY() + 0.5f - 3f / 32f);
-	this.setHeight(6f / 32f);
+	this.setY(gameScene.emitter.getUnscaledY() + 0.5f - STREAM_WIDTH / 2);
+	this.setHeight(STREAM_WIDTH);
 
 	squigglyCounter = 0;
 
@@ -77,7 +78,8 @@ public class Water extends Entity
 
     private void changeDirection(WaterDirection direction)
     {
-
+	//TODO remember, top-left of screen is (0, 0)
+	
 	posX = (posX) + (int) ((posX - (int) posX) * 32) / 32;
 	posY = (posY) + (int) ((posY - (int) posY) * 32) / 32;
 
@@ -95,17 +97,17 @@ public class Water extends Entity
 	    {
 
 		this.setX(posX);
-		this.setY(posY - 6f / 32f);
+		this.setY(posY - STREAM_WIDTH);
 
 	    } else
 	    {
 
-		this.setX(posX - 6f / 32f);
-		this.setY(posY - 6f / 32f);
+		this.setX(posX - STREAM_WIDTH);
+		this.setY(posY - STREAM_WIDTH);
 	    }
 
-	    this.setWidth(6f / 32f);
-	    this.setHeight(6f / 32f);
+	    this.setWidth(STREAM_WIDTH);
+	    this.setHeight(STREAM_WIDTH);
 
 	    break;
 
@@ -120,12 +122,12 @@ public class Water extends Entity
 	    } else
 	    {
 
-		this.setX(posX - 6f / 32f);
+		this.setX(posX - STREAM_WIDTH);
 		this.setY(posY);
 	    }
 
-	    this.setWidth(6f / 32f);
-	    this.setHeight(-6f / 32f);
+	    this.setWidth(STREAM_WIDTH);
+	    this.setHeight(-STREAM_WIDTH);
 
 	    break;
 
@@ -135,7 +137,7 @@ public class Water extends Entity
 	    {
 
 		this.setX(posX);
-		this.setY(posY - 6f / 32f);
+		this.setY(posY - STREAM_WIDTH);
 
 	    } else
 	    {
@@ -144,8 +146,8 @@ public class Water extends Entity
 		this.setY(posY);
 	    }
 
-	    this.setWidth(-6f / 32f);
-	    this.setHeight(6f / 32f);
+	    this.setWidth(-STREAM_WIDTH);
+	    this.setHeight(STREAM_WIDTH);
 
 	    break;
 
@@ -154,18 +156,18 @@ public class Water extends Entity
 	    if (this.direction == WaterDirection.UP)
 	    {
 
-		this.setX(posX - 6f / 32f);
-		this.setY(posY - 6f / 32f);
+		this.setX(posX - STREAM_WIDTH);
+		this.setY(posY - STREAM_WIDTH);
 
 	    } else
 	    {
 
-		this.setX(posX - 6f / 32f);
+		this.setX(posX - STREAM_WIDTH);
 		this.setY(posY);
 	    }
 
-	    this.setWidth(6f / 32f);
-	    this.setHeight(6f / 32f);
+	    this.setWidth(STREAM_WIDTH);
+	    this.setHeight(STREAM_WIDTH);
 
 	    break;
 
@@ -299,8 +301,8 @@ public class Water extends Entity
 	    positiveDirection = true;
 	}
 
-	this.setY(gameScene.emitter.getUnscaledY() + 0.5f - 3f / 32f);
-	this.setHeight(6f / 32f);
+	this.setY(gameScene.emitter.getUnscaledY() + 0.5f - STREAM_WIDTH / 2);
+	this.setHeight(STREAM_WIDTH);
 
 	squigglyCounter = 0;
 
@@ -354,7 +356,7 @@ public class Water extends Entity
 	    case DOWN:
 	    case LEFT:
 		positiveDirection = false;
-		squigglyCounter = currentBlock.negativeToPositiveTurningPoints.size() - 1;
+		squigglyCounter = currentBlock.turningPoints.size() - 1;
 		break;
 
 	    case RIGHT:
@@ -397,13 +399,14 @@ public class Water extends Entity
 	    switch (currentBlock.type)
 	    {
 	    case HSQUIGGLY:
+	    case VSQUIGGLY:
 
 		// TODO WORKING, EXTEND TO OTHER BLOCKS
 
-		if (squigglyCounter == -1 || squigglyCounter == currentBlock.negativeToPositiveTurningPoints.size())
+		if (squigglyCounter == -1 || squigglyCounter == currentBlock.turningPoints.size())
 		    break;
 
-		TurningPoint currentTurningPoint = currentBlock.negativeToPositiveTurningPoints.get(squigglyCounter);
+		TurningPoint currentTurningPoint = currentBlock.turningPoints.get(squigglyCounter);
 
 		switch (direction)
 		{
@@ -441,47 +444,49 @@ public class Water extends Entity
 
 		break;
 
-	    case VSQUIGGLY:
-		break;
-
 	    default:
 		boolean changeDirection = false;
+		float compareValue;
 		
 		switch (direction)
 		{
 		case DOWN:
-		    if (posY <= currentBlock.getUnscaledY() + 0.5f - 3f / 32f)
+		    compareValue = currentBlock.getUnscaledY() + 0.5f - STREAM_WIDTH / 2;
+		    if (posY <= compareValue)
 		    {
-			posY = currentBlock.getUnscaledY() + 0.5f - 3f / 32f;
+			posY = compareValue;
 			changeDirection = true;
 		    }
 
 		    break;
 
 		case LEFT:
-		    if (posX <= currentBlock.getUnscaledX() + 0.5f - 3f / 32f)
+		    compareValue = currentBlock.getUnscaledX() + 0.5f - STREAM_WIDTH / 2;
+		    if (posX <= compareValue)
 		    {
 
-			posX = currentBlock.getUnscaledX() + 0.5f - 3f / 32f;
+			posX = compareValue;
 			changeDirection = true;
 		    }
 
 		    break;
 
 		case RIGHT:
-		    if (posX >= currentBlock.getUnscaledX() + 0.5f + 3f / 32f)
+		    compareValue = currentBlock.getUnscaledX() + 0.5f + STREAM_WIDTH / 2;
+		    if (posX >= compareValue)
 		    {
 
-			posX = currentBlock.getUnscaledX() + 0.5f + 3f / 32f;
+			posX = compareValue;
 			changeDirection = true;
 		    }
 
 		    break;
 
 		case UP:
-		    if (posY >= currentBlock.getUnscaledY() + 0.5f + 3f / 32f)
+		    compareValue = currentBlock.getUnscaledY() + 0.5f + STREAM_WIDTH / 2;
+		    if (posY >= compareValue)
 		    {
-			posY = currentBlock.getUnscaledY() + 0.5f + 3f / 32f;
+			posY = compareValue;
 			changeDirection = true;
 		    }
 
