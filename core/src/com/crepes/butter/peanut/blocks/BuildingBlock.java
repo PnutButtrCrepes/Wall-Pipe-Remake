@@ -11,15 +11,7 @@ public class BuildingBlock extends Entity
 
     public BuildingBlockType type;
 
-    public boolean hasUpEntrance;
-    public boolean hasDownEntrance;
-    public boolean hasLeftEntrance;
-    public boolean hasRightEntrance;
-
-    public boolean hasUpExit;
-    public boolean hasDownExit;
-    public boolean hasLeftExit;
-    public boolean hasRightExit;
+    public boolean oneWay;
 
     public boolean watered;
     public boolean beingReplaced;
@@ -39,6 +31,7 @@ public class BuildingBlock extends Entity
 	beingReplaced = false;
 
 	this.type = type;
+	this.oneWay = false;
 
 	if (type != null)
 	    switch (this.type)
@@ -48,47 +41,21 @@ public class BuildingBlock extends Entity
 
 		addSprite("Cross.png", "block");
 
-		hasUpEntrance = true;
-		hasDownEntrance = true;
-		hasLeftEntrance = true;
-		hasRightEntrance = true;
-
-		hasUpExit = true;
-		hasDownExit = true;
-		hasLeftExit = true;
-		hasRightExit = true;
-
 		break;
 
 	    case DLELBOW:
 
 		addSprite("DLElbow.png", "block");
-
-		hasUpEntrance = false;
-		hasDownEntrance = true;
-		hasLeftEntrance = true;
-		hasRightEntrance = false;
-
-		hasUpExit = false;
-		hasDownExit = true;
-		hasLeftExit = true;
-		hasRightExit = false;
+		
+		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.RIGHT, WaterDirection.DOWN));
 
 		break;
 
 	    case DRELBOW:
 
 		addSprite("DRElbow.png", "block");
-
-		hasUpEntrance = false;
-		hasDownEntrance = true;
-		hasLeftEntrance = false;
-		hasRightEntrance = true;
-
-		hasUpExit = false;
-		hasDownExit = true;
-		hasLeftExit = false;
-		hasRightExit = true;
+		
+		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.LEFT, WaterDirection.DOWN));
 
 		break;
 
@@ -96,108 +63,56 @@ public class BuildingBlock extends Entity
 
 		// TODO WORKING, EXTEND TO OTHER BLOCKS
 		addSprite("HSquiggly.png", "block");
-
-		hasUpEntrance = false;
-		hasDownEntrance = false;
-		hasLeftEntrance = true;
-		hasRightEntrance = true;
-
-		hasUpExit = false;
-		hasDownExit = false;
-		hasLeftExit = true;
-		hasRightExit = true;
 		
-		turningPoints.add(new TurningPoint(11f / 32f, 13f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
-		turningPoints.add(new TurningPoint(5f / 32f, 27f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
-		turningPoints.add(new TurningPoint(19f / 32f, 27f / 32f, WaterDirection.RIGHT, WaterDirection.DOWN));
-		turningPoints.add(new TurningPoint(13f / 32f, 5f / 32f, WaterDirection.DOWN, WaterDirection.RIGHT));
-		turningPoints.add(new TurningPoint(27f / 32f, 5f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
-		turningPoints.add(new TurningPoint(21f / 32f, 19f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
+		turningPoints.add(new TurningPoint(8f / 32f, 16f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
+		turningPoints.add(new TurningPoint(8f / 32f, 24f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
+		turningPoints.add(new TurningPoint(16f / 32f, 24f / 32f, WaterDirection.RIGHT, WaterDirection.DOWN));
+		turningPoints.add(new TurningPoint(16f / 32f, 8f / 32f, WaterDirection.DOWN, WaterDirection.RIGHT));
+		turningPoints.add(new TurningPoint(24f / 32f, 8f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
+		turningPoints.add(new TurningPoint(24f / 32f, 16f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
 
 		break;
 
 	    case HSTRAIGHT:
 
 		addSprite("HStraight.png", "block");
-
-		hasUpEntrance = false;
-		hasDownEntrance = false;
-		hasLeftEntrance = true;
-		hasRightEntrance = true;
-
-		hasUpExit = false;
-		hasDownExit = false;
-		hasLeftExit = true;
-		hasRightExit = true;
+		
+		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.RIGHT, WaterDirection.RIGHT));
 
 		break;
 
 	    case ULELBOW:
 
 		addSprite("ULElbow.png", "block");
-
-		hasUpEntrance = true;
-		hasDownEntrance = false;
-		hasLeftEntrance = true;
-		hasRightEntrance = false;
-
-		hasUpExit = true;
-		hasDownExit = false;
-		hasLeftExit = true;
-		hasRightExit = false;
+		
+		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.RIGHT, WaterDirection.UP));
 
 		break;
 
 	    case URELBOW:
 
 		addSprite("URElbow.png", "block");
-
-		hasUpEntrance = true;
-		hasDownEntrance = false;
-		hasLeftEntrance = false;
-		hasRightEntrance = true;
-
-		hasUpExit = true;
-		hasDownExit = false;
-		hasLeftExit = false;
-		hasRightExit = true;
+		
+		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.LEFT, WaterDirection.UP));
 
 		break;
 
 	    case VSQUIGGLY:
 
 		addSprite("VSquiggly.png", "block");
-
-		hasUpEntrance = true;
-		hasDownEntrance = true;
-		hasLeftEntrance = false;
-		hasRightEntrance = false;
-
-		hasUpExit = true;
-		hasDownExit = true;
-		hasLeftExit = false;
-		hasRightExit = false;
 		
-		turningPoints.add(new TurningPoint(19f / 32f, 14f / 32f, WaterDirection.UP, WaterDirection.LEFT));
-		turningPoints.add(new TurningPoint(4f / 32f, 8f / 32f, WaterDirection.LEFT, WaterDirection.UP));
-		turningPoints.add(new TurningPoint(4f / 32f, 24f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
-		turningPoints.add(new TurningPoint(19f / 32f, 18f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
+		turningPoints.add(new TurningPoint(16f / 32f, 11f / 32f, WaterDirection.UP, WaterDirection.LEFT));
+		turningPoints.add(new TurningPoint(7f / 32f, 11f / 32f, WaterDirection.LEFT, WaterDirection.UP));
+		turningPoints.add(new TurningPoint(7f / 32f, 21f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
+		turningPoints.add(new TurningPoint(16f / 32f, 21f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
 
 		break;
 
 	    case VSTRAIGHT:
 
 		addSprite("VStraight.png", "block");
-
-		hasUpEntrance = true;
-		hasDownEntrance = true;
-		hasLeftEntrance = false;
-		hasRightEntrance = false;
-
-		hasUpExit = true;
-		hasDownExit = true;
-		hasLeftExit = false;
-		hasRightExit = false;
+		
+		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.UP, WaterDirection.UP));
 
 		break;
 
@@ -208,103 +123,54 @@ public class BuildingBlock extends Entity
 	visible = true;
     }
     
-    public boolean hasDirectionalEntrace(WaterDirection direction)
+    private WaterDirection invertWaterDirection(WaterDirection direction)
     {
-	boolean hasDirectionalEntrance = false;
-	
+	WaterDirection invertedWaterDirection;
+
 	switch (direction)
 	{
 	case DOWN:
-	    hasDirectionalEntrance = hasUpEntrance;
+	    invertedWaterDirection = WaterDirection.UP;
 	    break;
-	    
+
 	case LEFT:
-	    hasDirectionalEntrance = hasRightEntrance;
+	    invertedWaterDirection = WaterDirection.RIGHT;
 	    break;
-	    
+
 	case RIGHT:
-	    hasDirectionalEntrance = hasLeftEntrance;
+	    invertedWaterDirection = WaterDirection.LEFT;
 	    break;
-	    
+
 	case UP:
-	    hasDirectionalEntrance = hasDownEntrance;
+	    invertedWaterDirection = WaterDirection.DOWN;
 	    break;
-	    
+
 	default:
+	    invertedWaterDirection = null;
 	    break;
 	}
-	
-	return hasDirectionalEntrance;
+
+	return invertedWaterDirection;
     }
     
-    public boolean hasDirectionalExit(WaterDirection direction)
+    public boolean hasDirectionalEntrace(WaterDirection direction)
     {
-	boolean hasDirectionalEntrance = false;
+	if (type == BuildingBlockType.CROSS)
+	    return true;
 	
-	switch (direction)
+	if (direction == turningPoints.get(0).previousWaterDirection)
 	{
-	case DOWN:
-	    hasDirectionalEntrance = hasDownExit;
-	    break;
-	    
-	case LEFT:
-	    hasDirectionalEntrance = hasLeftExit;
-	    break;
-	    
-	case RIGHT:
-	    hasDirectionalEntrance = hasRightExit;
-	    break;
-	    
-	case UP:
-	    hasDirectionalEntrance = hasUpExit;
-	    break;
-	    
-	default:
-	    break;
+	    return true;
+	}
+	else if (direction == invertWaterDirection(turningPoints.get(turningPoints.size() - 1).targetWaterDirection))
+	{
+	    if (!oneWay)
+		return true;
+	    else
+		return false;
 	}
 	
-	return hasDirectionalEntrance;
-    }
-
-    public WaterDirection getPerpendicularExit(WaterDirection direction)
-    {
-	WaterDirection perpendicularDirection = null;
-	
-	switch (direction)
-	{
-	case DOWN:
-	    if (hasLeftExit)
-		perpendicularDirection = WaterDirection.LEFT;
-	    else
-		perpendicularDirection = WaterDirection.RIGHT;
-	    break;
-	    
-	case LEFT:
-	    if (hasUpExit)
-		perpendicularDirection = WaterDirection.UP;
-	    else
-		perpendicularDirection = WaterDirection.DOWN;
-	    break;
-	    
-	case RIGHT:
-	    if (hasUpExit)
-		perpendicularDirection = WaterDirection.UP;
-	    else
-		perpendicularDirection = WaterDirection.DOWN;
-	    break;
-	    
-	case UP:
-	    if (hasLeftExit)
-		perpendicularDirection = WaterDirection.LEFT;
-	    else
-		perpendicularDirection = WaterDirection.RIGHT;
-	    break;
-	    
-	default:
-	    break;
-	}
-	
-	return perpendicularDirection;
+	return false;
     }
     
     @Override

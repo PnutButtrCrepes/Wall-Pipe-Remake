@@ -26,18 +26,11 @@ public class WaterEmitter extends BuildingBlock
 	if (typeIndex == 0)
 	{
 	    addSprite("LWaterEmitter.png", "block");
-	    this.hasLeftExit = true;
 
 	} else
 	{
 	    addSprite("RWaterEmitter.png", "block");
-	    this.hasRightExit = true;
 	}
-
-	this.hasUpEntrance = false;
-	this.hasDownEntrance = false;
-	this.hasRightEntrance = false;
-	this.hasLeftEntrance = false;
 
 	gameScene.bfManager.addBlock(this, (int) this.getUnscaledX(), (int) this.getUnscaledY());
     }
@@ -53,15 +46,11 @@ public class WaterEmitter extends BuildingBlock
 	{
 
 	    addSprite("LWaterEmitter.png", "block");
-	    this.hasLeftExit = true;
-	    this.hasRightExit = false;
 
 	} else
 	{
 
 	    addSprite("RWaterEmitter.png", "block");
-	    this.hasRightExit = true;
-	    this.hasLeftExit = false;
 	}
 
 	gameScene.bfManager.addBlock(this, (int) this.getUnscaledX(), (int) this.getUnscaledY());

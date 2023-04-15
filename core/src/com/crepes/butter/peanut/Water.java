@@ -11,7 +11,7 @@ import com.crepes.butter.peanut.scenes.GameScene.GameState;
 public class Water extends Entity
 {
     public static final float STREAM_WIDTH = 0.1875f;
-    
+
     public GameScene gameScene;
 
     public float posX;
@@ -78,8 +78,11 @@ public class Water extends Entity
 
     private void changeDirection(WaterDirection direction)
     {
-	//TODO remember, top-left of screen is (0, 0)
+	// TODO remember, top-left of screen is (0, 0)
 	
+	if (this.direction == direction)
+	    return;
+
 	posX = (posX) + (int) ((posX - (int) posX) * 32) / 32;
 	posY = (posY) + (int) ((posY - (int) posY) * 32) / 32;
 
@@ -350,20 +353,16 @@ public class Water extends Entity
 
 	/***************************************************************/
 
-	if (newBlock)
-	    switch (direction)
+	if (newBlock && currentBlock.turningPoints.size() > 0)
+	    if(direction == currentBlock.turningPoints.get(0).previousWaterDirection)
 	    {
-	    case DOWN:
-	    case LEFT:
-		positiveDirection = false;
-		squigglyCounter = currentBlock.turningPoints.size() - 1;
-		break;
-
-	    case RIGHT:
-	    case UP:
 		positiveDirection = true;
 		squigglyCounter = 0;
-		break;
+	    }
+	    else if (direction == invertWaterDirection(currentBlock.turningPoints.get(currentBlock.turningPoints.size() - 1).targetWaterDirection))
+	    {
+		positiveDirection = false;
+		squigglyCounter = currentBlock.turningPoints.size() - 1;
 	    }
 
 	if (newBlock)
@@ -393,115 +392,50 @@ public class Water extends Entity
 	case UP:
 	    this.setHeight(getUnscaledHeight() + delta * speed);
 	    break;
+
+	default:
+	    break;
 	}
 
-	if (currentBlock.type != null)
-	    switch (currentBlock.type)
+	if ((squigglyCounter > -1 && squigglyCounter < currentBlock.turningPoints.size())
+		&& currentBlock.turningPoints.size() > 0)
+	{
+	    TurningPoint currentTurningPoint = currentBlock.turningPoints.get(squigglyCounter);
+
+	    switch (direction)
 	    {
-	    case HSQUIGGLY:
-	    case VSQUIGGLY:
+	    case DOWN:
+		if (posY <= currentBlock.getUnscaledY() + currentTurningPoint.y - STREAM_WIDTH / 2)
+		    setPositionDeltaAndChangeDirection(currentTurningPoint.y - STREAM_WIDTH / 2, false,
+			    positiveDirection ? 1 : -1, positiveDirection ? currentTurningPoint.targetWaterDirection
+				    : invertWaterDirection(currentTurningPoint.previousWaterDirection));
+		break;
 
-		// TODO WORKING, EXTEND TO OTHER BLOCKS
+	    case LEFT:
+		if (posX <= currentBlock.getUnscaledX() + currentTurningPoint.x - STREAM_WIDTH / 2)
+		    setPositionDeltaAndChangeDirection(currentTurningPoint.x - STREAM_WIDTH / 2, true,
+			    positiveDirection ? 1 : -1, positiveDirection ? currentTurningPoint.targetWaterDirection
+				    : invertWaterDirection(currentTurningPoint.previousWaterDirection));
+		break;
 
-		if (squigglyCounter == -1 || squigglyCounter == currentBlock.turningPoints.size())
-		    break;
+	    case RIGHT:
+		if (posX >= currentBlock.getUnscaledX() + currentTurningPoint.x + STREAM_WIDTH / 2)
+		    setPositionDeltaAndChangeDirection(currentTurningPoint.x + STREAM_WIDTH / 2, true,
+			    positiveDirection ? 1 : -1, positiveDirection ? currentTurningPoint.targetWaterDirection
+				    : invertWaterDirection(currentTurningPoint.previousWaterDirection));
+		break;
 
-		TurningPoint currentTurningPoint = currentBlock.turningPoints.get(squigglyCounter);
-
-		switch (direction)
-		{
-		case DOWN:
-		    if (posY <= currentBlock.getUnscaledY() + currentTurningPoint.y)
-			setPositionDeltaAndChangeDirection(currentTurningPoint.y, false, positiveDirection ? 1 : -1,
-				positiveDirection ? currentTurningPoint.targetWaterDirection
-					: invertWaterDirection(currentTurningPoint.previousWaterDirection));
-		    break;
-
-		case LEFT:
-		    if (posX <= currentBlock.getUnscaledX() + currentTurningPoint.x)
-			setPositionDeltaAndChangeDirection(currentTurningPoint.x, true, positiveDirection ? 1 : -1,
-				positiveDirection ? currentTurningPoint.targetWaterDirection
-					: invertWaterDirection(currentTurningPoint.previousWaterDirection));
-		    break;
-
-		case RIGHT:
-		    if (posX >= currentBlock.getUnscaledX() + currentTurningPoint.x)
-			setPositionDeltaAndChangeDirection(currentTurningPoint.x, true, positiveDirection ? 1 : -1,
-				positiveDirection ? currentTurningPoint.targetWaterDirection
-					: invertWaterDirection(currentTurningPoint.previousWaterDirection));
-		    break;
-
-		case UP:
-		    if (posY >= currentBlock.getUnscaledY() + currentTurningPoint.y)
-			setPositionDeltaAndChangeDirection(currentTurningPoint.y, false, positiveDirection ? 1 : -1,
-				positiveDirection ? currentTurningPoint.targetWaterDirection
-					: invertWaterDirection(currentTurningPoint.previousWaterDirection));
-		    break;
-
-		default:
-		    break;
-		}
-
+	    case UP:
+		if (posY >= currentBlock.getUnscaledY() + currentTurningPoint.y + STREAM_WIDTH / 2)
+		    setPositionDeltaAndChangeDirection(currentTurningPoint.y + STREAM_WIDTH / 2, false,
+			    positiveDirection ? 1 : -1, positiveDirection ? currentTurningPoint.targetWaterDirection
+				    : invertWaterDirection(currentTurningPoint.previousWaterDirection));
 		break;
 
 	    default:
-		boolean changeDirection = false;
-		float compareValue;
-		
-		switch (direction)
-		{
-		case DOWN:
-		    compareValue = currentBlock.getUnscaledY() + 0.5f - STREAM_WIDTH / 2;
-		    if (posY <= compareValue)
-		    {
-			posY = compareValue;
-			changeDirection = true;
-		    }
-
-		    break;
-
-		case LEFT:
-		    compareValue = currentBlock.getUnscaledX() + 0.5f - STREAM_WIDTH / 2;
-		    if (posX <= compareValue)
-		    {
-
-			posX = compareValue;
-			changeDirection = true;
-		    }
-
-		    break;
-
-		case RIGHT:
-		    compareValue = currentBlock.getUnscaledX() + 0.5f + STREAM_WIDTH / 2;
-		    if (posX >= compareValue)
-		    {
-
-			posX = compareValue;
-			changeDirection = true;
-		    }
-
-		    break;
-
-		case UP:
-		    compareValue = currentBlock.getUnscaledY() + 0.5f + STREAM_WIDTH / 2;
-		    if (posY >= compareValue)
-		    {
-			posY = compareValue;
-			changeDirection = true;
-		    }
-
-		    break;
-
-		default:
-		    break;
-
-		}
-		
-		if(changeDirection)
-		    if (!currentBlock.hasDirectionalExit(direction))
-			changeDirection(currentBlock.getPerpendicularExit(direction));
 		break;
 	    }
+	}
 
 	checkForLoops();
     }
