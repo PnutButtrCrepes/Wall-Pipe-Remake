@@ -198,7 +198,7 @@ public class Water extends Entity
 	for (CachedWaterBlock wb : water)
 	{
 
-	    if (wb.looped)
+	    if (currentBlock.looped)
 		continue;
 
 	    if ((wb.getUnscaledX() + wb.getUnscaledWidth()) > wb.getUnscaledX())
@@ -211,7 +211,7 @@ public class Water extends Entity
 			    && posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
 		    {
 			gameScene.gameUI.loopsManager.loops++;
-			wb.looped = true;
+			currentBlock.looped = true;
 		    }
 
 		} else
@@ -221,7 +221,7 @@ public class Water extends Entity
 			    && posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
 		    {
 			gameScene.gameUI.loopsManager.loops++;
-			wb.looped = true;
+			currentBlock.looped = true;
 		    }
 		}
 
@@ -235,7 +235,7 @@ public class Water extends Entity
 			    && posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight())
 		    {
 			gameScene.gameUI.loopsManager.loops++;
-			wb.looped = true;
+			currentBlock.looped = true;
 
 		    } else
 		    {
@@ -244,7 +244,7 @@ public class Water extends Entity
 				&& posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight())
 			{
 			    gameScene.gameUI.loopsManager.loops++;
-			    wb.looped = true;
+			    currentBlock.looped = true;
 			}
 		    }
 		}
@@ -461,14 +461,10 @@ public class Water extends Entity
 
     private class CachedWaterBlock extends Entity
     {
-
-	public boolean looped;
-
 	public CachedWaterBlock(float x, float y, float sizeX, float sizeY)
 	{
 	    super(x, y, sizeX, sizeY);
 	    addSprite("Water.png", "water");
-	    looped = false;
 	}
     }
 }

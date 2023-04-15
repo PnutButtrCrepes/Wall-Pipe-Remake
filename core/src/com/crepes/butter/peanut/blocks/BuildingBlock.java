@@ -14,6 +14,8 @@ public class BuildingBlock extends Entity
     public boolean oneWay;
 
     public boolean watered;
+    public boolean looped;
+    
     public boolean beingReplaced;
     
     public ArrayList<TurningPoint> turningPoints;
@@ -28,6 +30,8 @@ public class BuildingBlock extends Entity
 	turningPoints = new ArrayList<BuildingBlock.TurningPoint>();
 	
 	watered = false;
+	looped = false;
+	
 	beingReplaced = false;
 
 	this.type = type;
