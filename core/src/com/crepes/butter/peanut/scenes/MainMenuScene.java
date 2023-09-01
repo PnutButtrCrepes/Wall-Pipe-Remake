@@ -1,11 +1,10 @@
 package com.crepes.butter.peanut.scenes;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.BlankTile;
 import com.crepes.butter.peanut.MenuCinematicsManager;
 
-public class MainMenuScene extends Scene implements InputProcessor {
+public class MainMenuScene extends Scene {
 
 	public MenuCinematicsManager cinematics;
 	

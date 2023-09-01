@@ -26,16 +26,8 @@ public class Leaderboard extends Entity
 
 	leaderboardEntries = new LeaderboardEntry[10];
 
-	leaderboardEntries[0] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[1] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[2] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[3] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[4] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[5] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[6] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[7] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[8] = new LeaderboardEntry("---", 0, 0, "--/--/----");
-	leaderboardEntries[9] = new LeaderboardEntry("---", 0, 0, "--/--/----");
+	for (int i = 0; i < leaderboardEntries.length; i++)
+	    leaderboardEntries[i] = new LeaderboardEntry();
 
 	try
 	{

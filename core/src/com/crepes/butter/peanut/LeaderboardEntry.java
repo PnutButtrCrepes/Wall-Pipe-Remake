@@ -11,6 +11,14 @@ public class LeaderboardEntry implements Serializable {
 	public int level;
 	String date;
 	
+	public LeaderboardEntry()
+	{
+	    name = "---";
+	    score = 0;
+	    level = 0;
+	    date = "--/--/----";
+	}
+	
 	public LeaderboardEntry(String name, int score, int level, String date) {
 		
 		this.name = name;

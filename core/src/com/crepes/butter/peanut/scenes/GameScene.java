@@ -1,7 +1,6 @@
 package com.crepes.butter.peanut.scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.BlockField;
 import com.crepes.butter.peanut.Leaderboard;
@@ -13,7 +12,7 @@ import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.WaterEmitter;
 import com.crepes.butter.peanut.ui.GameUI;
 
-public class GameScene extends Scene implements InputProcessor
+public class GameScene extends Scene
 {
     private int xIndex;
     private int yIndex;
@@ -193,18 +192,6 @@ public class GameScene extends Scene implements InputProcessor
     }
 
     @Override
-    public boolean keyDown(int keycode)
-    {
-	return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode)
-    {
-	return false;
-    }
-
-    @Override
     public boolean keyTyped(char character)
     {
 
@@ -334,18 +321,6 @@ public class GameScene extends Scene implements InputProcessor
 	}
 
 	return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button)
-    {
-	return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer)
-    {
-	return false;
     }
 
     @Override

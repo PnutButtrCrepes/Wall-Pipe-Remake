@@ -28,7 +28,6 @@ public class Clock extends Entity
 
     public void reset()
     {
-
 	time = 40;
 	running = true;
     }
@@ -37,20 +36,19 @@ public class Clock extends Entity
     public void act(float delta)
     {
 
-	if (gameScene.gameState == GameState.RUNNING && running)
+	if (gameScene.gameState != GameState.RUNNING || !running)
+	    return;
+
+	time -= delta;
+
+	if (time <= 0)
 	{
-	    time -= delta;
+	    time = 0;
 
-	    if (time <= 0)
-	    {
+	    if (!gameScene.water.running)
+		gameScene.water.running = true;
 
-		time = 0;
-
-		if (!gameScene.water.running)
-		    gameScene.water.running = true;
-
-		running = false;
-	    }
+	    running = false;
 	}
     }
 

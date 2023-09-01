@@ -113,6 +113,7 @@ public class WallPipe extends ApplicationAdapter
 	currentBackground = backgroundLoader.load(currentScene.backgroundName + ".tmx");
 	backgroundRenderer.setMap(currentBackground);
 
+	//TODO separate the input processing from the Scene
 	Gdx.input.setInputProcessor(currentScene);
     }
 }
