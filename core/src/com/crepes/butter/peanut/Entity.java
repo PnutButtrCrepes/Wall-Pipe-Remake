@@ -3,6 +3,7 @@ package com.crepes.butter.peanut;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -57,6 +58,12 @@ public abstract class Entity extends Actor
 	this.setPosition(x * DISPLAY_SCALE, y * DISPLAY_SCALE);
 	this.setSize(sizeX * DISPLAY_SCALE, sizeY * DISPLAY_SCALE);
     }
+    
+    @Override
+    abstract public void act(float delta);
+    
+    @Override
+    abstract public void draw(Batch batch, float parentAlpha);
     
     public float getUnscaledX()
     {

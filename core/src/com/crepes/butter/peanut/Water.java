@@ -466,5 +466,11 @@ public class Water extends Entity
 	    super(x, y, sizeX, sizeY);
 	    addSprite("Water.png", "water");
 	}
+
+	@Override
+	public void act(float delta) {}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {}
     }
 }

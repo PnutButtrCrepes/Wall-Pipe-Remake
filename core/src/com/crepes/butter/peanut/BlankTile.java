@@ -14,6 +14,9 @@ public class BlankTile extends Entity
     }
 
     @Override
+    public void act(float delta) {}
+    
+    @Override
     public void draw(Batch batch, float parentAlpha)
     {
 
