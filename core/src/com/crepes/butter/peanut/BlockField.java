@@ -65,8 +65,10 @@ public class BlockField extends Entity
 	blockField[xIndex - 2][yIndex - 2].setY(yIndex);
     }
 
-    public void replace(BuildingBlock replacementBlock, int xIndex, int yIndex)
+    public void attemptReplace(BuildingBlock replacementBlock, int xIndex, int yIndex)
     {
+	if (blockField[xIndex - 2][yIndex - 2].watered)
+	    return;
 
 	this.replacementBlock = replacementBlock;
 
@@ -77,50 +79,79 @@ public class BlockField extends Entity
 
 	replacing = true;
     }
+    
+    public void replace(BuildingBlock replacementBlock, int xIndex, int yIndex)
+    {
+	this.replacementBlock = replacementBlock;
+
+	this.replacementXIndex = xIndex;
+	this.replacementYIndex = yIndex;
+
+	blockField[replacementXIndex - 2][replacementYIndex - 2].beingReplaced = true;
+
+	replacing = true;
+    }
+
+    public boolean attemptAddBlock(BuildingBlock block, int xIndex, int yIndex)
+    {
+	if (blockField[xIndex - 2][yIndex - 2] == null)
+	{
+	    blockField[xIndex - 2][yIndex - 2] = block;
+	    blockField[xIndex - 2][yIndex - 2].setX(xIndex);
+	    blockField[xIndex - 2][yIndex - 2].setY(yIndex);
+	    
+	    return true;
+	}
+
+	if (blockField[xIndex - 2][yIndex - 2].watered)
+	    return false;
+
+	this.replacementBlock = block;
+	this.replacementXIndex = xIndex;
+	this.replacementYIndex = yIndex;
+
+	blockField[replacementXIndex - 2][replacementYIndex - 2].beingReplaced = true;
+
+	replacing = true;
+	
+	return true;
+    }
 
     @Override
     public void act(float delta)
     {
+	if (!replacing)
+	    return;
 
-	if (replacing)
-	{
+	blockBreakTimer -= delta;
 
-	    blockBreakTimer -= delta;
+	for (int i = 0; i < (int) ((2 - blockBreakTimer) * 5); i++)
+	    cracks[(int) (Math.random() * 32)][(int) (Math.random() * 32)] = true;
 
-	    for (int i = 0; i < (int) ((2 - blockBreakTimer) * 5); i++)
-		cracks[(int) (Math.random() * 32)][(int) (Math.random() * 32)] = true;
+	if (blockBreakTimer > 0)
+	    return;
 
-	    if (blockBreakTimer <= 0)
-	    {
+	replacementBlock.beingReplaced = false;
 
-		replacementBlock.beingReplaced = false;
+	blockField[replacementXIndex - 2][replacementYIndex - 2] = replacementBlock;
 
-		blockField[replacementXIndex - 2][replacementYIndex - 2] = replacementBlock;
+	blockField[replacementXIndex - 2][replacementYIndex - 2].setX(replacementXIndex);
+	blockField[replacementXIndex - 2][replacementYIndex - 2].setY(replacementYIndex);
 
-		blockField[replacementXIndex - 2][replacementYIndex - 2].setX(replacementXIndex);
-		blockField[replacementXIndex - 2][replacementYIndex - 2].setY(replacementYIndex);
+	gameScene.nbManager.shiftBlocks();
+	gameScene.mouseGrabbed = true;
 
-		gameScene.nbManager.shiftBlocks();
-		gameScene.mouseGrabbed = true;
+	Gdx.input.setCursorPosition((int) ((gameScene.nbManager.getX() + 24) * gameScene.screenWidthRatio),
+		(int) (gameScene.viewport.getScreenHeight()
+			- ((gameScene.nbManager.getY() + 24) * gameScene.screenHeightRatio)));
 
-		Gdx.input.setCursorPosition((int) ((gameScene.nbManager.getX() + 24) * gameScene.screenWidthRatio),
-			(int) (gameScene.viewport.getScreenHeight()
-				- ((gameScene.nbManager.getY() + 24) * gameScene.screenHeightRatio)));
+	for (int i = 0; i < 32; i++)
+	    for (int j = 0; j < 32; j++)
+		cracks[i][j] = false;
 
-		for (int i = 0; i < 32; i++)
-		{
-		    for (int j = 0; j < 32; j++)
-		    {
+	replacing = false;
 
-			cracks[i][j] = false;
-		    }
-		}
-
-		replacing = false;
-
-		blockBreakTimer = 2;
-	    }
-	}
+	blockBreakTimer = 2;
     }
 
     @Override
@@ -131,24 +162,14 @@ public class BlockField extends Entity
 	batch.begin();
 
 	for (int i = 0; i < 14; i++)
-	{
 	    for (int j = 0; j < 11; j++)
-	    {
-
 		if (blockField[i][j] != null)
 		    batch.draw(blockField[i][j].getSprite("block"), blockField[i][j].getX(), blockField[i][j].getY(),
 			    blockField[i][j].getWidth(), blockField[i][j].getHeight());
-	    }
-	}
 
 	for (int i = 0; i < 32; i++)
-	{
 	    for (int j = 0; j < 32; j++)
-	    {
-
 		if (cracks[i][j])
 		    batch.draw(crackTexture, replacementXIndex * 32 + i, replacementYIndex * 32 + j, 1, 1);
-	    }
-	}
     }
 }

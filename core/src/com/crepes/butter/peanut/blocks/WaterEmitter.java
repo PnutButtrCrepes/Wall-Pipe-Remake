@@ -53,7 +53,7 @@ public class WaterEmitter extends BuildingBlock
 	    addSprite("RWaterEmitter.png", "block");
 	}
 
-	gameScene.bfManager.addBlock(this, (int) this.getUnscaledX(), (int) this.getUnscaledY());
+	gameScene.bfManager.attemptAddBlock(this, (int) this.getUnscaledX(), (int) this.getUnscaledY());
     }
 
     @Override

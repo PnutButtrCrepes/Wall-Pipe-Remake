@@ -3,6 +3,7 @@ package com.crepes.butter.peanut.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.crepes.butter.peanut.BlockField;
+import com.crepes.butter.peanut.HazardManager;
 import com.crepes.butter.peanut.Leaderboard;
 import com.crepes.butter.peanut.LevelTransitionManager;
 import com.crepes.butter.peanut.ui.NextBlocks;
@@ -36,8 +37,9 @@ public class GameScene extends Scene
     public GameUI gameUI;
 
     public LevelTransitionManager levelManager;
-
     public Leaderboard leaderboardManager;
+    
+    public HazardManager hazardManager;
 
     public Water water;
 
@@ -62,6 +64,7 @@ public class GameScene extends Scene
 	water = new Water(this);
 	levelManager = new LevelTransitionManager(this);
 	leaderboardManager = new Leaderboard();
+	hazardManager = new HazardManager(this);
 
 	addActors();
 
@@ -107,15 +110,14 @@ public class GameScene extends Scene
 
     public void levelInit()
     {
-
+	// increment level counter
 	gameUI.levelCount.levelCount++;
 
+	// clean up last level
 	gameState = GameState.NOT_STARTED;
-
-	mouseGrabbed = false;
-
 	this.getActors().removeRange(12, this.getActors().size - 1);
 
+	// set up next level
 	bfManager.reset();
 	nbManager.reset();
 	emitter.reset();
@@ -123,6 +125,9 @@ public class GameScene extends Scene
 	gameUI.scoreManager.reset();
 	water.reset();
 	levelManager.reset();
+	
+	// allow user to move mouse
+	mouseGrabbed = false;
     }
 
     public void togglePause()
@@ -292,7 +297,7 @@ public class GameScene extends Scene
 			    Gdx.input.setCursorPosition((int) ((nbManager.getX() + 24) * screenWidthRatio),
 				    (int) (viewport.getScreenHeight() - ((nbManager.getY() + 24) * screenHeightRatio)));
 
-			} else if (!bfManager.blockField[xIndex - 2][yIndex - 2].watered)
+			} else if (bfManager.blockField[xIndex - 2][yIndex - 2].isReplaceable())
 			{
 
 			    bfManager.replace(placingBlock, xIndex, yIndex);

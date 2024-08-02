@@ -252,7 +252,7 @@ public class Water extends Entity
 	}
     }
 
-    private WaterDirection invertWaterDirection(WaterDirection direction)
+    public static WaterDirection invertWaterDirection(WaterDirection direction)
     {
 	WaterDirection invertedWaterDirection;
 

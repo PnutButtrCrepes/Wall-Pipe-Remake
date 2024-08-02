@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.Entity;
+import com.crepes.butter.peanut.Water;
 import com.crepes.butter.peanut.Water.WaterDirection;
 
 public class BuildingBlock extends Entity
@@ -12,22 +13,24 @@ public class BuildingBlock extends Entity
 
     public boolean oneWay;
 
+    public boolean replaceable;
     public boolean watered;
     public boolean looped;
     
     public boolean beingReplaced;
     
     public ArrayList<TurningPoint> turningPoints;
+    public TeleportPoint teleportPoint;
 
     public boolean visible;
 
-    public BuildingBlock(BuildingBlockType type)
+    public BuildingBlock(BuildingBlockType type, float x, float y, float sizeX, float sizeY)
     {
-
-	super(0f, 0f, 1f, 1f);
+	super(x, y, sizeX, sizeY);
 
 	turningPoints = new ArrayList<BuildingBlock.TurningPoint>();
 	
+	replaceable = true;
 	watered = false;
 	looped = false;
 	
@@ -39,6 +42,11 @@ public class BuildingBlock extends Entity
 	if (type != null)
 	    switch (this.type)
 	    {
+	    
+	    case BLANK:
+		addSprite("NormalBrick.png", "block");
+		replaceable = false;
+		break;
 
 	    case CROSS:
 		addSprite("Cross.png", "block");
@@ -47,58 +55,62 @@ public class BuildingBlock extends Entity
 	    case DLELBOW:
 		addSprite("DLElbow.png", "block");
 		
-		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.RIGHT, WaterDirection.DOWN));
+		turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.DOWN));
 		break;
 
 	    case DRELBOW:
 		addSprite("DRElbow.png", "block");
 		
-		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.LEFT, WaterDirection.DOWN));
+		turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.DOWN));
 		break;
 
 	    case HSQUIGGLY:
-		// TODO WORKING, EXTEND TO OTHER BLOCKS
 		addSprite("HSquiggly.png", "block");
 		
-		turningPoints.add(new TurningPoint(8f / 32f, 16f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
-		turningPoints.add(new TurningPoint(8f / 32f, 24f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
-		turningPoints.add(new TurningPoint(16f / 32f, 24f / 32f, WaterDirection.RIGHT, WaterDirection.DOWN));
-		turningPoints.add(new TurningPoint(16f / 32f, 8f / 32f, WaterDirection.DOWN, WaterDirection.RIGHT));
-		turningPoints.add(new TurningPoint(24f / 32f, 8f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
-		turningPoints.add(new TurningPoint(24f / 32f, 16f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
+		turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP, 8f / 32f, 16f / 32f));
+		turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.RIGHT, 8f / 32f, 24f / 32f));
+		turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.DOWN, 16f / 32f, 24f / 32f));
+		turningPoints.add(new TurningPoint(WaterDirection.DOWN, WaterDirection.RIGHT, 16f / 32f, 8f / 32f));
+		turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP, 24f / 32f, 8f / 32f));
+		turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.RIGHT, 24f / 32f, 16f / 32f));
 		break;
 
 	    case HSTRAIGHT:
 		addSprite("HStraight.png", "block");
 		
-		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.RIGHT, WaterDirection.RIGHT));
+		turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.RIGHT));
 		break;
 
 	    case ULELBOW:
 		addSprite("ULElbow.png", "block");
 		
-		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.RIGHT, WaterDirection.UP));
+		turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP));
 		break;
 
 	    case URELBOW:
 		addSprite("URElbow.png", "block");
 		
-		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.LEFT, WaterDirection.UP));
+		turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP));
 		break;
 
 	    case VSQUIGGLY:
 		addSprite("VSquiggly.png", "block");
 		
-		turningPoints.add(new TurningPoint(16f / 32f, 11f / 32f, WaterDirection.UP, WaterDirection.LEFT));
-		turningPoints.add(new TurningPoint(7f / 32f, 11f / 32f, WaterDirection.LEFT, WaterDirection.UP));
-		turningPoints.add(new TurningPoint(7f / 32f, 21f / 32f, WaterDirection.UP, WaterDirection.RIGHT));
-		turningPoints.add(new TurningPoint(16f / 32f, 21f / 32f, WaterDirection.RIGHT, WaterDirection.UP));
+		turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.LEFT, 16f / 32f, 11f / 32f));
+		turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP, 7f / 32f, 11f / 32f));
+		turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.RIGHT, 7f / 32f, 21f / 32f));
+		turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP, 16f / 32f, 21f / 32f));
 		break;
 
 	    case VSTRAIGHT:
 		addSprite("VStraight.png", "block");
 		
-		turningPoints.add(new TurningPoint(0.5f, 0.5f, WaterDirection.UP, WaterDirection.UP));
+		turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.UP));
+		break;
+		
+	    case TELEPORT_CROSS:
+		addSprite("Teleporter.png", "block");
+		replaceable = false;
 		break;
 
 	    default:
@@ -108,46 +120,26 @@ public class BuildingBlock extends Entity
 	visible = true;
     }
     
-    private WaterDirection invertWaterDirection(WaterDirection direction)
+    public BuildingBlock(BuildingBlockType type)
     {
-	WaterDirection invertedWaterDirection;
-
-	switch (direction)
-	{
-	case DOWN:
-	    invertedWaterDirection = WaterDirection.UP;
-	    break;
-
-	case LEFT:
-	    invertedWaterDirection = WaterDirection.RIGHT;
-	    break;
-
-	case RIGHT:
-	    invertedWaterDirection = WaterDirection.LEFT;
-	    break;
-
-	case UP:
-	    invertedWaterDirection = WaterDirection.DOWN;
-	    break;
-
-	default:
-	    invertedWaterDirection = null;
-	    break;
-	}
-
-	return invertedWaterDirection;
+	this(type, 0, 0, 1, 1);
+    }
+    
+    public void addTeleportPoint(float teleportX, float teleportY)
+    {
+	teleportPoint = new TeleportPoint(0.5f, 0.5f, teleportX, teleportY);
     }
     
     public boolean hasDirectionalEntrace(WaterDirection direction)
     {
-	if (type == BuildingBlockType.CROSS)
+	if (type == BuildingBlockType.CROSS || type == BuildingBlockType.TELEPORT_CROSS)
 	    return true;
 	
 	if (direction == turningPoints.get(0).previousWaterDirection)
 	{
 	    return true;
 	}
-	else if (direction == invertWaterDirection(turningPoints.get(turningPoints.size() - 1).targetWaterDirection))
+	else if (direction == Water.invertWaterDirection(turningPoints.get(turningPoints.size() - 1).targetWaterDirection))
 	{
 	    if (!oneWay)
 		return true;
@@ -156,6 +148,11 @@ public class BuildingBlock extends Entity
 	}
 	
 	return false;
+    }
+    
+    public boolean isReplaceable()
+    {
+	return (replaceable && !watered);
     }
     
     @Override
@@ -179,7 +176,8 @@ public class BuildingBlock extends Entity
 
     public enum BuildingBlockType
     {
-
+	BLANK,
+	
 	CROSS, ULELBOW, URELBOW, DLELBOW, DRELBOW, HSTRAIGHT, VSTRAIGHT, HSQUIGGLY, VSQUIGGLY,
 
 	L_BATHTUB, R_BATHTUB,
@@ -195,47 +193,42 @@ public class BuildingBlock extends Entity
     
     public class TurningPoint
     {
-	public float x;
-	public float y;
 	public WaterDirection previousWaterDirection;
 	public WaterDirection targetWaterDirection;
+	
+	public float x;
+	public float y;
+	
+	public TurningPoint(WaterDirection previousWaterDirection, WaterDirection targetWaterDirection, float x, float y)
+	{
+	    this.previousWaterDirection = previousWaterDirection;
+	    this.targetWaterDirection = targetWaterDirection;
+	    
+	    this.x = x;
+	    this.y = y;
+	}
+
+	public TurningPoint(WaterDirection previousWaterDirection, WaterDirection targetWaterDirection)
+	{
+	    this(previousWaterDirection, targetWaterDirection, 0.5f, 0.5f);
+	}
+    }
+    
+    public class TeleportPoint
+    {
+	public float x;
+	public float y;
+	
 	public float teleportX;
 	public float teleportY;
 	
-	public TurningPoint(WaterDirection previousWaterDirection, WaterDirection targetWaterDirection)
-	{
-	    this.x = 0.5f;
-	    this.y = 0.5f;
-	    
-	    teleportX = 0.5f;
-	    teleportY = 0.5f;
-	    
-	    this.previousWaterDirection = previousWaterDirection;
-	    this.targetWaterDirection = targetWaterDirection;
-	}
-	
-	public TurningPoint(float x, float y, WaterDirection previousWaterDirection, WaterDirection targetWaterDirection)
+	public TeleportPoint(float x, float y, float teleportX, float teleportY)
 	{
 	    this.x = x;
 	    this.y = y;
 	    
-	    teleportX = x;
-	    teleportY = y;
-	    
-	    this.previousWaterDirection = previousWaterDirection;
-	    this.targetWaterDirection = targetWaterDirection;
-	}
-	
-	public TurningPoint(float x, float y, WaterDirection previousWaterDirection, WaterDirection targetWaterDirection, float teleportX, float teleportY)
-	{
-	    this.x = x;
-	    this.y = y;
-	    
-	    this.teleportX = x;
-	    this.teleportY = y;
-	    
-	    this.previousWaterDirection = previousWaterDirection;
-	    this.targetWaterDirection = targetWaterDirection;
+	    this.teleportX = teleportX;
+	    this.teleportY = teleportY;
 	}
     }
 }
