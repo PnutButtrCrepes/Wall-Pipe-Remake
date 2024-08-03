@@ -31,6 +31,9 @@ public class HazardManager extends Entity {
 	public HazardManager(GameScene gameScene) {
 		super(0, 0, 0, 0);
 		this.gameScene = gameScene;
+		
+		levelHazards = new ArrayList<LevelHazards>();
+		
 		loadLevelHazards();
 		reset();
 	}
@@ -50,8 +53,6 @@ public class HazardManager extends Entity {
 				for (int i = 0; i < hazards.length; i++)
 					numberOfHazards[i] = Integer.parseInt(hazards[i]);
 
-				activeHazards = new ArrayList<Hazard>();
-				levelHazards = new ArrayList<LevelHazards>();
 				levelHazards.add(new LevelHazards(numberOfHazards));
 			}
 		} catch (IOException e) {
@@ -62,7 +63,14 @@ public class HazardManager extends Entity {
 	
 	public void reset()
 	{
-		int[] currentHazardArray = levelHazards.get(0).numberOfHazards;
+		activeHazards = new ArrayList<Hazard>();
+		
+		int[] currentHazardArray;
+		if (gameScene.gameUI.levelCount.levelCount - 1 < levelHazards.size())
+			currentHazardArray = levelHazards.get(gameScene.gameUI.levelCount.levelCount - 1).numberOfHazards;
+		else
+			currentHazardArray = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }; // TODO should replace with a random method
+		
 		for (int i = 0; i < currentHazardArray.length; i++)
 			for (int j = 0; j < currentHazardArray[i]; j++)
 			{
@@ -181,6 +189,22 @@ public class HazardManager extends Entity {
 			this.componentBlocks = new ArrayList<BuildingBlock>();
 
 			switch (hazardType) {
+			case STATIONARY_BLOCK:
+				// TODO ensure placing block is empty
+				BuildingBlock blockToAdd = new BuildingBlock(BuildingBlockType.BLANK);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, (int) (Math.random() * 14 + 2), (int) (Math.random() * 11 + 2));
+				blockToAdd.replaceable = false;
+				break;
+				
+			case MOVING_BLOCK:
+				// TODO ensure placing block is empty
+				blockToAdd = new BuildingBlock(BuildingBlockType.BLANK);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, (int) (Math.random() * 14 + 2), (int) (Math.random() * 11 + 2));
+				blockToAdd.replaceable = false;
+				break;
+			
 			case BATHTUB:
 				componentBlocks.add(new BuildingBlock(BuildingBlockType.L_BATHTUB));
 				componentBlocks.add(new BuildingBlock(BuildingBlockType.R_BATHTUB));
@@ -189,20 +213,10 @@ public class HazardManager extends Entity {
 			case FOUR_CORNERS:
 				break;
 
-			case MOVING_BLOCK:
-				BuildingBlock blockToAdd = new BuildingBlock(BuildingBlockType.BLANK);
-				componentBlocks.add(blockToAdd);
-				gameScene.bfManager.addBlock(blockToAdd, (int) (Math.random() * 12 + 3), (int) (Math.random() * 9 + 3));
-				blockToAdd.replaceable = false;
-				break;
-
 			case POINT_PIPE:
 				break;
 
 			case SINK:
-				break;
-
-			case STATIONARY_BLOCK:
 				break;
 
 			case TELEPORTERS:
