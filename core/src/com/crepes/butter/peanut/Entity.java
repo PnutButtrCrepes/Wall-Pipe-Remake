@@ -35,7 +35,7 @@ public abstract class Entity extends Actor
     
     protected void addSprite(String fileName, String alias)
     {
-	Texture texture = new Texture(fileName);
+	Texture texture = new Texture("assets\\" + fileName);
 	Sprite sprite = new Sprite();
 	sprite.setRegion(texture);
 	

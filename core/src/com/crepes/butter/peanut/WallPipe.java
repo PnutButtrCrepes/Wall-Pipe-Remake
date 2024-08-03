@@ -40,7 +40,7 @@ public class WallPipe extends ApplicationAdapter
     {
 
 	if (WallPipe.font == null)
-	    WallPipe.font = new BitmapFont(Gdx.files.internal("WallPipeFont.fnt"));
+	    WallPipe.font = new BitmapFont(Gdx.files.internal("assets\\WallPipeFont.fnt"));
 
 	camera = new OrthographicCamera();
 	viewport = new StretchViewport(DISPLAY_WIDTH * DISPLAY_SCALE, DISPLAY_HEIGHT * DISPLAY_SCALE, camera);
@@ -110,7 +110,7 @@ public class WallPipe extends ApplicationAdapter
 
 	currentScene = scene;
 
-	currentBackground = backgroundLoader.load(currentScene.backgroundName + ".tmx");
+	currentBackground = backgroundLoader.load("assets\\" + currentScene.backgroundName + ".tmx");
 	backgroundRenderer.setMap(currentBackground);
 
 	//TODO separate the input processing from the Scene

@@ -38,7 +38,7 @@ public class BlockField extends Entity
 	blockField = new BuildingBlock[15][12];
 
 	crack = new TextureRegion();
-	crackTexture = new Texture("Background.png");
+	crackTexture = new Texture("assets\\Background.png");
 	crack.setRegion(crackTexture);
 
 	blockBreakTimer = 2;
