@@ -6,67 +6,59 @@ import com.crepes.butter.peanut.WallPipe;
 import com.crepes.butter.peanut.scenes.GameScene;
 import com.crepes.butter.peanut.scenes.GameScene.GameState;
 
-public class Clock extends Entity
-{
+public class Clock extends Entity {
 
-    public GameScene gameScene;
+	public GameScene gameScene;
 
-    public boolean running;
-    public float time;
+	public boolean running;
+	public float time;
 
-    public Clock(GameScene gameScene)
-    {
+	public Clock(GameScene gameScene) {
 
-	super(0.25f, 4f, 1.5f, 1f);
+		super(0.25f, 4f, 1.5f, 1f);
 
-	this.gameScene = gameScene;
+		this.gameScene = gameScene;
 
-	time = 40;
+		time = 40;
 
-	addSprite("Black.png", "black");
-    }
-
-    public void reset()
-    {
-
-	time = 40;
-	running = true;
-    }
-
-    @Override
-    public void act(float delta)
-    {
-
-	if (gameScene.gameState == GameState.RUNNING && running)
-	{
-	    time -= delta;
-
-	    if (time <= 0)
-	    {
-
-		time = 0;
-
-		if (!gameScene.water.running)
-		    gameScene.water.running = true;
-
-		running = false;
-	    }
+		addSprite("Black.png", "black");
 	}
-    }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha)
-    {
+	public void reset() {
+		time = 40;
+		running = true;
+	}
 
-	batch.end();
-	batch.begin();
+	@Override
+	public void act(float delta) {
 
-	batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		if (gameScene.gameState != GameState.RUNNING || !running)
+			return;
 
-	WallPipe.font.getData().setScale(0.75f, 0.75f);
-	WallPipe.font.draw(batch, "Clock", this.getX() + 4, this.getY() + 56);
+		time -= delta;
 
-	WallPipe.font.getData().setScale(1, 1);
-	WallPipe.font.draw(batch, String.valueOf((int) time), this.getX() + 14, this.getY() + 28);
-    }
+		if (time <= 0) {
+			time = 0;
+
+			if (!gameScene.water.running)
+				gameScene.water.running = true;
+
+			running = false;
+		}
+	}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+
+		batch.end();
+		batch.begin();
+
+		batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
+		WallPipe.font.getData().setScale(0.75f, 0.75f);
+		WallPipe.font.draw(batch, "Clock", this.getX() + 4, this.getY() + 56);
+
+		WallPipe.font.getData().setScale(1, 1);
+		WallPipe.font.draw(batch, String.valueOf((int) time), this.getX() + 14, this.getY() + 28);
+	}
 }

@@ -15,104 +15,97 @@ import com.crepes.butter.peanut.scenes.GameScene;
 import com.crepes.butter.peanut.scenes.MainMenuScene;
 import com.crepes.butter.peanut.scenes.Scene;
 
-public class WallPipe extends ApplicationAdapter
-{
+public class WallPipe extends ApplicationAdapter {
 
-    public static BitmapFont font;
+	public static BitmapFont font;
 
-    final float DISPLAY_WIDTH = 17;
-    final float DISPLAY_HEIGHT = 14;
-    final float DISPLAY_SCALE = 32;
+	final float DISPLAY_WIDTH = 17;
+	final float DISPLAY_HEIGHT = 14;
+	final float DISPLAY_SCALE = 32;
 
-    Camera camera;
-    Viewport viewport;
+	Camera camera;
+	Viewport viewport;
 
-    public TiledMap currentBackground;
-    public TmxMapLoader backgroundLoader;
-    public OrthogonalTiledMapRenderer backgroundRenderer;
+	public TiledMap currentBackground;
+	public TmxMapLoader backgroundLoader;
+	public OrthogonalTiledMapRenderer backgroundRenderer;
 
-    Scene currentScene;
-    MainMenuScene menuScene;
-    GameScene gameScene;
+	Scene currentScene;
+	MainMenuScene menuScene;
+	GameScene gameScene;
 
-    @Override
-    public void create()
-    {
+	@Override
+	public void create() {
 
-	if (WallPipe.font == null)
-	    WallPipe.font = new BitmapFont(Gdx.files.internal("WallPipeFont.fnt"));
+		if (WallPipe.font == null)
+			WallPipe.font = new BitmapFont(Gdx.files.internal("assets\\WallPipeFont.fnt"));
 
-	camera = new OrthographicCamera();
-	viewport = new StretchViewport(DISPLAY_WIDTH * DISPLAY_SCALE, DISPLAY_HEIGHT * DISPLAY_SCALE, camera);
-	viewport.apply();
+		camera = new OrthographicCamera();
+		viewport = new StretchViewport(DISPLAY_WIDTH * DISPLAY_SCALE, DISPLAY_HEIGHT * DISPLAY_SCALE, camera);
+		viewport.apply();
 
-	gameScene = new GameScene(viewport);
-	menuScene = new MainMenuScene(viewport);
+		gameScene = new GameScene(viewport);
+		menuScene = new MainMenuScene(viewport);
 
-	backgroundLoader = new TmxMapLoader();
-	backgroundRenderer = new OrthogonalTiledMapRenderer(null);
+		backgroundLoader = new TmxMapLoader();
+		backgroundRenderer = new OrthogonalTiledMapRenderer(null);
 
-	changeScene(menuScene);
-	
-	SoundGenerator.initSoundSystem();
-    }
-
-    @Override
-    public void resize(int width, int height)
-    {
-
-	viewport.update(width, height);
-    }
-
-    @Override
-    public void render()
-    {
-
-	Gdx.gl.glClear(GL20.GL_ALPHA_BITS);
-	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	camera.update();
-
-	if (currentScene.readyToSwitch)
-	{
-
-	    switch (currentScene.switchSceneType)
-	    {
-
-	    case GAME:
-		changeScene(gameScene);
-		break;
-
-	    case MAIN_MENU:
 		changeScene(menuScene);
-		break;
 
-	    default:
-		break;
-
-	    }
+		SoundGenerator.initSoundSystem();
 	}
 
-	backgroundRenderer.setView((OrthographicCamera) camera);
-	backgroundRenderer.render();
+	@Override
+	public void resize(int width, int height) {
 
-	currentScene.act();
-	currentScene.draw();
-    }
+		viewport.update(width, height);
+	}
 
-    @Override
-    public void dispose()
-    {
+	@Override
+	public void render() {
 
-    }
+		Gdx.gl.glClear(GL20.GL_ALPHA_BITS);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		camera.update();
 
-    public void changeScene(Scene scene)
-    {
+		if (currentScene.readyToSwitch) {
 
-	currentScene = scene;
+			switch (currentScene.switchSceneType) {
 
-	currentBackground = backgroundLoader.load(currentScene.backgroundName + ".tmx");
-	backgroundRenderer.setMap(currentBackground);
+			case GAME:
+				changeScene(gameScene);
+				break;
 
-	Gdx.input.setInputProcessor(currentScene);
-    }
+			case MAIN_MENU:
+				changeScene(menuScene);
+				break;
+
+			default:
+				break;
+
+			}
+		}
+
+		backgroundRenderer.setView((OrthographicCamera) camera);
+		backgroundRenderer.render();
+
+		currentScene.act();
+		currentScene.draw();
+	}
+
+	@Override
+	public void dispose() {
+
+	}
+
+	public void changeScene(Scene scene) {
+
+		currentScene = scene;
+
+		currentBackground = backgroundLoader.load("assets\\" + currentScene.backgroundName + ".tmx");
+		backgroundRenderer.setMap(currentBackground);
+
+		// TODO separate the input processing from the Scene
+		Gdx.input.setInputProcessor(currentScene);
+	}
 }

@@ -1,198 +1,126 @@
 package com.crepes.butter.peanut;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.sql.*;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.scenes.GameScene;
 
-public class LevelTransitionManager extends Entity {
-	private static final Color DARK_RED = new Color(0.5f, 0, 0, 1);
-
+public class Cutscene extends Entity {
 	public GameScene gameScene;
-
-	private float timer;
-	private boolean timerRunning;
-
-	private int deleteBlockX;
-	private int deleteBlockY;
-
-	public boolean hasSelectedInitials;
-	boolean scoreAdded;
-	public boolean hasViewedLeaderboard;
+	public CutsceneType cutsceneType;
+	public float cutsceneTimer;
+	public boolean cutsceneTimerStarted;
+	public ArrayList<Float> cutsceneTransitionLengths;
+	public int cutsceneIndex;
 
 	public Character[] initials;
+	private int deleteBlockX;
+	private int deleteBlockY;
+	private boolean scoreAdded;
 
-	public LevelTransitionManager(GameScene gameScene) {
-		super(5.75f, 7.5f, 6.25f, 2f);
-
+	public Cutscene(GameScene gameScene, CutsceneType cutsceneType) {
+		super(0, 0, 0, 0);
 		this.gameScene = gameScene;
-
-		addSprite("Black.png", "black");
-		addSprite("White.png", "white");
-		addSprite("Yellow.png", "yellow");
-		addSprite("Water.png", "water");
-		addSprite("DeleteOutline.png", "delete");
-		addSprite("Green.png", "green");
-
-		timer = 0;
-		timerRunning = false;
-
-		deleteBlockX = -1;
-		deleteBlockY = -1;
-
-		hasSelectedInitials = false;
-		scoreAdded = false;
-		hasViewedLeaderboard = false;
+		this.cutsceneType = cutsceneType;
+		cutsceneTimer = 0;
+		cutsceneTransitionLengths = new ArrayList<Float>();
+		cutsceneIndex = 0;
 
 		initials = new Character[3];
-	}
-
-	public void reset() {
-
-		timer = 0;
-		timerRunning = false;
-
 		deleteBlockX = -1;
 		deleteBlockY = -1;
-
-		hasSelectedInitials = false;
 		scoreAdded = false;
-		hasViewedLeaderboard = false;
 
-		initials = new Character[3];
+		switch (this.cutsceneType) {
+		case LEVEL_END:
+			cutsceneTransitionLengths.add(3f);
+			cutsceneTransitionLengths.add(3f);
+			break;
+
+		case MAIN_MENU:
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void act(float delta) {
+		if (cutsceneTransitionLengths.get(cutsceneIndex) == 0)
+			return;
 
-		if (timerRunning)
-			timer += delta;
-	}
+		if (cutsceneTimerStarted)
+			cutsceneTimer += delta;
 
-	private void drawText(Batch batch, String text, Color color, float x, float y, float scale) {
-		WallPipe.font.getData().setScale(scale, scale);
-		WallPipe.font.setColor(color);
-		WallPipe.font.draw(batch, text, x, y);
-		WallPipe.font.setColor(1, 1, 1, 1);
+		if (cutsceneTimer >= cutsceneTransitionLengths.get(cutsceneIndex)) {
+			cutsceneIndex++;
+			cutsceneTimer = 0;
+		}
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-
-		batch.end();
-
-		batch.enableBlending();
-		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-		batch.begin();
-
-		switch (gameScene.gameState) {
-		case NOT_STARTED:
-			batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
-			batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-			batch.draw(getSprite("yellow"), this.getX() + 2.5f, this.getY() + 2.5f, this.getWidth() - 5,
-					this.getHeight() - 5);
-
-			drawText(batch, "CLICK MOUSE TO BEGIN", Color.BLACK, this.getX() + 20, this.getY() + 55, 0.7f);
-			drawText(batch, "LEVEL: " + gameScene.gameUI.levelCount.levelCount, DARK_RED, this.getX() + 60,
-					this.getY() + 25, 0.6f);
-			break;
-
-		case RUNNING:
-			break;
-
-		case PAUSED:
-			batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
-			// batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(),
-			// this.getHeight());
-			batch.draw(getSprite("yellow"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-
-			drawText(batch, "GAME PAUSED...", DARK_RED, this.getX() + 40, this.getY() + 55, 0.9f);
-			drawText(batch, "Click to Continue", Color.BLACK, this.getX() + 50, this.getY() + 20, 0.6f);
-			break;
-
-		case OPTIONS_DIALOG:
-			break;
-
-		case QUIT_DIALOG:
-			batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
-			// batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(),
-			// this.getHeight());
-			batch.draw(getSprite("green"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-
-			drawText(batch, "QUIT WALL PIPE GAME ?", Color.WHITE, this.getX() + 30, this.getY() + 55, 0.6f);
-			drawText(batch, "(Y/N)", new Color(0.8f, 0.8f, 0f, 1), this.getX() + 80, this.getY() + 30, 0.6f);
-			break;
-//	TODO
-		case LEVEL_ENDED:
-			if (timer < 3) {
-
+		switch (cutsceneType) {
+		case LEVEL_END:
+			switch (cutsceneIndex) {
+			case 0:
 				displayLevelOverDialogue(batch);
+				break;
 
-			} else if (timer > 3 && timer < 6) {
-
-				if (gameScene.gameUI.loopsManager.loops > 3) {
-
+			case 1:
+				if (gameScene.gameUI.loopsManager.loops > 3)
 					displayLoopBonusDialogue(batch);
+				else
+					cutsceneIndex++;
+				break;
 
-				} else {
-
-					timer = 6;
-				}
-
-			} else if (timer > 6 && timer < 7) {
-
-				if (timer > 6.25)
+			case 2:
+				if (cutsceneTimer > 0.25)
 					gameScene.gameUI.loopsManager.addBonus();
+				break;
 
-			} else if (timer > 7 && timer < 10) {
-
+			case 3:
 				displayRemovingPipesDialogue(batch);
+				break;
 
-			} else if (timer > 10 && timer < 11) {
+			case 4:
+				if (cutsceneTimer < 1) {
 
-				drawDeleteBlockOutline(batch);
+					drawDeleteBlockOutline(batch);
 
-			} else if (timer > 11 && timer < 12) {
+				} else if (cutsceneTimer > 1 && cutsceneTimer < 2) {
 
-				deleteSelectedBlock(batch);
+					deleteSelectedBlock(batch);
 
-				selectBlockToBeDeleted(batch);
+					selectBlockToBeDeleted(batch);
 
-			} else if (timer > 12
-					&& gameScene.gameUI.scoreManager.score >= gameScene.gameUI.scoreNeededManager.scoreNeeded) {
+				}
+				break;
 
-				gameScene.levelInit();
+			case 5:
+				if (gameScene.gameUI.scoreManager.score >= gameScene.gameUI.scoreNeededManager.scoreNeeded)
+					gameScene.levelInit();
+				else
+					cutsceneIndex++;
+				break;
 
-			} else if (timer > 12 && timer < 15) {
-
+			case 6:
 				drawText(batch, "GAME OVER", Color.WHITE, this.getX() + 50, this.getY() + 5, 1.1f);
+				break;
 
-			} else if (timer > 15 && timer < 18
-					&& (((int) (gameScene.gameUI.scoreManager.score) < gameScene.leaderboardManager.leaderboardEntries[9].score)
-							|| ((int) (gameScene.gameUI.scoreManager.score) == gameScene.leaderboardManager.leaderboardEntries[9].score
-									&& gameScene.gameUI.levelCount.levelCount <= gameScene.leaderboardManager.leaderboardEntries[9].level))) {
-
-				timer = 19;
-				hasSelectedInitials = true;
-				hasViewedLeaderboard = false;
-				scoreAdded = true;
-
-				gameScene.leaderboardManager.sortScores();
-				gameScene.leaderboardManager.compileScores();
-
-			} else if (timer > 15 && timer < 18) {
+			case 7:
+				if (((int) (gameScene.gameUI.scoreManager.score) < gameScene.leaderboardManager.leaderboardEntries[9].score)
+						|| ((int) (gameScene.gameUI.scoreManager.score) == gameScene.leaderboardManager.leaderboardEntries[9].score
+								&& gameScene.gameUI.levelCount.levelCount <= gameScene.leaderboardManager.leaderboardEntries[9].level))
+					cutsceneIndex++;
 
 				displayTopTenDialogue(batch);
 
-			} else if (timer > 18 && !hasSelectedInitials) {
-
-				displayTopTenDialogue(batch);
-
-				if (timer > 18.5) {
+				if (cutsceneTimer > 3.5f) {
 
 					if (initials[0] == null)
 
@@ -221,11 +149,9 @@ public class LevelTransitionManager extends Entity {
 								this.getX() + 10, this.getY() - 15, 0.7f);
 				}
 
-				if (timer > 19)
-					timer = 18;
+				break;
 
-			} else if (timer > 19 && hasSelectedInitials && !hasViewedLeaderboard) {
-
+			case 8:
 				SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 
 				long millis = System.currentTimeMillis();
@@ -249,27 +175,40 @@ public class LevelTransitionManager extends Entity {
 
 				gameScene.leaderboardManager.setVisible(true);
 
-				if (timer > 20)
-					timer = 19;
+				break;
 
-			} else if (timer > 19 && timer < 20 && hasSelectedInitials && hasViewedLeaderboard) {
-
+			case 9:
 				gameScene.leaderboardManager.setVisible(false);
 
-			} else if (timer > 20 && hasSelectedInitials && hasViewedLeaderboard) {
-
-				displayPlayAnotherGameDialogue(batch);
+				if (cutsceneTimer > 1)
+					displayPlayAnotherGameDialogue(batch);
+				break;
 			}
 			break;
 
-		default:
+		case MAIN_MENU:
+			switch (cutsceneIndex) {
+
+			}
 			break;
 		}
+	}
 
+	public enum CutsceneType {
+		MAIN_MENU, LEVEL_END
+	}
+
+	public enum MainCutsceneStage {
+		NATHAN_KEENAN, WALLPIPE, GAME_START
+	}
+
+	public enum LevelCutsceneStage {
+		LEVEL_OVER, LOOP_BONUS_DISPLAY, LOOP_BONUS_ADD, REMOVING_PIPES_DISPLAY, REMOVING_PIPES_SELECT,
+		REMOVING_PIPES_OUTLINE, REMOVING_PIPES_DELETE, ADVANCE_TO_NEXT_LEVEL, GAME_OVER, LEADERBOARD_ENTRY
 	}
 
 	private void displayLevelOverDialogue(Batch batch) {
-		timerRunning = true;
+		cutsceneTimerStarted = true;
 
 		batch.draw(getSprite("black"), this.getX() - 10, this.getY() - 10, this.getWidth(), this.getHeight());
 		batch.draw(getSprite("white"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
@@ -310,7 +249,7 @@ public class LevelTransitionManager extends Entity {
 					deleteBlockX = i;
 					deleteBlockY = 11 - j;
 
-					timer = 10.6f;
+					cutsceneTimer = 10.6f;
 					break Delete;
 				}
 	}
@@ -360,5 +299,12 @@ public class LevelTransitionManager extends Entity {
 				this.getHeight() + 35);
 
 		drawText(batch, "PLAY ANOTHER GAME?\n\n        Y/N", Color.WHITE, this.getX() + 30, this.getY() + 50, 0.7f);
+	}
+
+	private void drawText(Batch batch, String text, Color color, float x, float y, float scale) {
+		WallPipe.font.getData().setScale(scale, scale);
+		WallPipe.font.setColor(color);
+		WallPipe.font.draw(batch, text, x, y);
+		WallPipe.font.setColor(1, 1, 1, 1);
 	}
 }

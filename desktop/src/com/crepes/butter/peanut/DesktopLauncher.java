@@ -9,7 +9,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayModes()[Lwjgl3ApplicationConfiguration.getDisplayModes().length - 1]);
+		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayModes()[Lwjgl3ApplicationConfiguration.getDisplayModes().length - 2]);
 		config.setTitle("Wall Pipe");
 		new Lwjgl3Application(new WallPipe(), config);
 	}
