@@ -206,13 +206,20 @@ public class HazardManager extends Entity {
 				break;
 			
 			case BATHTUB:
-				componentBlocks.add(new BuildingBlock(BuildingBlockType.L_BATHTUB));
-				componentBlocks.add(new BuildingBlock(BuildingBlockType.R_BATHTUB));
+				int randomX = (int) (Math.random() * 14 + 2);
+				int randomY = (int) (Math.random() * 11 + 2);
+				blockToAdd = new BuildingBlock(BuildingBlockType.L_BATHTUB);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX, randomY);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.R_BATHTUB);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY);
 				break;
 
 			case FOUR_CORNERS:
-				int randomX = (int) (Math.random() * 14 + 2);
-				int randomY = (int) (Math.random() * 11 + 2);
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
 				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_DLELBOW);
 				componentBlocks.add(blockToAdd);
 				gameScene.bfManager.addBlock(blockToAdd, randomX, randomY);

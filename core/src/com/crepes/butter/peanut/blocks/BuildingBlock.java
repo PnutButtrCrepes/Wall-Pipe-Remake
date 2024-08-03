@@ -91,6 +91,20 @@ public class BuildingBlock extends Entity {
 
 				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.RIGHT));
 				break;
+				
+			case L_BATHTUB:
+				addSprite("TubL.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.RIGHT));
+				replaceable = false;
+				break;
+				
+			case R_BATHTUB:
+				addSprite("TubR.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.RIGHT));
+				replaceable = false;
+				break;
 
 			case ULELBOW:
 				addSprite("ULElbow.png", "block");

@@ -190,6 +190,7 @@ public class Water extends Entity {
 					if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
 							&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight()) {
 						gameScene.gameUI.loopsManager.loops++;
+						gameScene.gameUI.scoreManager.score += 50;
 						currentBlock.looped = true;
 					}
 
@@ -198,6 +199,7 @@ public class Water extends Entity {
 					if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
 							&& posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight()) {
 						gameScene.gameUI.loopsManager.loops++;
+						gameScene.gameUI.scoreManager.score += 50;
 						currentBlock.looped = true;
 					}
 				}
@@ -209,6 +211,7 @@ public class Water extends Entity {
 					if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
 							&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight()) {
 						gameScene.gameUI.loopsManager.loops++;
+						gameScene.gameUI.scoreManager.score += 50;
 						currentBlock.looped = true;
 
 					} else {
@@ -216,6 +219,7 @@ public class Water extends Entity {
 						if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
 								&& posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight()) {
 							gameScene.gameUI.loopsManager.loops++;
+							gameScene.gameUI.scoreManager.score += 50;
 							currentBlock.looped = true;
 						}
 					}
