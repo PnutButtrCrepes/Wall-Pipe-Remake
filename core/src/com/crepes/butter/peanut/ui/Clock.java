@@ -59,6 +59,6 @@ public class Clock extends Entity {
 		WallPipe.font.draw(batch, "Clock", this.getX() + 4, this.getY() + 56);
 
 		WallPipe.font.getData().setScale(1, 1);
-		WallPipe.font.draw(batch, String.valueOf((int) time), this.getX() + 14, this.getY() + 28);
+		WallPipe.font.draw(batch, String.valueOf((int) Math.ceil(time)), this.getX() + 14, this.getY() + 28);
 	}
 }
