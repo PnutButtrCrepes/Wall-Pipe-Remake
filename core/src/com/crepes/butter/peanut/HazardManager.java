@@ -26,15 +26,18 @@ public class HazardManager extends Entity {
 
 	public ArrayList<LevelHazards> levelHazards;
 	public ArrayList<Hazard> activeHazards;
+	public boolean readyForUpdate = false;
 
 	public HazardManager(GameScene gameScene) {
 		super(0, 0, 0, 0);
 		this.gameScene = gameScene;
+		loadLevelHazards();
+		reset();
 	}
 
 	public void loadLevelHazards() {
 		BufferedReader hazardsFileInputStream = new BufferedReader(
-				new InputStreamReader(Gdx.files.internal("LevelHazards.txt").read()));
+				new InputStreamReader(Gdx.files.internal("assets\\LevelHazards.txt").read()));
 		String line = "";
 		try {
 			while ((line = hazardsFileInputStream.readLine()) != null) {
@@ -47,6 +50,8 @@ public class HazardManager extends Entity {
 				for (int i = 0; i < hazards.length; i++)
 					numberOfHazards[i] = Integer.parseInt(hazards[i]);
 
+				activeHazards = new ArrayList<Hazard>();
+				levelHazards = new ArrayList<LevelHazards>();
 				levelHazards.add(new LevelHazards(numberOfHazards));
 			}
 		} catch (IOException e) {
@@ -54,9 +59,56 @@ public class HazardManager extends Entity {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void reset()
+	{
+		int[] currentHazardArray = levelHazards.get(0).numberOfHazards;
+		for (int i = 0; i < currentHazardArray.length; i++)
+			for (int j = 0; j < currentHazardArray[i]; j++)
+			{
+				switch (i)
+				{
+				case 0:
+					activeHazards.add(new Hazard(HazardType.STATIONARY_BLOCK, 0, 0, 0, 0));
+					break;
+					
+				case 1:
+					activeHazards.add(new Hazard(HazardType.MOVING_BLOCK, 0, 0, 0, 0));
+					break;
+					
+				case 2:
+					activeHazards.add(new Hazard(HazardType.BATHTUB, 0, 0, 0, 0));
+					break;
+					
+				case 3:
+					activeHazards.add(new Hazard(HazardType.UNIDIRECTIONAL_BLOCK, 0, 0, 0, 0));
+					break;
+					
+				case 4:
+					activeHazards.add(new Hazard(HazardType.FOUR_CORNERS, 0, 0, 0, 0));
+					break;
+					
+				case 5:
+					activeHazards.add(new Hazard(HazardType.TELEPORTERS, 0, 0, 0, 0));
+					break;
+					
+				case 6:
+					activeHazards.add(new Hazard(HazardType.POINT_PIPE, 0, 0, 0, 0));
+					break;
+					
+				case 7:
+					activeHazards.add(new Hazard(HazardType.SINK, 0, 0, 0, 0));
+					break;
+				}
+			}
+	}
+	
 	@Override
 	public void act(float delta) {
+		
+		if (!readyForUpdate)
+			return;
+		
 		for (Hazard hazard : activeHazards) {
 			switch (hazard.hazardType) {
 			case BATHTUB:
@@ -70,8 +122,8 @@ public class HazardManager extends Entity {
 				ArrayList<Integer> emptyYIndices = new ArrayList<Integer>();
 
 				BuildingBlock[][] blockField = gameScene.bfManager.blockField;
-				for (int i = 0; i < blockField.length; i++)
-					for (int j = 0; j < blockField[i].length; j++)
+				for (int i = 0; i < blockField.length - 1; i++)
+					for (int j = 0; j < blockField[i].length - 1; j++)
 						if (blockField[i][j] == null) {
 							emptyXIndices.add(i);
 							emptyYIndices.add(j);
@@ -79,13 +131,15 @@ public class HazardManager extends Entity {
 
 				BuildingBlock blockToMove = hazard.componentBlocks.get(0);
 
-				for (int i = 0; i < blockField.length; i++)
-					for (int j = 0; j < blockField[i].length; j++)
+				for (int i = 0; i < blockField.length - 1; i++)
+					for (int j = 0; j < blockField[i].length - 1; j++)
 						if (blockField[i][j] == blockToMove)
 							blockField[i][j] = null;
 
-				int randomInt = (int) (Math.random() * emptyXIndices.size()) + 1;
-				blockField[emptyXIndices.get(randomInt)][emptyXIndices.get(randomInt)] = blockToMove;
+				int randomInt = (int) (Math.random() * emptyXIndices.size());
+				
+				gameScene.bfManager.addBlock(blockToMove, emptyXIndices.get(randomInt) + 2, emptyYIndices.get(randomInt) + 2);
+				//blockField[emptyXIndices.get(randomInt)][emptyYIndices.get(randomInt)] = blockToMove;
 				break;
 
 			case POINT_PIPE:
@@ -107,6 +161,8 @@ public class HazardManager extends Entity {
 				break;
 			}
 		}
+		
+		readyForUpdate = false;
 	}
 
 	@Override
@@ -120,8 +176,9 @@ public class HazardManager extends Entity {
 		public ArrayList<BuildingBlock> componentBlocks;
 
 		public Hazard(HazardType hazardType, float x, float y, float sizeX, float sizeY) {
-			super(x, y, sizeX, sizeY);
+			super(0, 0, 0, 0);
 			this.hazardType = hazardType;
+			this.componentBlocks = new ArrayList<BuildingBlock>();
 
 			switch (hazardType) {
 			case BATHTUB:
