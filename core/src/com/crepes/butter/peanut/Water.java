@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
+import com.crepes.butter.peanut.blocks.BuildingBlock.BuildingBlockType;
 import com.crepes.butter.peanut.blocks.BuildingBlock.TurningPoint;
 import com.crepes.butter.peanut.scenes.GameScene;
 import com.crepes.butter.peanut.scenes.GameScene.GameState;
@@ -295,6 +296,7 @@ public class Water extends Entity {
 		posX = (this.getUnscaledX() + this.getUnscaledWidth());
 		posY = (this.getUnscaledY() + this.getUnscaledHeight());
 
+		BuildingBlock previousBlock = currentBlock;
 		if (posX >= 2 && posX <= 17 && posY >= 2 && posY <= 14) {
 
 			if (gameScene.bfManager.blockField[(int) (posX - 2)][(int) (posY - 2)] != null && currentBlock != null)
@@ -318,6 +320,12 @@ public class Water extends Entity {
 		if (!running)
 			return;
 
+		if (newBlock && ((previousBlock.type == BuildingBlockType.L_BATHTUB && currentBlock.type == BuildingBlockType.R_BATHTUB) ||
+				(previousBlock.type == BuildingBlockType.R_BATHTUB && currentBlock.type == BuildingBlockType.L_BATHTUB)))
+		{
+			gameScene.gameUI.scoreManager.score += 300;
+		}
+		
 		/***************************************************************/
 
 		if (newBlock && currentBlock.turningPoints.size() > 0)
