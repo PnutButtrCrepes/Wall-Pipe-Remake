@@ -40,14 +40,14 @@ public class Water extends Entity {
 			direction = WaterDirection.LEFT;
 
 			this.setX(gameScene.emitter.getUnscaledX() + 0.25f);
-			this.setWidth(-0.125f);
+			this.setWidth(-0.125f - 0.015625f);
 
 		} else {
 
 			direction = WaterDirection.RIGHT;
 
 			this.setX(gameScene.emitter.getUnscaledX() + 0.75f);
-			this.setWidth(0.125f);
+			this.setWidth(0.125f + 0.015625f);
 		}
 
 		this.setY(gameScene.emitter.getUnscaledY() + 0.5f - STREAM_WIDTH / 2);
