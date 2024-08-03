@@ -57,7 +57,7 @@ public class Water extends Entity {
 
 		newBlock = false;
 
-		speed = 0.5f;
+		speed = 0.525f;
 
 		addSprite("Water.png", "water");
 
