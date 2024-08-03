@@ -193,6 +193,7 @@ public class HazardManager extends Entity {
 				BuildingBlock blockToAdd = new BuildingBlock(BuildingBlockType.BLANK);
 				componentBlocks.add(blockToAdd);
 				gameScene.bfManager.addBlock(blockToAdd, (int) (Math.random() * 12 + 3), (int) (Math.random() * 9 + 3));
+				blockToAdd.replaceable = false;
 				break;
 
 			case POINT_PIPE:
