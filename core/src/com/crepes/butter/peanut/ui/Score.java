@@ -34,7 +34,7 @@ public class Score extends Entity {
 		if (gameScene.gameState == GameState.RUNNING) {
 
 			if (gameScene.water.running)
-				score += delta * 8;
+				score += delta * 6.625;
 		}
 	}
 
