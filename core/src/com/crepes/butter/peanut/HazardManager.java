@@ -119,12 +119,9 @@ public class HazardManager extends Entity {
 		
 		for (Hazard hazard : activeHazards) {
 			switch (hazard.hazardType) {
-			case BATHTUB:
+			case STATIONARY_BLOCK:
 				break;
-
-			case FOUR_CORNERS:
-				break;
-
+				
 			case MOVING_BLOCK:
 				ArrayList<Integer> emptyXIndices = new ArrayList<Integer>();
 				ArrayList<Integer> emptyYIndices = new ArrayList<Integer>();
@@ -149,14 +146,17 @@ public class HazardManager extends Entity {
 				gameScene.bfManager.addBlock(blockToMove, emptyXIndices.get(randomInt) + 2, emptyYIndices.get(randomInt) + 2);
 				//blockField[emptyXIndices.get(randomInt)][emptyYIndices.get(randomInt)] = blockToMove;
 				break;
+			
+			case BATHTUB:
+				break;
+
+			case FOUR_CORNERS:
+				break;			
 
 			case POINT_PIPE:
 				break;
 
 			case SINK:
-				break;
-
-			case STATIONARY_BLOCK:
 				break;
 
 			case TELEPORTERS:
@@ -211,6 +211,23 @@ public class HazardManager extends Entity {
 				break;
 
 			case FOUR_CORNERS:
+				int randomX = (int) (Math.random() * 14 + 2);
+				int randomY = (int) (Math.random() * 11 + 2);
+				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_DLELBOW);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX, randomY);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_DRELBOW);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_ULELBOW);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX, randomY + 1);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_URELBOW);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
 				break;
 
 			case POINT_PIPE:

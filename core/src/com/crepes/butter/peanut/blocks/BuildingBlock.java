@@ -54,11 +54,25 @@ public class BuildingBlock extends Entity {
 
 				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.DOWN));
 				break;
+				
+			case DARK_DLELBOW:
+				addSprite("DLElbowDark.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.DOWN));
+				replaceable = false;
+				break;
 
 			case DRELBOW:
 				addSprite("DRElbow.png", "block");
 
 				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.DOWN));
+				break;
+				
+			case DARK_DRELBOW:
+				addSprite("DRElbowDark.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.DOWN));
+				replaceable = false;
 				break;
 
 			case HSQUIGGLY:
@@ -83,11 +97,25 @@ public class BuildingBlock extends Entity {
 
 				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP));
 				break;
+				
+			case DARK_ULELBOW:
+				addSprite("ULElbowDark.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP));
+				replaceable = false;
+				break;
 
 			case URELBOW:
 				addSprite("URElbow.png", "block");
 
 				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP));
+				break;
+				
+			case DARK_URELBOW:
+				addSprite("URElbowDark.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP));
+				replaceable = false;
 				break;
 
 			case VSQUIGGLY:
