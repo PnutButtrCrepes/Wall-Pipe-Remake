@@ -5,81 +5,73 @@ import com.crepes.butter.peanut.Entity;
 import com.crepes.butter.peanut.WallPipe;
 import com.crepes.butter.peanut.scenes.GameScene;
 
-public class Loops extends Entity
-{
+public class Loops extends Entity {
 
-    GameScene gameScene;
+	GameScene gameScene;
 
-    public int loops;
-    public boolean bonusAdded;
+	public int loops;
+	public boolean bonusAdded;
 
-    public Loops(GameScene gameScene)
-    {
+	public Loops(GameScene gameScene) {
 
-	super(0.25f, 2f, 1.5f, 1f);
+		super(0.25f, 2f, 1.5f, 1f);
 
-	this.gameScene = gameScene;
+		this.gameScene = gameScene;
 
-	loops = 0;
-	bonusAdded = false;
+		loops = 0;
+		bonusAdded = false;
 
-	addSprite("Black.png", "black");
-    }
-
-    public void reset()
-    {
-
-	loops = 0;
-	bonusAdded = false;
-    }
-
-    public float getBonus()
-    {
-
-	if (loops <= 3)
-	    return 0;
-	else if (loops >= 4 && loops <= 7)
-	    return 400;
-	else if (loops >= 8 && loops <= 11)
-	    return 800;
-	else if (loops >= 12 && loops <= 15)
-	    return 1500;
-	else if (loops >= 16 && loops <= 19)
-	    return 3000;
-	else
-	    return 5000;
-    }
-
-    public void addBonus()
-    {
-
-	if (!bonusAdded)
-	{
-
-	    gameScene.gameUI.scoreManager.score += getBonus();
-	    bonusAdded = true;
+		addSprite("Black.png", "black");
 	}
-    }
 
-    @Override
-    public void act(float delta)
-    {
+	public void reset() {
 
-    }
+		loops = 0;
+		bonusAdded = false;
+	}
 
-    @Override
-    public void draw(Batch batch, float parentAlpha)
-    {
+	public float getBonus() {
 
-	batch.end();
-	batch.begin();
+		if (loops <= 3)
+			return 0;
+		else if (loops >= 4 && loops <= 7)
+			return 400;
+		else if (loops >= 8 && loops <= 11)
+			return 800;
+		else if (loops >= 12 && loops <= 15)
+			return 1500;
+		else if (loops >= 16 && loops <= 19)
+			return 3000;
+		else
+			return 5000;
+	}
 
-	batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+	public void addBonus() {
 
-	WallPipe.font.getData().setScale(0.75f, 0.75f);
-	WallPipe.font.draw(batch, "Loops", this.getX() + 4, this.getY() + 56);
+		if (!bonusAdded) {
 
-	WallPipe.font.getData().setScale(1, 1);
-	WallPipe.font.draw(batch, String.valueOf(loops), this.getX() + 18, this.getY() + 28);
-    }
+			gameScene.gameUI.scoreManager.score += getBonus();
+			bonusAdded = true;
+		}
+	}
+
+	@Override
+	public void act(float delta) {
+
+	}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+
+		batch.end();
+		batch.begin();
+
+		batch.draw(getSprite("black"), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
+		WallPipe.font.getData().setScale(0.75f, 0.75f);
+		WallPipe.font.draw(batch, "Loops", this.getX() + 4, this.getY() + 56);
+
+		WallPipe.font.getData().setScale(1, 1);
+		WallPipe.font.draw(batch, String.valueOf(loops), this.getX() + 18, this.getY() + 28);
+	}
 }
