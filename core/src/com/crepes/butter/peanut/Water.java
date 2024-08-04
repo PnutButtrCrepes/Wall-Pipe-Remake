@@ -388,9 +388,16 @@ public class Water extends Entity {
 
 		if (newBlock && ((previousBlock.type == BuildingBlockType.L_BATHTUB && currentBlock.type == BuildingBlockType.R_BATHTUB) ||
 				(previousBlock.type == BuildingBlockType.R_BATHTUB && currentBlock.type == BuildingBlockType.L_BATHTUB)))
-		{
 			gameScene.gameUI.scoreManager.score += 300;
-		}
+		
+		if (newBlock && (previousBlock.type == BuildingBlockType.U_VSTRAIGHT || previousBlock.type == BuildingBlockType.D_VSTRAIGHT))
+			gameScene.gameUI.scoreManager.score += 50;
+		
+		if (newBlock && (currentBlock.type == BuildingBlockType.U_VSTRAIGHT || currentBlock.type == BuildingBlockType.D_VSTRAIGHT))
+			gameScene.gameUI.scoreManager.score += 50;
+		
+		if (newBlock && (currentBlock.type == BuildingBlockType.ULELBOW_50 || currentBlock.type == BuildingBlockType.URELBOW_50))
+			gameScene.gameUI.scoreManager.score += 50;
 		
 		if (newBlock && previousBlock.type != BuildingBlockType.TELEPORT_CROSS && currentBlock.type == BuildingBlockType.TELEPORT_CROSS)
 			canTeleport = true;

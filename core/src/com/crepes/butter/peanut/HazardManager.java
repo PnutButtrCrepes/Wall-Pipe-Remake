@@ -239,6 +239,16 @@ public class HazardManager extends Entity {
 				break;
 
 			case POINT_PIPE:
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				
+				int random = (int) (Math.random() * 2);
+				if (random == 0)
+					blockToAdd = new BuildingBlock(BuildingBlockType.ULELBOW_50);
+				else
+					blockToAdd = new BuildingBlock(BuildingBlockType.URELBOW_50);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
 				break;
 
 			case SINK:
@@ -265,7 +275,7 @@ public class HazardManager extends Entity {
 				randomX = (int) (Math.random() * 14 + 2);
 				randomY = (int) (Math.random() * 11 + 2);
 				
-				int random = (int) (Math.random() * 2);
+				random = (int) (Math.random() * 2);
 				if (random == 0)
 					blockToAdd = new BuildingBlock(BuildingBlockType.U_VSTRAIGHT);
 				else

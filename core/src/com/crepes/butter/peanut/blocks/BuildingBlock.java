@@ -112,6 +112,12 @@ public class BuildingBlock extends Entity {
 				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP));
 				break;
 				
+			case ULELBOW_50:
+				addSprite("ULElbow50.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP));
+				break;
+				
 			case DARK_ULELBOW:
 				addSprite("ULElbowDark.png", "block");
 
@@ -121,6 +127,12 @@ public class BuildingBlock extends Entity {
 
 			case URELBOW:
 				addSprite("URElbow.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP));
+				break;
+				
+			case URELBOW_50:
+				addSprite("URElbow50.png", "block");
 
 				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP));
 				break;
@@ -237,7 +249,7 @@ public class BuildingBlock extends Entity {
 
 		TELEPORT_CROSS,
 
-		DLELBOW_50, DRELBOW_50,
+		ULELBOW_50, URELBOW_50,
 
 		SINK
 	}
