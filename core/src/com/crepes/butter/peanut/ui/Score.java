@@ -33,6 +33,7 @@ public class Score extends Entity {
 
 		if (gameScene.gameState == GameState.RUNNING) {
 
+			// TODO make score an integer
 			if (gameScene.water.running)
 				score += delta * 6.625;
 		}

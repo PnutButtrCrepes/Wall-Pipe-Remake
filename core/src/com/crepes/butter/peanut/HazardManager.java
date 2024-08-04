@@ -262,6 +262,16 @@ public class HazardManager extends Entity {
 				break;
 
 			case UNIDIRECTIONAL_BLOCK:
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				
+				int random = (int) (Math.random() * 2);
+				if (random == 0)
+					blockToAdd = new BuildingBlock(BuildingBlockType.U_VSTRAIGHT);
+				else
+					blockToAdd = new BuildingBlock(BuildingBlockType.D_VSTRAIGHT);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
 				break;
 
 			default:

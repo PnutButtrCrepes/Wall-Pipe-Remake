@@ -146,6 +146,20 @@ public class BuildingBlock extends Entity {
 
 				turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.UP));
 				break;
+				
+			case U_VSTRAIGHT:
+				addSprite("VStraightU.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.UP));
+				this.oneWay = true;
+				break;
+				
+			case D_VSTRAIGHT:
+				addSprite("VStraightD.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.DOWN, WaterDirection.DOWN));
+				this.oneWay = true;
+				break;
 
 			case TELEPORT_CROSS:
 				addSprite("Teleporter.png", "block");
