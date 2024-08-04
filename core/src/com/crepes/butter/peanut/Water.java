@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.BuildingBlock.BuildingBlockType;
+import com.crepes.butter.peanut.blocks.BuildingBlock.TeleportPoint;
 import com.crepes.butter.peanut.blocks.BuildingBlock.TurningPoint;
 import com.crepes.butter.peanut.scenes.GameScene;
 import com.crepes.butter.peanut.scenes.GameScene.GameState;
@@ -26,6 +27,7 @@ public class Water extends Entity {
 	public BuildingBlock currentBlock;
 	public boolean newBlock;
 	public boolean positiveDirection;
+	public boolean canTeleport;
 
 	public ArrayList<CachedWaterBlock> water;
 	public CachedWaterBlock placeHolder;
@@ -63,6 +65,8 @@ public class Water extends Entity {
 		addSprite("Water.png", "water");
 
 		water = new ArrayList<CachedWaterBlock>();
+		
+		canTeleport = true;
 	}
 
 	private void cacheWaterBlock() {
@@ -76,7 +80,12 @@ public class Water extends Entity {
 		// TODO remember, top-left of screen is (0, 0)
 
 		if (this.direction == direction)
+		{
+			if (this.currentBlock.type != BuildingBlockType.TELEPORT_CROSS)
+				return;
+			
 			return;
+		}
 
 		posX = (posX) + (int) ((posX - (int) posX) * 32) / 32;
 		posY = (posY) + (int) ((posY - (int) posY) * 32) / 32;
@@ -177,8 +186,65 @@ public class Water extends Entity {
 		changeDirection(direction);
 		squigglyCounter += increment;
 	}
+	
+	private void setPositionDeltaAndChangeDirection(float positionDeltaX, float positionDeltaY, boolean xAxis, int increment,
+			WaterDirection direction) {
+		posX = currentBlock.getUnscaledX() + positionDeltaX;
+		posY = currentBlock.getUnscaledY() + positionDeltaY;
+		
+		posX = (posX) + (int) ((posX - (int) posX) * 32) / 32;
+		posY = (posY) + (int) ((posY - (int) posY) * 32) / 32;
+		
+		cacheWaterBlock();
+		
+		switch (direction)
+		{
+		case DOWN:
+			setX(posX - STREAM_WIDTH / 2);
+			setY(posY);
+			
+			setWidth(STREAM_WIDTH);
+			setHeight(0);
+			break;
+			
+		case LEFT:
+			setX(posX);
+			setY(posY - STREAM_WIDTH / 2);
+			
+			setWidth(0);
+			setHeight(STREAM_WIDTH);
+			break;
+			
+		case RIGHT:
+			setX(posX);
+			setY(posY - STREAM_WIDTH / 2);
+			
+			setWidth(0);
+			setHeight(STREAM_WIDTH);
+			break;
+			
+		case UP:
+			setX(posX - STREAM_WIDTH / 2);
+			setY(posY);
+			
+			setWidth(STREAM_WIDTH);
+			setHeight(0);
+			break;
+			
+		default:
+			break;
+		}
+		
+		gameScene.gameUI.scoreManager.score += 75;
+		
+		//squigglyCounter += increment;
+	}
 
 	private void checkForLoops() {
+		
+		if (currentBlock.type == BuildingBlockType.TELEPORT_CROSS)
+			return;
+		
 		for (CachedWaterBlock wb : water) {
 
 			if (currentBlock.looped)
@@ -326,6 +392,9 @@ public class Water extends Entity {
 			gameScene.gameUI.scoreManager.score += 300;
 		}
 		
+		if (newBlock && previousBlock.type != BuildingBlockType.TELEPORT_CROSS && currentBlock.type == BuildingBlockType.TELEPORT_CROSS)
+			canTeleport = true;
+		
 		/***************************************************************/
 
 		if (newBlock && currentBlock.turningPoints.size() > 0)
@@ -367,6 +436,48 @@ public class Water extends Entity {
 			break;
 		}
 
+		// TODO actually perform teleporting
+		if (currentBlock.teleportPoint != null && canTeleport) {
+			TeleportPoint teleportPoint = currentBlock.teleportPoint;
+
+			switch (direction) {
+			case DOWN:
+				if (posY <= currentBlock.getUnscaledY() + 0.5f)
+				{
+					setPositionDeltaAndChangeDirection(teleportPoint.teleportX - teleportPoint.x + 0.5f, teleportPoint.teleportY - teleportPoint.y + 0.5f, false, 0, direction);
+					canTeleport = false;
+				}
+				break;
+
+			case LEFT:
+				if (posX <= currentBlock.getUnscaledX() + 0.5f)
+				{
+					setPositionDeltaAndChangeDirection(teleportPoint.teleportX - teleportPoint.x + 0.5f, teleportPoint.teleportY - teleportPoint.y + 0.5f, false, 0, direction);
+					canTeleport = false;
+				}
+				break;
+
+			case RIGHT:
+				if (posX >= currentBlock.getUnscaledX() + 0.5f)
+				{
+					setPositionDeltaAndChangeDirection(teleportPoint.teleportX - teleportPoint.x + 0.5f, teleportPoint.teleportY - teleportPoint.y + 0.5f, false, 0, direction);
+					canTeleport = false;
+				}
+				break;
+
+			case UP:
+				if (posY >= currentBlock.getUnscaledY() + 0.5f)
+				{
+					setPositionDeltaAndChangeDirection(teleportPoint.teleportX - teleportPoint.x + 0.5f, teleportPoint.teleportY - teleportPoint.y + 0.5f, false, 0, direction);
+					canTeleport = false;
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+		
 		if ((squigglyCounter > -1 && squigglyCounter < currentBlock.turningPoints.size())
 				&& currentBlock.turningPoints.size() > 0) {
 			TurningPoint currentTurningPoint = currentBlock.turningPoints.get(squigglyCounter);

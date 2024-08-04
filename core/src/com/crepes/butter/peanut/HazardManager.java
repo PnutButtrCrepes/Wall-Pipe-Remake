@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.BuildingBlock.BuildingBlockType;
+import com.crepes.butter.peanut.blocks.BuildingBlock.TeleportPoint;
 import com.crepes.butter.peanut.scenes.GameScene;
 
 public class HazardManager extends Entity {
@@ -244,8 +245,20 @@ public class HazardManager extends Entity {
 				break;
 
 			case TELEPORTERS:
-				componentBlocks.add(new BuildingBlock(BuildingBlockType.TELEPORT_CROSS));
-				componentBlocks.add(new BuildingBlock(BuildingBlockType.TELEPORT_CROSS));
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				blockToAdd = new BuildingBlock(BuildingBlockType.TELEPORT_CROSS);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
+				
+				int randomX2 = (int) (Math.random() * 14 + 2);
+				int randomY2 = (int) (Math.random() * 11 + 2);
+				BuildingBlock blockToAdd2 = new BuildingBlock(BuildingBlockType.TELEPORT_CROSS);
+				componentBlocks.add(blockToAdd2);
+				gameScene.bfManager.addBlock(blockToAdd2, randomX2 + 1, randomY2 + 1);
+				
+				blockToAdd.teleportPoint = blockToAdd.new TeleportPoint(randomX, randomY, randomX2, randomY2);
+				blockToAdd2.teleportPoint = blockToAdd2.new TeleportPoint(randomX2, randomY2, randomX, randomY);
 				break;
 
 			case UNIDIRECTIONAL_BLOCK:

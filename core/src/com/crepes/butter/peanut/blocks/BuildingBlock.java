@@ -168,6 +168,10 @@ public class BuildingBlock extends Entity {
 	}
 
 	public boolean hasDirectionalEntrace(WaterDirection direction) {
+		
+		if (type == null)
+			return false;
+		
 		if (type == BuildingBlockType.CROSS || type == BuildingBlockType.TELEPORT_CROSS)
 			return true;
 		
