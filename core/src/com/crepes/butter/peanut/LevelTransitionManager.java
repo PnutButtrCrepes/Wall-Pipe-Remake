@@ -6,6 +6,7 @@ import java.sql.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.crepes.butter.peanut.HazardManager.HazardType;
 import com.crepes.butter.peanut.scenes.GameScene;
 
 public class LevelTransitionManager extends Entity {
@@ -163,7 +164,10 @@ public class LevelTransitionManager extends Entity {
 				selectBlockToBeDeleted(batch);
 
 			} else if (timer > 12
-					&& gameScene.gameUI.scoreManager.score >= gameScene.gameUI.scoreNeededManager.scoreNeeded) {
+					&& gameScene.gameUI.scoreManager.score >= gameScene.gameUI.scoreNeededManager.scoreNeeded
+					&& (!gameScene.hazardManager.hasHazardOfType(HazardType.SINK) ||
+					(gameScene.hazardManager.hasHazardOfType(HazardType.SINK) &&
+					gameScene.hazardManager.getHazardOfType(HazardType.SINK).componentBlocks.get(0).watered == true))) {
 
 				gameScene.levelInit();
 

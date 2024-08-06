@@ -178,6 +178,14 @@ public class BuildingBlock extends Entity {
 				replaceable = false;
 				break;
 
+			case SINK:
+				addSprite("Sink.png", "block");
+				
+				turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.UP));
+				this.oneWay = true;
+				replaceable = false;
+				break;
+				
 			default:
 				break;
 			}

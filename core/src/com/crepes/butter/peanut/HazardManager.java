@@ -62,6 +62,24 @@ public class HazardManager extends Entity {
 		}
 	}
 	
+	public boolean hasHazardOfType(HazardType type)
+	{
+		for (Hazard hazard : activeHazards)
+			if (hazard.hazardType == type)
+				return true;
+		
+		return false;
+	}
+	
+	public Hazard getHazardOfType(HazardType type)
+	{
+		for (Hazard hazard : activeHazards)
+			if (hazard.hazardType == type)
+				return hazard;
+		
+		return null;
+	}
+	
 	public void reset()
 	{
 		activeHazards = new ArrayList<Hazard>();
@@ -252,6 +270,20 @@ public class HazardManager extends Entity {
 				break;
 
 			case SINK:
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.SINK);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
+				
+				random = (int) (Math.random() * 2);
+				if (random == 0)
+					blockToAdd = new BuildingBlock(BuildingBlockType.ULELBOW_50);
+				else
+					blockToAdd = new BuildingBlock(BuildingBlockType.URELBOW_50);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY);
 				break;
 
 			case TELEPORTERS:

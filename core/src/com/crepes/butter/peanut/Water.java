@@ -386,6 +386,15 @@ public class Water extends Entity {
 		if (!running)
 			return;
 
+		if (currentBlock.type == BuildingBlockType.SINK && posY >= currentBlock.getUnscaledY() + 0.40f)
+		{
+			running = false;
+			gameScene.setLevelEnded(true);
+		}
+		
+		if (!running)
+			return;
+		
 		if (newBlock && ((previousBlock.type == BuildingBlockType.L_BATHTUB && currentBlock.type == BuildingBlockType.R_BATHTUB) ||
 				(previousBlock.type == BuildingBlockType.R_BATHTUB && currentBlock.type == BuildingBlockType.L_BATHTUB)))
 			gameScene.gameUI.scoreManager.score += 300;
