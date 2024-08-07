@@ -83,6 +83,7 @@ public class GameScene extends Scene {
 		this.addActor(water);
 		this.addActor(levelManager);
 		this.addActor(leaderboardManager);
+		this.addActor(hazardManager);
 	}
 
 	public void totalReset() {
@@ -102,6 +103,8 @@ public class GameScene extends Scene {
 		gameUI.reset();
 		water.reset();
 		levelManager.reset();
+		
+		hazardManager.reset();
 	}
 
 	public void levelInit() {
@@ -120,6 +123,8 @@ public class GameScene extends Scene {
 		gameUI.scoreManager.reset();
 		water.reset();
 		levelManager.reset();
+		
+		hazardManager.reset();
 
 		// allow user to move mouse
 		mouseGrabbed = false;
@@ -245,6 +250,7 @@ public class GameScene extends Scene {
 			break;
 
 		case RUNNING:
+			
 			xIndex = (int) (screenX / (screenWidthRatio * 32));
 			yIndex = (int) ((viewport.getScreenHeight() - screenY) / (screenHeightRatio * 32));
 
@@ -263,6 +269,9 @@ public class GameScene extends Scene {
 
 					if (xIndex > 1 && xIndex < 16 && yIndex > 1 && yIndex < 13) {
 						if (bfManager.blockField[xIndex - 2][yIndex - 2] == null) {
+							
+							hazardManager.readyForUpdate = true;
+							
 							bfManager.addBlock(placingBlock, xIndex, yIndex);
 							nbManager.shiftBlocks();
 							mouseGrabbed = true;
@@ -272,6 +281,8 @@ public class GameScene extends Scene {
 
 						} else if (bfManager.blockField[xIndex - 2][yIndex - 2].isReplaceable()) {
 
+							hazardManager.readyForUpdate = true;
+							
 							bfManager.replace(placingBlock, xIndex, yIndex);
 						}
 					}

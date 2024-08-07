@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
 import com.crepes.butter.peanut.blocks.BuildingBlock.BuildingBlockType;
+import com.crepes.butter.peanut.blocks.BuildingBlock.TeleportPoint;
 import com.crepes.butter.peanut.scenes.GameScene;
 
 public class HazardManager extends Entity {
@@ -26,15 +27,21 @@ public class HazardManager extends Entity {
 
 	public ArrayList<LevelHazards> levelHazards;
 	public ArrayList<Hazard> activeHazards;
+	public boolean readyForUpdate = false;
 
 	public HazardManager(GameScene gameScene) {
 		super(0, 0, 0, 0);
 		this.gameScene = gameScene;
+		
+		levelHazards = new ArrayList<LevelHazards>();
+		
+		loadLevelHazards();
+		reset();
 	}
 
 	public void loadLevelHazards() {
 		BufferedReader hazardsFileInputStream = new BufferedReader(
-				new InputStreamReader(Gdx.files.internal("LevelHazards.txt").read()));
+				new InputStreamReader(Gdx.files.internal("assets\\LevelHazards.txt").read()));
 		String line = "";
 		try {
 			while ((line = hazardsFileInputStream.readLine()) != null) {
@@ -54,24 +61,93 @@ public class HazardManager extends Entity {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public boolean hasHazardOfType(HazardType type)
+	{
+		for (Hazard hazard : activeHazards)
+			if (hazard.hazardType == type)
+				return true;
+		
+		return false;
+	}
+	
+	public Hazard getHazardOfType(HazardType type)
+	{
+		for (Hazard hazard : activeHazards)
+			if (hazard.hazardType == type)
+				return hazard;
+		
+		return null;
+	}
+	
+	public void reset()
+	{
+		activeHazards = new ArrayList<Hazard>();
+		
+		int[] currentHazardArray;
+		if (gameScene.gameUI.levelCount.levelCount - 1 < levelHazards.size())
+			currentHazardArray = levelHazards.get(gameScene.gameUI.levelCount.levelCount - 1).numberOfHazards;
+		else
+			currentHazardArray = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }; // TODO should replace with a random method
+		
+		for (int i = 0; i < currentHazardArray.length; i++)
+			for (int j = 0; j < currentHazardArray[i]; j++)
+			{
+				switch (i)
+				{
+				case 0:
+					activeHazards.add(new Hazard(HazardType.STATIONARY_BLOCK, 0, 0, 0, 0));
+					break;
+					
+				case 1:
+					activeHazards.add(new Hazard(HazardType.MOVING_BLOCK, 0, 0, 0, 0));
+					break;
+					
+				case 2:
+					activeHazards.add(new Hazard(HazardType.BATHTUB, 0, 0, 0, 0));
+					break;
+					
+				case 3:
+					activeHazards.add(new Hazard(HazardType.UNIDIRECTIONAL_BLOCK, 0, 0, 0, 0));
+					break;
+					
+				case 4:
+					activeHazards.add(new Hazard(HazardType.FOUR_CORNERS, 0, 0, 0, 0));
+					break;
+					
+				case 5:
+					activeHazards.add(new Hazard(HazardType.TELEPORTERS, 0, 0, 0, 0));
+					break;
+					
+				case 6:
+					activeHazards.add(new Hazard(HazardType.POINT_PIPE, 0, 0, 0, 0));
+					break;
+					
+				case 7:
+					activeHazards.add(new Hazard(HazardType.SINK, 0, 0, 0, 0));
+					break;
+				}
+			}
+	}
+	
 	@Override
 	public void act(float delta) {
+		
+		if (!readyForUpdate)
+			return;
+		
 		for (Hazard hazard : activeHazards) {
 			switch (hazard.hazardType) {
-			case BATHTUB:
+			case STATIONARY_BLOCK:
 				break;
-
-			case FOUR_CORNERS:
-				break;
-
+				
 			case MOVING_BLOCK:
 				ArrayList<Integer> emptyXIndices = new ArrayList<Integer>();
 				ArrayList<Integer> emptyYIndices = new ArrayList<Integer>();
 
 				BuildingBlock[][] blockField = gameScene.bfManager.blockField;
-				for (int i = 0; i < blockField.length; i++)
-					for (int j = 0; j < blockField[i].length; j++)
+				for (int i = 0; i < blockField.length - 1; i++)
+					for (int j = 0; j < blockField[i].length - 1; j++)
 						if (blockField[i][j] == null) {
 							emptyXIndices.add(i);
 							emptyYIndices.add(j);
@@ -79,22 +155,27 @@ public class HazardManager extends Entity {
 
 				BuildingBlock blockToMove = hazard.componentBlocks.get(0);
 
-				for (int i = 0; i < blockField.length; i++)
-					for (int j = 0; j < blockField[i].length; j++)
+				for (int i = 0; i < blockField.length - 1; i++)
+					for (int j = 0; j < blockField[i].length - 1; j++)
 						if (blockField[i][j] == blockToMove)
 							blockField[i][j] = null;
 
-				int randomInt = (int) (Math.random() * emptyXIndices.size()) + 1;
-				blockField[emptyXIndices.get(randomInt)][emptyXIndices.get(randomInt)] = blockToMove;
+				int randomInt = (int) (Math.random() * emptyXIndices.size());
+				
+				gameScene.bfManager.addBlock(blockToMove, emptyXIndices.get(randomInt) + 2, emptyYIndices.get(randomInt) + 2);
+				//blockField[emptyXIndices.get(randomInt)][emptyYIndices.get(randomInt)] = blockToMove;
 				break;
+			
+			case BATHTUB:
+				break;
+
+			case FOUR_CORNERS:
+				break;			
 
 			case POINT_PIPE:
 				break;
 
 			case SINK:
-				break;
-
-			case STATIONARY_BLOCK:
 				break;
 
 			case TELEPORTERS:
@@ -107,6 +188,8 @@ public class HazardManager extends Entity {
 				break;
 			}
 		}
+		
+		readyForUpdate = false;
 	}
 
 	@Override
@@ -120,39 +203,117 @@ public class HazardManager extends Entity {
 		public ArrayList<BuildingBlock> componentBlocks;
 
 		public Hazard(HazardType hazardType, float x, float y, float sizeX, float sizeY) {
-			super(x, y, sizeX, sizeY);
+			super(0, 0, 0, 0);
 			this.hazardType = hazardType;
+			this.componentBlocks = new ArrayList<BuildingBlock>();
 
 			switch (hazardType) {
+			case STATIONARY_BLOCK:
+				// TODO ensure placing block is empty
+				BuildingBlock blockToAdd = new BuildingBlock(BuildingBlockType.BLANK);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, (int) (Math.random() * 14 + 2), (int) (Math.random() * 11 + 2));
+				blockToAdd.replaceable = false;
+				break;
+				
+			case MOVING_BLOCK:
+				// TODO ensure placing block is empty
+				blockToAdd = new BuildingBlock(BuildingBlockType.BLANK);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, (int) (Math.random() * 14 + 2), (int) (Math.random() * 11 + 2));
+				blockToAdd.replaceable = false;
+				break;
+			
 			case BATHTUB:
-				componentBlocks.add(new BuildingBlock(BuildingBlockType.L_BATHTUB));
-				componentBlocks.add(new BuildingBlock(BuildingBlockType.R_BATHTUB));
+				int randomX = (int) (Math.random() * 14 + 2);
+				int randomY = (int) (Math.random() * 11 + 2);
+				blockToAdd = new BuildingBlock(BuildingBlockType.L_BATHTUB);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX, randomY);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.R_BATHTUB);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY);
 				break;
 
 			case FOUR_CORNERS:
-				break;
-
-			case MOVING_BLOCK:
-				BuildingBlock blockToAdd = new BuildingBlock(BuildingBlockType.BLANK);
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_DLELBOW);
 				componentBlocks.add(blockToAdd);
-				gameScene.bfManager.addBlock(blockToAdd, (int) (Math.random() * 12 + 3), (int) (Math.random() * 9 + 3));
+				gameScene.bfManager.addBlock(blockToAdd, randomX, randomY);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_DRELBOW);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_ULELBOW);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX, randomY + 1);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.DARK_URELBOW);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
 				break;
 
 			case POINT_PIPE:
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				
+				int random = (int) (Math.random() * 2);
+				if (random == 0)
+					blockToAdd = new BuildingBlock(BuildingBlockType.ULELBOW_50);
+				else
+					blockToAdd = new BuildingBlock(BuildingBlockType.URELBOW_50);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
 				break;
 
 			case SINK:
-				break;
-
-			case STATIONARY_BLOCK:
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				
+				blockToAdd = new BuildingBlock(BuildingBlockType.SINK);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
+				
+				random = (int) (Math.random() * 2);
+				if (random == 0)
+					blockToAdd = new BuildingBlock(BuildingBlockType.ULELBOW_50);
+				else
+					blockToAdd = new BuildingBlock(BuildingBlockType.URELBOW_50);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY);
 				break;
 
 			case TELEPORTERS:
-				componentBlocks.add(new BuildingBlock(BuildingBlockType.TELEPORT_CROSS));
-				componentBlocks.add(new BuildingBlock(BuildingBlockType.TELEPORT_CROSS));
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				blockToAdd = new BuildingBlock(BuildingBlockType.TELEPORT_CROSS);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
+				
+				int randomX2 = (int) (Math.random() * 14 + 2);
+				int randomY2 = (int) (Math.random() * 11 + 2);
+				BuildingBlock blockToAdd2 = new BuildingBlock(BuildingBlockType.TELEPORT_CROSS);
+				componentBlocks.add(blockToAdd2);
+				gameScene.bfManager.addBlock(blockToAdd2, randomX2 + 1, randomY2 + 1);
+				
+				blockToAdd.teleportPoint = blockToAdd.new TeleportPoint(randomX, randomY, randomX2, randomY2);
+				blockToAdd2.teleportPoint = blockToAdd2.new TeleportPoint(randomX2, randomY2, randomX, randomY);
 				break;
 
 			case UNIDIRECTIONAL_BLOCK:
+				randomX = (int) (Math.random() * 14 + 2);
+				randomY = (int) (Math.random() * 11 + 2);
+				
+				random = (int) (Math.random() * 2);
+				if (random == 0)
+					blockToAdd = new BuildingBlock(BuildingBlockType.U_VSTRAIGHT);
+				else
+					blockToAdd = new BuildingBlock(BuildingBlockType.D_VSTRAIGHT);
+				componentBlocks.add(blockToAdd);
+				gameScene.bfManager.addBlock(blockToAdd, randomX + 1, randomY + 1);
 				break;
 
 			default:

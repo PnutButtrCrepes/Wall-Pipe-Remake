@@ -54,11 +54,25 @@ public class BuildingBlock extends Entity {
 
 				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.DOWN));
 				break;
+				
+			case DARK_DLELBOW:
+				addSprite("DLElbowDark.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.DOWN));
+				replaceable = false;
+				break;
 
 			case DRELBOW:
 				addSprite("DRElbow.png", "block");
 
 				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.DOWN));
+				break;
+				
+			case DARK_DRELBOW:
+				addSprite("DRElbowDark.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.DOWN));
+				replaceable = false;
 				break;
 
 			case HSQUIGGLY:
@@ -77,17 +91,57 @@ public class BuildingBlock extends Entity {
 
 				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.RIGHT));
 				break;
+				
+			case L_BATHTUB:
+				addSprite("TubL.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.RIGHT));
+				replaceable = false;
+				break;
+				
+			case R_BATHTUB:
+				addSprite("TubR.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.RIGHT));
+				replaceable = false;
+				break;
 
 			case ULELBOW:
 				addSprite("ULElbow.png", "block");
 
 				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP));
 				break;
+				
+			case ULELBOW_50:
+				addSprite("ULElbow50.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP));
+				break;
+				
+			case DARK_ULELBOW:
+				addSprite("ULElbowDark.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.RIGHT, WaterDirection.UP));
+				replaceable = false;
+				break;
 
 			case URELBOW:
 				addSprite("URElbow.png", "block");
 
 				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP));
+				break;
+				
+			case URELBOW_50:
+				addSprite("URElbow50.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP));
+				break;
+				
+			case DARK_URELBOW:
+				addSprite("URElbowDark.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.LEFT, WaterDirection.UP));
+				replaceable = false;
 				break;
 
 			case VSQUIGGLY:
@@ -104,12 +158,34 @@ public class BuildingBlock extends Entity {
 
 				turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.UP));
 				break;
+				
+			case U_VSTRAIGHT:
+				addSprite("VStraightU.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.UP));
+				this.oneWay = true;
+				break;
+				
+			case D_VSTRAIGHT:
+				addSprite("VStraightD.png", "block");
+
+				turningPoints.add(new TurningPoint(WaterDirection.DOWN, WaterDirection.DOWN));
+				this.oneWay = true;
+				break;
 
 			case TELEPORT_CROSS:
 				addSprite("Teleporter.png", "block");
 				replaceable = false;
 				break;
 
+			case SINK:
+				addSprite("Sink.png", "block");
+				
+				turningPoints.add(new TurningPoint(WaterDirection.UP, WaterDirection.UP));
+				this.oneWay = true;
+				replaceable = false;
+				break;
+				
 			default:
 				break;
 			}
@@ -126,8 +202,15 @@ public class BuildingBlock extends Entity {
 	}
 
 	public boolean hasDirectionalEntrace(WaterDirection direction) {
+		
+		if (type == null)
+			return false;
+		
 		if (type == BuildingBlockType.CROSS || type == BuildingBlockType.TELEPORT_CROSS)
 			return true;
+		
+		if (type == BuildingBlockType.BLANK)
+			return false;
 
 		if (direction == turningPoints.get(0).previousWaterDirection) {
 			return true;
@@ -174,7 +257,7 @@ public class BuildingBlock extends Entity {
 
 		TELEPORT_CROSS,
 
-		DLELBOW_50, DRELBOW_50,
+		ULELBOW_50, URELBOW_50,
 
 		SINK
 	}

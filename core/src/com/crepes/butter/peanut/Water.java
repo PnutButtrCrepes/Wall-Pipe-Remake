@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.crepes.butter.peanut.blocks.BuildingBlock;
+import com.crepes.butter.peanut.blocks.BuildingBlock.BuildingBlockType;
+import com.crepes.butter.peanut.blocks.BuildingBlock.TeleportPoint;
 import com.crepes.butter.peanut.blocks.BuildingBlock.TurningPoint;
 import com.crepes.butter.peanut.scenes.GameScene;
 import com.crepes.butter.peanut.scenes.GameScene.GameState;
@@ -25,6 +27,7 @@ public class Water extends Entity {
 	public BuildingBlock currentBlock;
 	public boolean newBlock;
 	public boolean positiveDirection;
+	public boolean canTeleport;
 
 	public ArrayList<CachedWaterBlock> water;
 	public CachedWaterBlock placeHolder;
@@ -40,14 +43,14 @@ public class Water extends Entity {
 			direction = WaterDirection.LEFT;
 
 			this.setX(gameScene.emitter.getUnscaledX() + 0.25f);
-			this.setWidth(-0.125f);
+			this.setWidth(-0.125f - 0.015625f);
 
 		} else {
 
 			direction = WaterDirection.RIGHT;
 
 			this.setX(gameScene.emitter.getUnscaledX() + 0.75f);
-			this.setWidth(0.125f);
+			this.setWidth(0.125f + 0.015625f);
 		}
 
 		this.setY(gameScene.emitter.getUnscaledY() + 0.5f - STREAM_WIDTH / 2);
@@ -57,11 +60,13 @@ public class Water extends Entity {
 
 		newBlock = false;
 
-		speed = 0.5f;
+		speed = 0.525f;
 
 		addSprite("Water.png", "water");
 
 		water = new ArrayList<CachedWaterBlock>();
+		
+		canTeleport = true;
 	}
 
 	private void cacheWaterBlock() {
@@ -75,7 +80,12 @@ public class Water extends Entity {
 		// TODO remember, top-left of screen is (0, 0)
 
 		if (this.direction == direction)
+		{
+			if (this.currentBlock.type != BuildingBlockType.TELEPORT_CROSS)
+				return;
+			
 			return;
+		}
 
 		posX = (posX) + (int) ((posX - (int) posX) * 32) / 32;
 		posY = (posY) + (int) ((posY - (int) posY) * 32) / 32;
@@ -176,8 +186,65 @@ public class Water extends Entity {
 		changeDirection(direction);
 		squigglyCounter += increment;
 	}
+	
+	private void setPositionDeltaAndChangeDirection(float positionDeltaX, float positionDeltaY, boolean xAxis, int increment,
+			WaterDirection direction) {
+		posX = currentBlock.getUnscaledX() + positionDeltaX;
+		posY = currentBlock.getUnscaledY() + positionDeltaY;
+		
+		posX = (posX) + (int) ((posX - (int) posX) * 32) / 32;
+		posY = (posY) + (int) ((posY - (int) posY) * 32) / 32;
+		
+		cacheWaterBlock();
+		
+		switch (direction)
+		{
+		case DOWN:
+			setX(posX - STREAM_WIDTH / 2);
+			setY(posY);
+			
+			setWidth(STREAM_WIDTH);
+			setHeight(0);
+			break;
+			
+		case LEFT:
+			setX(posX);
+			setY(posY - STREAM_WIDTH / 2);
+			
+			setWidth(0);
+			setHeight(STREAM_WIDTH);
+			break;
+			
+		case RIGHT:
+			setX(posX);
+			setY(posY - STREAM_WIDTH / 2);
+			
+			setWidth(0);
+			setHeight(STREAM_WIDTH);
+			break;
+			
+		case UP:
+			setX(posX - STREAM_WIDTH / 2);
+			setY(posY);
+			
+			setWidth(STREAM_WIDTH);
+			setHeight(0);
+			break;
+			
+		default:
+			break;
+		}
+		
+		gameScene.gameUI.scoreManager.score += 75;
+		
+		//squigglyCounter += increment;
+	}
 
 	private void checkForLoops() {
+		
+		if (currentBlock.type == BuildingBlockType.TELEPORT_CROSS)
+			return;
+		
 		for (CachedWaterBlock wb : water) {
 
 			if (currentBlock.looped)
@@ -190,6 +257,7 @@ public class Water extends Entity {
 					if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
 							&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight()) {
 						gameScene.gameUI.loopsManager.loops++;
+						gameScene.gameUI.scoreManager.score += 50;
 						currentBlock.looped = true;
 					}
 
@@ -198,6 +266,7 @@ public class Water extends Entity {
 					if (posX > wb.getUnscaledX() && posX < wb.getUnscaledX() + wb.getUnscaledWidth()
 							&& posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight()) {
 						gameScene.gameUI.loopsManager.loops++;
+						gameScene.gameUI.scoreManager.score += 50;
 						currentBlock.looped = true;
 					}
 				}
@@ -209,6 +278,7 @@ public class Water extends Entity {
 					if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
 							&& posY > wb.getUnscaledY() && posY < wb.getUnscaledY() + wb.getUnscaledHeight()) {
 						gameScene.gameUI.loopsManager.loops++;
+						gameScene.gameUI.scoreManager.score += 50;
 						currentBlock.looped = true;
 
 					} else {
@@ -216,6 +286,7 @@ public class Water extends Entity {
 						if (posX < wb.getUnscaledX() && posX > wb.getUnscaledX() + wb.getUnscaledWidth()
 								&& posY < wb.getUnscaledY() && posY > wb.getUnscaledY() + wb.getUnscaledHeight()) {
 							gameScene.gameUI.loopsManager.loops++;
+							gameScene.gameUI.scoreManager.score += 50;
 							currentBlock.looped = true;
 						}
 					}
@@ -291,6 +362,7 @@ public class Water extends Entity {
 		posX = (this.getUnscaledX() + this.getUnscaledWidth());
 		posY = (this.getUnscaledY() + this.getUnscaledHeight());
 
+		BuildingBlock previousBlock = currentBlock;
 		if (posX >= 2 && posX <= 17 && posY >= 2 && posY <= 14) {
 
 			if (gameScene.bfManager.blockField[(int) (posX - 2)][(int) (posY - 2)] != null && currentBlock != null)
@@ -314,6 +386,31 @@ public class Water extends Entity {
 		if (!running)
 			return;
 
+		if (currentBlock.type == BuildingBlockType.SINK && posY >= currentBlock.getUnscaledY() + 0.40f)
+		{
+			running = false;
+			gameScene.setLevelEnded(true);
+		}
+		
+		if (!running)
+			return;
+		
+		if (newBlock && ((previousBlock.type == BuildingBlockType.L_BATHTUB && currentBlock.type == BuildingBlockType.R_BATHTUB) ||
+				(previousBlock.type == BuildingBlockType.R_BATHTUB && currentBlock.type == BuildingBlockType.L_BATHTUB)))
+			gameScene.gameUI.scoreManager.score += 300;
+		
+		if (newBlock && (previousBlock.type == BuildingBlockType.U_VSTRAIGHT || previousBlock.type == BuildingBlockType.D_VSTRAIGHT))
+			gameScene.gameUI.scoreManager.score += 50;
+		
+		if (newBlock && (currentBlock.type == BuildingBlockType.U_VSTRAIGHT || currentBlock.type == BuildingBlockType.D_VSTRAIGHT))
+			gameScene.gameUI.scoreManager.score += 50;
+		
+		if (newBlock && (currentBlock.type == BuildingBlockType.ULELBOW_50 || currentBlock.type == BuildingBlockType.URELBOW_50))
+			gameScene.gameUI.scoreManager.score += 50;
+		
+		if (newBlock && previousBlock.type != BuildingBlockType.TELEPORT_CROSS && currentBlock.type == BuildingBlockType.TELEPORT_CROSS)
+			canTeleport = true;
+		
 		/***************************************************************/
 
 		if (newBlock && currentBlock.turningPoints.size() > 0)
@@ -355,6 +452,48 @@ public class Water extends Entity {
 			break;
 		}
 
+		// TODO actually perform teleporting
+		if (currentBlock.teleportPoint != null && canTeleport) {
+			TeleportPoint teleportPoint = currentBlock.teleportPoint;
+
+			switch (direction) {
+			case DOWN:
+				if (posY <= currentBlock.getUnscaledY() + 0.5f)
+				{
+					setPositionDeltaAndChangeDirection(teleportPoint.teleportX - teleportPoint.x + 0.5f, teleportPoint.teleportY - teleportPoint.y + 0.5f, false, 0, direction);
+					canTeleport = false;
+				}
+				break;
+
+			case LEFT:
+				if (posX <= currentBlock.getUnscaledX() + 0.5f)
+				{
+					setPositionDeltaAndChangeDirection(teleportPoint.teleportX - teleportPoint.x + 0.5f, teleportPoint.teleportY - teleportPoint.y + 0.5f, false, 0, direction);
+					canTeleport = false;
+				}
+				break;
+
+			case RIGHT:
+				if (posX >= currentBlock.getUnscaledX() + 0.5f)
+				{
+					setPositionDeltaAndChangeDirection(teleportPoint.teleportX - teleportPoint.x + 0.5f, teleportPoint.teleportY - teleportPoint.y + 0.5f, false, 0, direction);
+					canTeleport = false;
+				}
+				break;
+
+			case UP:
+				if (posY >= currentBlock.getUnscaledY() + 0.5f)
+				{
+					setPositionDeltaAndChangeDirection(teleportPoint.teleportX - teleportPoint.x + 0.5f, teleportPoint.teleportY - teleportPoint.y + 0.5f, false, 0, direction);
+					canTeleport = false;
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+		
 		if ((squigglyCounter > -1 && squigglyCounter < currentBlock.turningPoints.size())
 				&& currentBlock.turningPoints.size() > 0) {
 			TurningPoint currentTurningPoint = currentBlock.turningPoints.get(squigglyCounter);
